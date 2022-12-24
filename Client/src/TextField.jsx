@@ -6,12 +6,14 @@ export const TextField = ({ label, ...props }) => {
     console.log(meta);
     return (
         <div className="mb-5 flex flex-col">
-            <label className="" htmlFor={field.name}>
+            <label className=" text-sm" htmlFor={field.name}>
                 {label}
             </label>
             <input
-                className={`rounded-md border-[1px] border-[#2f4f4f3b] p-3 py-[6px] ${
-                    meta.touched && meta.error && 'border-[1px] border-red-500'
+                className={`rounded-none border-b-[1px] border-b-[#2f4f4f3b] p-[6px] text-xl text-[#2F4F4F] focus:outline-none ${
+                    meta.touched &&
+                    meta.error &&
+                    'border-b-[1px] border-b-red-500'
                 } `}
                 {...field}
                 {...props}
@@ -20,7 +22,7 @@ export const TextField = ({ label, ...props }) => {
             <ErrorMessage
                 component="div"
                 name={field.name}
-                className="text-red-500 text-[10px]"
+                className="text-[10px] text-red-500"
             />
         </div>
     );
