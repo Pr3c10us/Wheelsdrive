@@ -3,6 +3,7 @@ import { useField, ErrorMessage } from 'formik';
 
 export const TextField = ({ label, ...props }) => {
     const [field, meta] = useField(props);
+    console.log(meta);
     return (
         <div className="mb-5 flex flex-col">
             <label className="" htmlFor={field.name}>
@@ -19,7 +20,7 @@ export const TextField = ({ label, ...props }) => {
             <ErrorMessage
                 component="div"
                 name={field.name}
-                className="text-red-500"
+                className="text-red-500 text-[10px]"
             />
         </div>
     );
