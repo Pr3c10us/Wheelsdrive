@@ -5,6 +5,7 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import LandingPage from './LandingPage';
 import Login from './Login';
 import Signup from './Signup';
+import Dashboard from './Dashboard';
 
 const router = createBrowserRouter([
     {
@@ -19,10 +20,14 @@ const router = createBrowserRouter([
         path: '/signup',
         element: <Signup />,
     },
+    {
+        path: '/dashboard',
+        element: <Dashboard />,
+    },
 ]);
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-  <React.StrictMode>
-      <RouterProvider router={router} />
+    <React.StrictMode>
+        <RouterProvider router={router} />
     </React.StrictMode>
 );

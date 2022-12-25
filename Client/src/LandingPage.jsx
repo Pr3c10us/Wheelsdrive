@@ -5,7 +5,7 @@ const LandingPage = () => {
     const navigate = useNavigate();
     return (
         <>
-            <main className="mx-10  flex h-screen justify-center py-10 sm:mx-14 sm:items-center md:my-10">
+            <main className="mx-10  flex h-screen justify-center py-10 sm:mx-14 sm:items-center">
                 <div className="flex flex-1 flex-col ">
                     <div className="mb-10 h-10 w-10 bg-[#000080]"></div>
                     <h1 className="mb-5 text-4xl font-bold md:mb-3 md:flex-1 md:text-6xl ">

@@ -1,15 +1,61 @@
 import React from 'react';
 import { Formik, Form } from 'formik';
-import { TextField } from './TextField';
+import { TextField } from './signupTextField';
 import * as Yup from 'yup';
 import { useState } from 'react';
+import axios from 'axios';
+import { useNavigate, Link } from 'react-router-dom';
+import Header from './util/header';
+import AccountButton from './util/accButton';
+import Alert from './util/alert';
 
 const Signup = () => {
-    const [userInfo, setUserInfo] = useState({
-        email: '',
-        username: '',
-        password: '',
-    });
+    const navigate = useNavigate();
+    const [alert, setAlert] = useState('');
+    const [loading, setLoading] = useState(false);
+    const [dangerEmailInput, setDangerEmailInput] = useState(false);
+    const [dangerUsernameInput, setDangerUsernamInput] = useState(false);
+    const [showAlert, setShowAlert] = useState(false);
+    const [danger, setDanger] = useState(false);
+    const alertStyle =
+        'fixed top-10 right-0 border-l-4 justify-center items-center flex transition-all duration-300 min-h-[50px] min-w-[300px]';
+
+    const signupApi = 'http://localhost:3000/api/auth/signup';
+
+    const handleSubmit = async (values) => {
+        try {
+            setLoading(true);
+            setDangerUsernamInput(false);
+            setDangerEmailInput(false);
+            const body = values;
+            const response = await axios.post(signupApi, body);
+
+            setDanger(false);
+            setAlert(response.data.msg);
+            setShowAlert(true);
+
+            setTimeout(() => {
+                setShowAlert(false);
+                navigate('/login');
+            }, 2000);
+
+            return clearTimeout();
+        } catch (error) {
+            setLoading(false);
+            const errorMsg = error.response.data.msg;
+            setDanger(true);
+            setAlert(errorMsg);
+            setShowAlert(true);
+            setTimeout(() => setShowAlert(false), 4000);
+            if (errorMsg.includes('Username')) {
+                setDangerUsernamInput(true);
+            }
+            if (errorMsg.includes('Email')) {
+                setDangerEmailInput(true);
+            }
+            return clearTimeout();
+        }
+    };
 
     const validate = Yup.object({
         email: Yup.string()
@@ -37,7 +83,7 @@ const Signup = () => {
             .required('Password is required'),
         confirmPassword: Yup.string()
             .oneOf([Yup.ref('password'), null], 'Password Does not match')
-            .required('please provide the password again'),
+            .required('Provide the password again'),
     });
     return (
         <Formik
@@ -48,32 +94,28 @@ const Signup = () => {
                 confirmPassword: '',
             }}
             validationSchema={validate}
-            onSubmit={(values) => {
-                const body = values;
-                setUserInfo({
-                    email: body.email,
-                    username: body.username,
-                    password: body.password,
-                });
-            }}
+            onSubmit={handleSubmit}
         >
             {(formik) => (
                 <main>
-                    <div className="flex h-screen flex-col items-center ">
-                        <div className="m-5 mt-14 h-10 w-10 bg-[#000080]"></div>
-                        <div className="mb-5 flex flex-col items-center justify-center">
-                            <h1 className="text-4xl font-bold">Signup</h1>
-                            <p className="text-[#2F4F4F]">
-                                Create your account to get started{' '}
-                            </p>
-                        </div>
+                    <Alert name={alert} showAlert={showAlert} danger={danger} />
+                    <div className="flex  h-screen flex-col items-center ">
+                        <Header />
                         <Form className="mb-10 w-[80vw] rounded-lg bg-white p-10 shadow-lg sm:min-w-[400px] sm:max-w-[400px]">
+                            <div className="mb-5 flex flex-col items-center justify-center text-center">
+                                <p className="text-3xl font-bold text-[#2F4F4F]">
+                                    Create your free account{' '}
+                                </p>
+                            </div>
+
                             <TextField
+                                dangerInput={dangerEmailInput}
                                 label="Email"
                                 name="email"
                                 type="email"
                             />
                             <TextField
+                                dangerInput={dangerUsernameInput}
                                 label="Username"
                                 name="username"
                                 type="text"
@@ -88,12 +130,19 @@ const Signup = () => {
                                 name="confirmPassword"
                                 type="password"
                             />
-                            <button
-                                type="submit"
-                                className="mt-5 w-full rounded bg-[#191970] py-2 px-4 font-bold text-white transition-all duration-300 "
-                            >
-                                Register
-                            </button>
+                            <AccountButton
+                                name="Create Account"
+                                loading={loading}
+                            />
+                            <p className="my-5 text-center text-sm font-light text-gray-500">
+                                Have an account?{' '}
+                                <Link
+                                    className="text-primary-600 font-medium hover:underline"
+                                    to={'/login'}
+                                >
+                                    Login now{' '}
+                                </Link>{' '}
+                            </p>
                         </Form>
                     </div>
                     <div></div>
