@@ -18,13 +18,15 @@ app.use(cors(corsOptions));
 app.use(cookieParser(process.env.COOKIE_SECRET));
 
 // Importing the routes
-const authRouter = require('./router/authRouter');
+const authRouter = require('./routers/authRouter');
+const userRouter = require('./routers/userRouter');
 
 // Routes
 app.get('/', (req, res) => {
     res.json({ msg: req.signedCookies });
 });
 app.use('/api/auth', authRouter);
+app.use('/api/user', userRouter);
 
 // Not found route
 app.use((req, res) => {

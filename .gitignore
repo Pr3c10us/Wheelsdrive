@@ -1,4 +1,5 @@
 new_user_credentials (1).csv
+.node-persist
 # Logs
 logs
 *.log

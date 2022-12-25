@@ -6,6 +6,7 @@ import LandingPage from './LandingPage';
 import Login from './Login';
 import Signup from './Signup';
 import Dashboard from './Dashboard';
+import OTP from './OTP';
 
 const router = createBrowserRouter([
     {
@@ -24,6 +25,7 @@ const router = createBrowserRouter([
         path: '/dashboard',
         element: <Dashboard />,
     },
+    { path: '/otp/:username', element: <OTP /> },
 ]);
 
 ReactDOM.createRoot(document.getElementById('root')).render(

@@ -20,7 +20,7 @@ const Signup = () => {
     const alertStyle =
         'fixed top-10 right-0 border-l-4 justify-center items-center flex transition-all duration-300 min-h-[50px] min-w-[300px]';
 
-    const signupApi = 'http://localhost:3000/api/auth/signup';
+    const signupApi = 'http://localhost:3000/api/auth/verifyEmail';
 
     const handleSubmit = async (values) => {
         try {
@@ -36,8 +36,8 @@ const Signup = () => {
 
             setTimeout(() => {
                 setShowAlert(false);
-                navigate('/login');
-            }, 2000);
+                navigate(`/otp/${values.username}`);
+            }, 3000);
 
             return clearTimeout();
         } catch (error) {
@@ -62,8 +62,14 @@ const Signup = () => {
             .email('invalid Email address')
             .required('Please provide an Email address'),
         username: Yup.string()
-            .min(8, 'Username must be more than 8 characters')
+            .min(6, 'Username must be more than 8 characters')
             .required('Please provide a username'),
+        firstname: Yup.string()
+            .min(4, 'Firstname must be more than 8 characters')
+            .required('Please provide a Firstname'),
+        lastname: Yup.string()
+            .min(4, 'Lastname must be more than 8 characters')
+            .required('Please provide a Lastname'),
         password: Yup.string()
             .required('please provide a password')
             .matches(
@@ -88,6 +94,8 @@ const Signup = () => {
     return (
         <Formik
             initialValues={{
+                firstname: '',
+                lastname: '',
                 email: '',
                 username: '',
                 password: '',
@@ -99,7 +107,7 @@ const Signup = () => {
             {(formik) => (
                 <main>
                     <Alert name={alert} showAlert={showAlert} danger={danger} />
-                    <div className="flex  h-screen flex-col items-center ">
+                    <div className="flex flex-col items-center ">
                         <Header />
                         <Form className="mb-10 w-[80vw] rounded-lg bg-white p-10 shadow-lg sm:min-w-[400px] sm:max-w-[400px]">
                             <div className="mb-5 flex flex-col items-center justify-center text-center">
@@ -107,6 +115,16 @@ const Signup = () => {
                                     Create your free account{' '}
                                 </p>
                             </div>
+                            <TextField
+                                label="Firstname"
+                                name="firstname"
+                                type="text"
+                            />
+                            <TextField
+                                label="Lastname"
+                                name="lastname"
+                                type="text"
+                            />
 
                             <TextField
                                 dangerInput={dangerEmailInput}
