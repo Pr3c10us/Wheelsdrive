@@ -288,12 +288,9 @@ const signup = async (req, res) => {
     const user = {
         firstname,
         lastname,
-        accountVerified: false,
         username,
         email,
         password,
-        authorizedGithub: false,
-        githubAuthToken: '',
     };
     const params = {
         TableName: TABLE_NAME,
@@ -346,7 +343,7 @@ const login = async (req, res) => {
 
     res.cookie('token', token, {
         signed: true,
-        maxAge: 60 * 60 * 24,
+        maxAge: 1000 * 60 * 60 * 24,
         httpOnly: false,
     }).json({
         msg: 'Login Sucessful',

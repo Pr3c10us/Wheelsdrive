@@ -1,4 +1,5 @@
 import React from 'react';
+import logo from './assets/wheelsdrive.svg';
 import { useNavigate } from 'react-router-dom';
 
 const LandingPage = () => {
@@ -7,7 +8,7 @@ const LandingPage = () => {
         <>
             <main className="mx-10  flex h-screen justify-center py-10 sm:mx-14 sm:items-center">
                 <div className="flex flex-1 flex-col ">
-                    <div className="mb-10 h-10 w-10 bg-[#000080]"></div>
+                    <img className="mb-10 w-48" src={logo} alt="logo" />
                     <h1 className="mb-5 text-4xl font-bold md:mb-3 md:flex-1 md:text-6xl ">
                         Your first line of defense against cyber threats
                     </h1>

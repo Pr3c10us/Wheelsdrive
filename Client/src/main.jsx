@@ -7,6 +7,7 @@ import Login from './Login';
 import Signup from './Signup';
 import Dashboard from './Dashboard';
 import OTP from './OTP';
+import AuthGithub from './authGithub';
 
 const router = createBrowserRouter([
     {
@@ -24,6 +25,10 @@ const router = createBrowserRouter([
     {
         path: '/dashboard',
         element: <Dashboard />,
+    },
+    {
+        path: '/authGithub',
+        element: <AuthGithub />,
     },
     { path: '/otp/:username', element: <OTP /> },
 ]);
