@@ -1,53 +1,54 @@
-const params = async () => {
-    // check if username exist
-    const usernameParams = {
-        TableName: TABLE_NAME,
-        FilterExpression: 'username = :username ',
-        ExpressionAttributeValues: {
-            ':username': username,
+const { ses } = require('../aws/ses');
+
+const params = async (email, code) => {
+    const params = {
+        Source: 'ptowolabi@student.oauife.edu.ng',
+        Destination: {
+            ToAddresses: [email],
+        },
+        Message: {
+            Subject: {
+                Data: 'Verification Code',
+            },
+            Body: {
+                Html: {
+                    Data: `
+          <html>
+            <head>
+              <style>
+                body {
+                  font-family: Arial, sans-serif;
+                }
+                .container {
+                  max-width: 600px;
+                  margin: 0 auto;
+                  text-align: center;
+                }
+                .code {
+                  font-size: 48px;
+                  color: #3c3c3c;
+                  margin-bottom: 24px;
+                }
+                .expiration {
+                  font-size: 18px;
+                  color: #999;
+                }
+              </style>
+            </head>
+            <body>
+              <div class="container">
+                <div class="code">${code}</div>
+                <div class="expiration">This code will expire in 10 minutes.</div>
+              </div>
+            </body>
+          </html>
+        `,
+                },
+            },
         },
     };
-    const usernameTaken = await dynamoClient.scan(usernameParams).promise();
-    if (usernameTaken.Items && usernameTaken.Items.length > 0) {
-        throw new BadRequestError('Username Taken');
-    }
-    // check if email exist
-    const emailParams = {
-        TableName: TABLE_NAME,
-        FilterExpression: 'email = :email ',
-        ExpressionAttributeValues: {
-            ':email': email,
-        },
-    };
-    const emailTaken = await dynamoClient.scan(emailParams).promise();
-    if (emailTaken.Items && emailTaken.Items.length > 0) {
-        throw new BadRequestError('Email address already exist');
-    }
-    const tempUsernameParams = {
-        TableName: TABLE_NAME,
-        FilterExpression: 'username = :username ',
-        ExpressionAttributeValues: {
-            ':username': username,
-        },
-    };
-    const tempUsernameTaken = await dynamoClient
-        .scan(tempUsernameParams)
-        .promise();
-    if (tempUsernameTaken.Items && tempUsernameTaken.Items.length > 0) {
-        throw new BadRequestError('Username Taken');
-    }
-    // check if email exist again in case it was taken while user was verifying email
-    const tempEmailParams = {
-        TableName: TABLE_NAME,
-        FilterExpression: 'email = :email ',
-        ExpressionAttributeValues: {
-            ':email': email,
-        },
-    };
-    const tempEmailTaken = await dynamoClient.scan(tempEmailParams).promise();
-    if (tempEmailTaken.Items && tempEmailTaken.Items.length > 0) {
-        throw new BadRequestError('Email address already exist');
-    }
+    const response = await ses.sendEmail(params).promise();
+    return response;
 };
 
 module.exports = {

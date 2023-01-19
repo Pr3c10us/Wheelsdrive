@@ -20,6 +20,7 @@ app.use(cookieParser(process.env.COOKIE_SECRET));
 // Importing the routes
 const authRouter = require('./routers/authRouter');
 const userRouter = require('./routers/userRouter');
+const ProjectsRouter = require('./routers/projectsRouter');
 
 // Routes
 app.get('/', (req, res) => {
@@ -27,6 +28,7 @@ app.get('/', (req, res) => {
 });
 app.use('/api/auth', authRouter);
 app.use('/api/user', userRouter);
+app.use('/api/projects', ProjectsRouter);
 
 // Not found route
 app.use((req, res) => {

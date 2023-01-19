@@ -8,7 +8,7 @@ const storage = require('node-persist');
 const { BadRequestError } = require('../errors');
 // Import the DynamoDB Document Client and Table Name
 const { dynamoClient, TABLE_NAME } = require('../aws/dynamo');
-const { ses } = require('../aws/ses');
+const { params } = require('../utils/params');
 
 const verifyEmail = async (req, res) => {
     // Init storage
@@ -55,7 +55,6 @@ const verifyEmail = async (req, res) => {
     };
 
     // store user in local storage
-
     // check if user exist
     const userExist = await storage.getItem(username);
     if (userExist) {
@@ -74,60 +73,13 @@ const verifyEmail = async (req, res) => {
     await storage.setItem(`${username}-code`, { code, expiration });
 
     // Send the verification code to the user's email address
-    const params = {
-        Source: 'ptowolabi@student.oauife.edu.ng',
-        Destination: {
-            ToAddresses: [email],
-        },
-        Message: {
-            Subject: {
-                Data: 'Verification Code',
-            },
-            Body: {
-                Html: {
-                    Data: `
-          <html>
-            <head>
-              <style>
-                body {
-                  font-family: Arial, sans-serif;
-                }
-                .container {
-                  max-width: 600px;
-                  margin: 0 auto;
-                  text-align: center;
-                }
-                .code {
-                  font-size: 48px;
-                  color: #3c3c3c;
-                  margin-bottom: 24px;
-                }
-                .expiration {
-                  font-size: 18px;
-                  color: #999;
-                }
-              </style>
-            </head>
-            <body>
-              <div class="container">
-                <div class="code">${code}</div>
-                <div class="expiration">This code will expire in 10 minutes.</div>
-              </div>
-            </body>
-          </html>
-        `,
-                },
-            },
-        },
-    };
-    const response = await ses.sendEmail(params).promise();
+    const response = await params(email, code);
     // error handling
     if (response.$response.error) {
         await storage.removeItem(req.body.username.toUpperCase());
         await storage.removeItem(`${req.body.username.toUpperCase()}-code`);
         throw new BadRequestError('Error sending verification code');
     }
-    console.log(await storage.getItem(`${username}-code`));
 
     res.json({
         msg: 'Verification code has been sent to your email address',
@@ -162,60 +114,14 @@ const sendCode = async (req, res) => {
         expiration,
     });
 
+    let { email } = user;
+
     // Send the verification code to the user's email address
-    const params = {
-        Source: 'ptowolabi@student.oauife.edu.ng',
-        Destination: {
-            ToAddresses: [user.email],
-        },
-        Message: {
-            Subject: {
-                Data: 'Verification Code',
-            },
-            Body: {
-                Html: {
-                    Data: `
-          <html>
-            <head>
-              <style>
-                body {
-                  font-family: Arial, sans-serif;
-                }
-                .container {
-                  max-width: 600px;
-                  margin: 0 auto;
-                  text-align: center;
-                }
-                .code {
-                  font-size: 48px;
-                  color: #3c3c3c;
-                  margin-bottom: 24px;
-                }
-                .expiration {
-                  font-size: 18px;
-                  color: #999;
-                }
-              </style>
-            </head>
-            <body>
-              <div class="container">
-                <div class="code">${code}</div>
-                <div class="expiration">This code will expire in 10 minutes.</div>
-              </div>
-            </body>
-          </html>
-        `,
-                },
-            },
-        },
-    };
-    const response = await ses.sendEmail(params).promise();
+    const response = await params(email, code);
     // error handling
     if (response.$response.error) {
         throw new BadRequestError('Error sending verification code');
     }
-
-    console.log(await storage.getItem(`${username.toUpperCase()}-code`));
 
     res.json({
         msg: 'New verification code has been sent to your email address',
@@ -329,6 +235,7 @@ const login = async (req, res) => {
 
     // check if password is correct
     const isMatch = await bcrypt.compare(password, user.Items[0].password);
+
     if (!isMatch) {
         throw new BadRequestError('Wrong password');
     }

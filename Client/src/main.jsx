@@ -3,11 +3,11 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import LandingPage from './LandingPage';
-import Login from './Login';
-import Signup from './Signup';
-import Dashboard from './Dashboard';
-import OTP from './OTP';
-import AuthGithub from './authGithub';
+import Login from './login/Login';
+import Signup from './signup/Signup';
+import Dashboard from './dashboard/Dashboard';
+import OTP from './login/OTP';
+import AuthGithub from './dashboard/authGithub';
 
 const router = createBrowserRouter([
     {

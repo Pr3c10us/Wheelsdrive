@@ -10,8 +10,10 @@ AWS.config.update({
 
 const dynamoClient = new AWS.DynamoDB.DocumentClient();
 const TABLE_NAME = process.env.TABLE_NAME;
+const PROJECTS_TABLE_NAME = process.env.PROJECTS_TABLE_NAME;
 
 module.exports = {
     dynamoClient,
     TABLE_NAME,
+    PROJECTS_TABLE_NAME,
 };

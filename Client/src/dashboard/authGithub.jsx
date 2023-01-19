@@ -1,37 +1,45 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import Alert from './util/alert';
+import Alert from '../util/alert';
 
 const AuthGithub = () => {
     const [alert, setAlert] = useState('');
     const [danger, setDanger] = useState(false);
     const [showAlert, setShowAlert] = useState(false);
+    const [githubToken, setGithubToken] = useState('');
     const navigate = useNavigate();
 
     const location = useLocation();
     const searchParams = new URLSearchParams(location.search);
     const code = searchParams.get('code');
-    console.log(code);
+    const url = 'http://localhost:3000/';
 
+    const handleEffect = async () => {
+        try {
+            axios.defaults.withCredentials = true;
+            const response = await axios.get(`${url}api/user`, {
+                withCredentials: true,
+            });
+            setGithubToken(await response.data.githubAuthToken);
+        } catch (error) {
+            navigate('/login');
+        }
+    };
+    useEffect(() => {
+        handleEffect();
+    }, []);
+    if (githubToken) {
+        navigate('/dashboard');
+    }
     const handleCode = async () => {
         try {
-            const getAuthTokenUrl = `https://github.com/login/oauth/access_token?client_id=e1f3fbf14b5050f6c88d&client_secret=44ccacd6225673285948c599da3960ce35ebd5b9&code=${code}`;
             const addAuthTokenUrl = `http://localhost:3000/api/user/github`;
-            const response = await axios(getAuthTokenUrl, {
-                method: 'POST',
-                headers: {
-                    Accept: 'application/json',
-                },
-            });
-            console.log(response);
-            const githubToken = response.data.access_token;
             axios.defaults.withCredentials = true;
-
             await axios(addAuthTokenUrl, {
                 method: 'PUT',
-                data: { githubToken },
+                data: { code },
                 withCredentials: true,
             });
             navigate('/dashboard');
@@ -41,6 +49,7 @@ const AuthGithub = () => {
             setAlert(errorMsg);
             setShowAlert(true);
             setTimeout(() => setShowAlert(false), 3000);
+            // navigate('/authGithub');
         }
     };
 
@@ -53,7 +62,7 @@ const AuthGithub = () => {
     if (!code) {
         const handleClick = async () => {
             // redirect to github auth
-            window.location.href = `https://github.com/login/oauth/authorize?client_id=e1f3fbf14b5050f6c88d&scope=repo`;
+            window.location.href = `https://github.com/login/oauth/authorize?client_id=e1f3fbf14b5050f6c88d`;
         };
         return (
             <>

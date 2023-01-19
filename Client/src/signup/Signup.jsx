@@ -1,13 +1,13 @@
 import React from 'react';
 import { Formik, Form } from 'formik';
-import { TextField } from './signupTextField';
+import { TextField } from '../signup/signupTextField';
 import * as Yup from 'yup';
 import { useState } from 'react';
 import axios from 'axios';
 import { useNavigate, Link } from 'react-router-dom';
-import Header from './util/header';
-import AccountButton from './util/accButton';
-import Alert from './util/alert';
+import Header from '../util/header';
+import AccountButton from '../util/accButton';
+import Alert from '../util/alert';
 
 const Signup = () => {
     const navigate = useNavigate();

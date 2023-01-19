@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { Formik, Form } from 'formik';
-import { loginTextField as TextField } from './loginTextField';
-import Header from './util/header';
-import AccountButton from './util/accButton';
+import { loginTextField as TextField } from '../login/loginTextField';
+import Header from '../util/header';
+import AccountButton from '../util/accButton';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import Alert from './util/alert';
+import Alert from '../util/alert';
 
 const Login = () => {
     const navigate = useNavigate();

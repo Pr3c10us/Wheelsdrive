@@ -1,8 +1,19 @@
+require('dotenv').config();
 const { dynamoClient, TABLE_NAME } = require('../aws/dynamo');
 const { BadRequestError } = require('../errors');
+const axios = require('axios');
 
 const getUserInfo = async (req, res) => {
-    res.json(req.user);
+    const { username } = req.user;
+    const params = {
+        TableName: TABLE_NAME,
+        Key: {
+            username: username,
+        },
+    };
+
+    const user = await dynamoClient.get(params).promise();
+    res.status(200).json(user.Item);
 };
 
 const updateUserInfo = async (req, res) => {};
@@ -17,10 +28,24 @@ const deleteGithubAuthToken = async (req, res) => {
 
 const addGithubToken = async (req, res) => {
     const { username } = req.user;
+    let client_id = process.env.GITHUB_CLIENT_ID;
+    let client_secret = process.env.GITHUB_CLIENT_SECRET;
 
-    const { githubToken } = req.body;
+    const { code } = req.body;
+    if (!code) {
+        throw new BadRequestError('code is required');
+    }
+
+    const getAuthTokenUrl = `https://github.com/login/oauth/access_token?client_id=${client_id}&client_secret=${client_secret}&code=${code}`;
+    const response = await axios(getAuthTokenUrl, {
+        method: 'POST',
+        headers: {
+            Accept: 'application/json',
+        },
+    });
+    const githubToken = await response.data.access_token;
     if (!githubToken) {
-        throw new BadRequestError('Missing github token');
+        throw new BadRequestError('Github token not found');
     }
 
     const params = {
