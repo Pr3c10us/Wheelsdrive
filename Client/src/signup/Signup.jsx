@@ -108,7 +108,7 @@ const Signup = () => {
                 <main>
                     <Alert name={alert} showAlert={showAlert} danger={danger} />
                     <Header />
-                    <div className="flex flex-col items-center ">
+                    <div className="flex flex-col items-center h-full ">
                         <Form className="mb-10 w-[80vw] rounded-lg bg-white p-10 shadow-lg sm:min-w-[400px] sm:max-w-[400px]">
                             <div className="mb-5 flex flex-col items-center justify-center text-center">
                                 <p className="text-3xl font-bold text-[#2F4F4F]">

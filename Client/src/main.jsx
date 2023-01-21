@@ -5,9 +5,13 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import LandingPage from './LandingPage';
 import Login from './login/Login';
 import Signup from './signup/Signup';
-import Dashboard from './dashboard/Dashboard';
+import Home from './dashboard/DashboardHome';
 import OTP from './login/OTP';
-import AuthGithub from './dashboard/authGithub';
+import AuthGithub from './dashboard/AuthGithub';
+import Dashboard from './dashboard/Dashboard';
+import Project from './dashboard/project';
+import Settings from './dashboard/settings';
+import Projects from './dashboard/Projects';
 
 const router = createBrowserRouter([
     {
@@ -24,7 +28,25 @@ const router = createBrowserRouter([
     },
     {
         path: '/dashboard',
-        element: <Dashboard />,
+        element: <Home />,
+        children: [
+            {
+                path: '',
+                element: <Dashboard />,
+            },
+            {
+                path: ':project',
+                element: <Project />,
+            },
+            {
+                path: 'settings',
+                element: <Settings />,
+            },
+            {
+                path: 'projects',
+                element: <Projects />,
+            },
+        ],
     },
     {
         path: '/authGithub',

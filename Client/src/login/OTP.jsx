@@ -101,7 +101,7 @@ const Login = () => {
         >
             <main>
                 <Alert name={alert} showAlert={showAlert} danger={danger} />
-                <div className="flex  h-screen flex-col items-center">
+                <div className="flex h-full flex-col items-center">
                     <Header />
                     <Form className="mb-10 w-[80vw] rounded-lg bg-white p-10 text-center shadow-lg sm:min-w-[400px] sm:max-w-[400px] ">
                         <div className="mb-5 flex flex-col items-center justify-center text-center">
@@ -125,7 +125,7 @@ const Login = () => {
                                 justifyContent: 'center',
                                 alignItems: 'center',
                                 height: '2rem',
-                                margin: '0 0.5rem',
+                                margin: '0 ',
                             }}
                             style={{
                                 display: 'flex',
