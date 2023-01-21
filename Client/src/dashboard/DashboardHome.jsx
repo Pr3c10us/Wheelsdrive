@@ -17,6 +17,9 @@ const Home = () => {
                 withCredentials: true,
             });
             setUser(await response.data);
+            if (!response.data.githubAuthToken) {
+                navigate('/authGithub');
+            }
         } catch (error) {
             navigate('/login');
         }
@@ -24,10 +27,6 @@ const Home = () => {
     useEffect(() => {
         handleEffect();
     }, []);
-
-    if (!user.githubAuthToken) {
-        navigate('/authGithub');
-    }
 
     return (
         <main className="h-full">
@@ -38,15 +37,15 @@ const Home = () => {
                             <img className="w-10" src={logo} alt="logo" />
                         </div>
                         <li
-                            onClick={() => setActive('dashboard')}
+                            onClick={() => setActive('')}
                             className="mb-3 ml-3 flex w-full justify-between"
                         >
                             <Link
                                 to={'/dashboard'}
                                 className={
                                     active == 'dashboard'
-                                        ? ' flex cursor-pointer hover:text-black items-center gap-3 text-black no-underline'
-                                        : ' flex cursor-pointer hover:text-white items-center gap-3 text-white no-underline'
+                                        ? ' flex cursor-pointer items-center gap-3 text-black no-underline hover:text-black'
+                                        : ' flex cursor-pointer items-center gap-3 text-white no-underline hover:text-white'
                                 }
                             >
                                 <IoHome className="text-3xl" />
@@ -63,8 +62,8 @@ const Home = () => {
                                 to={'/dashboard/projects'}
                                 className={
                                     active == 'projects'
-                                        ? ' flex cursor-pointer hover:text-black items-center gap-3 text-black no-underline'
-                                        : ' flex cursor-pointer hover:text-white items-center gap-3 text-white no-underline'
+                                        ? ' flex cursor-pointer items-center gap-3 text-black no-underline hover:text-black'
+                                        : ' flex cursor-pointer items-center gap-3 text-white no-underline hover:text-white'
                                 }
                             >
                                 <IoFolder className="text-3xl" />
@@ -75,13 +74,14 @@ const Home = () => {
                         </li>
                         <li
                             onClick={() => setActive('settings')}
-                            className="mb-3 ml-3 flex w-full justify-between">
+                            className="mb-3 ml-3 flex w-full justify-between"
+                        >
                             <Link
                                 to={'/dashboard/settings'}
                                 className={
                                     active == 'settings'
-                                        ? ' flex cursor-pointer hover:text-black items-center gap-3 text-black no-underline'
-                                        : ' flex cursor-pointer hover:text-white items-center gap-3 text-white no-underline'
+                                        ? ' flex cursor-pointer items-center gap-3 text-black no-underline hover:text-black'
+                                        : ' flex cursor-pointer items-center gap-3 text-white no-underline hover:text-white'
                                 }
                             >
                                 <IoSettings className="text-3xl" />
@@ -91,7 +91,7 @@ const Home = () => {
                             </Link>
                         </li>
                         <li className="mt-auto ml-3 flex w-full justify-between">
-                            <Link className=" flex cursor-pointer hover:text-white items-center gap-3 text-white no-underline">
+                            <Link className=" flex cursor-pointer items-center gap-3 text-white no-underline hover:text-white">
                                 <IoLogOut className="text-3xl" />
                                 <span className="hidden text-xl md:block">
                                     Logout
@@ -101,7 +101,14 @@ const Home = () => {
                     </ul>
                 </nav>
                 <div className="ml-16 h-full w-full md:ml-44 lg:ml-[177px]">
-                    <Outlet />
+                    <nav className="mb-8 flex w-full items-center space-x-3 border-b border-b-black py-4 px-3 text-sm font-bold text-[#2f4f4f]">
+                        <span className=" capitalize">
+                            {user.username || 'username'}
+                        </span>
+                        <span className="text-sm">&gt;</span>
+                        <span className=" capitalize">{active || ''}</span>
+                    </nav>
+                    <Outlet context={[active, setActive]} />
                 </div>
             </div>
         </main>
@@ -109,30 +116,3 @@ const Home = () => {
 };
 
 export default Home;
-
-// <main className=" h-full flex flex-row">
-//     <div className=" relative h-full bg-[#2f4f4f] px-3">
-// <div className="flex h-16 flex-col justify-center">
-//     <img className=" w-10" src={logo} alt="logo" className='text-3xl' />
-// </div>
-//         <div className="flex flex-col">
-//             <button className="flex items-center justify-center gap-4 rounded-none bg-inherit px-2 py-2 text-2xl text-white [&>p]:hidden md:[&>p]:block">
-//                 <IoHome className="text-2xl text-white"  />
-//                 <p>Home</p>
-//             </button>
-//             <button className="flex items-center justify-center gap-4 rounded-none bg-inherit px-2 py-2 text-2xl text-white [&>p]:hidden md:[&>p]:block">
-//                 <IoFolder className="text-2xl text-white"  />
-//                 <p>Projects</p>
-//             </button>
-//         </div>
-//         <div className=" absolute bottom-0 flex h-16 w-full flex-col">
-//             <button className="flex items-center justify-center gap-4 rounded-none bg-inherit px-2 py-2 text-2xl text-white [&>p]:hidden md:[&>p]:block">
-//                 <IoLogOut className="text-2xl text-white"  />
-//                 <p>Logout</p>
-//             </button>
-//         </div>
-//     </div>
-//     <div className='w-full'>
-//         <Outlet  />
-//     </div>
-// </main>

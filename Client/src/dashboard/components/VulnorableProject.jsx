@@ -12,13 +12,13 @@ const VulnorableProject = ({
     date,
 }) => {
     return (
-        <div className="mb-4 flex flex-col gap-2 border border-gray-300 p-4 sm:flex-row sm:items-center">
-            <div className="flex-1">
+        <div className="mb-4 flex flex-col gap-2 rounded-lg border border-gray-300 p-4 shadow-md sm:flex-row sm:items-center">
+            <div className="flex-1 mb-2 sm:mb-0">
                 <p className="text-sm ">{username}</p>
-                <div className='max-w-[150px] break-words'>
+                <div className="w-[150px] lg:w-[200px] break-words">
                     <Link
                         to={`/dashboard/${repository}`}
-                        className="max-w-xs cursor-pointer break-words text-xl text-[#2424be] hover:text-[#2424be]"
+                        className="max-w-xs cursor-pointer break-words text-md text-[#2424be] hover:text-[#2424be]"
                     >
                         {repository}
                     </Link>
@@ -126,7 +126,7 @@ const VulnorableProject = ({
                     </span>
                 </li>
             </ul>
-            <p className="hidden flex-1 flex-col items-end text-sm italic text-slate-400 md:flex">
+            <p className="hidden flex-1 flex-col items-end text-right text-sm italic text-slate-400 md:flex">
                 <span>Last Scanned</span>
                 {date}
             </p>

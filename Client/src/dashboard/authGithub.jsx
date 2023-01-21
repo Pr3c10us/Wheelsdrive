@@ -23,6 +23,9 @@ const AuthGithub = () => {
                 withCredentials: true,
             });
             setGithubToken(await response.data.githubAuthToken);
+            if (response.data.githubAuthToken) {
+                navigate('/dashboard');
+            }
         } catch (error) {
             navigate('/login');
         }
@@ -30,9 +33,7 @@ const AuthGithub = () => {
     useEffect(() => {
         handleEffect();
     }, []);
-    if (githubToken) {
-        navigate('/dashboard');
-    }
+
     const handleCode = async () => {
         try {
             const addAuthTokenUrl = `http://localhost:3000/api/user/github`;
@@ -66,7 +67,7 @@ const AuthGithub = () => {
         };
         return (
             <>
-                <main className="flex flex-col items-center justify-center space-y-5 p-10">
+                <main className="flex h-full flex-col items-center justify-center space-y-5 p-10">
                     <div className=" space-y-2 text-center">
                         <h1>Grant Access to GitHub Repositories</h1>
                         <p>

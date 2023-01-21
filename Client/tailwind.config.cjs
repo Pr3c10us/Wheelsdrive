@@ -5,6 +5,7 @@ module.exports = {
         extend: {
             screens: {
                 sm: '600px',
+                md: '800px',
             },
             backgroundImage: {
                 hero: "url('/src/assets/background.png')",

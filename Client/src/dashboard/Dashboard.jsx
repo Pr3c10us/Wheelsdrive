@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import VulnorableProject from './components/VulnorableProject';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useOutletContext } from 'react-router-dom';
 
 const Dashboard = () => {
     const navigate = useNavigate();
@@ -9,10 +9,13 @@ const Dashboard = () => {
     const [issues, setIssues] = useState({});
     const [loading, setLoading] = useState(true);
     const [username, setUsername] = useState([]);
+    const [active, setActive] = useOutletContext();
+
     const url = 'http://localhost:3000/';
 
     const handleFetchData = async () => {
         try {
+            setActive('dashboard');
             axios.defaults.withCredentials = true;
             const projectsResponse = await axios.get(
                 `${url}api/projects/?scanned=true`,
@@ -40,7 +43,6 @@ const Dashboard = () => {
 
             setData(projects);
             setUsername(username);
-
             setIssues(issues);
 
             setLoading(false);
@@ -80,14 +82,9 @@ const Dashboard = () => {
 
     return (
         <main>
-            <nav className="mb-8 flex w-full items-center space-x-3 border-b border-b-black py-4 px-3 text-sm">
-                <span>{username}</span>
-                <span className="text-sm">&gt;</span>
-                <span>Dashboard</span>
-            </nav>
-            <div className="flex flex-col items-center justify-center space-y-8 pb-10 lg:flex-row lg:items-start lg:gap-8 lg:px-4">
-                <div className="w-[90%]">
-                    <h2 className="mb-2 underline">
+            <div className="flex mx-4 flex-col items-center justify-center space-y-8 pb-10 lg:flex-row lg:items-start lg:gap-8 lg:px-4">
+                <div className="w-[100%]">
+                    <h2 className="mb-2 text-xl text-[#2f4f4f] underline">
                         Scanned Vulnorable Projects
                     </h2>
                     {data.map((project) => {
@@ -108,7 +105,7 @@ const Dashboard = () => {
                     })}
                 </div>
                 <div className=" w-[90%] border border-gray-300 lg:w-auto">
-                    <nav className="border-b border-b-gray-300 py-4 pl-2 text-xl font-bold ">
+                    <nav className="border-b border-b-gray-300 py-4 pl-2 text-xl font-bold text-[#2f4f4f] ">
                         Current vulnerabilities
                     </nav>
                     <ul className="flex flex-col justify-center gap-6 bg-[#1919700a] py-4 pl-8">
@@ -150,7 +147,10 @@ const Dashboard = () => {
             <div className="btn mb-10 flex w-full justify-center border-none focus:outline-none ">
                 <button
                     className="mt-5 flex items-center justify-center gap-5 rounded-xl bg-[#191970] px-10 py-4  font-bold text-white focus:outline-none "
-                    onClick={() => navigate('/dashboard/projects')}
+                    onClick={() => {
+                        setActive('projects');
+                        navigate('/dashboard/projects');
+                    }}
                 >
                     Go to Projects
                 </button>
