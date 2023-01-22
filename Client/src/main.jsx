@@ -11,7 +11,6 @@ import AuthGithub from './dashboard/AuthGithub';
 import Dashboard from './dashboard/Dashboard';
 import Project from './dashboard/project';
 import Settings from './dashboard/settings';
-import Projects from './dashboard/Projects';
 
 const router = createBrowserRouter([
     {
@@ -41,10 +40,6 @@ const router = createBrowserRouter([
             {
                 path: 'settings',
                 element: <Settings />,
-            },
-            {
-                path: 'projects',
-                element: <Projects/>
             }
         ],
     },

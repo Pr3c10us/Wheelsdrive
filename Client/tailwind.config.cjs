@@ -6,6 +6,7 @@ module.exports = {
             screens: {
                 sm: '600px',
                 md: '800px',
+                lg: '1150px'
             },
             backgroundImage: {
                 hero: "url('/src/assets/background.png')",

@@ -17,17 +17,18 @@ const Dashboard = () => {
         try {
             setActive('dashboard');
             axios.defaults.withCredentials = true;
-            const projectsResponse = await axios.get(
-                `${url}api/projects/?scanned=true`,
-                {
-                    withCredentials: true,
-                }
-            );
+            const projectsResponse = await axios.get(`${url}api/projects/`, {
+                withCredentials: true,
+            });
             const userResponse = await axios.get(`${url}api/user`, {
                 withCredentials: true,
             });
 
             const projects = await projectsResponse.data.projects;
+            if (!projects.length) {
+                setLoading(false);
+                return;
+            }
             const username = await userResponse.data.username;
             let issues = projects.reduce(
                 (acc, project) => {
@@ -80,9 +81,25 @@ const Dashboard = () => {
         );
     }
 
+    if (data.length === 0) {
+        return (
+            <div className="flex h-full flex-col items-center justify-center">
+                <h1 className="text-2xl text-gray-500 dark:text-gray-400">
+                    You have no projects
+                </h1>
+                <button
+                    className="mt-4 rounded-md bg-[#191970] px-4 py-2 text-white hover:bg-gray-600"
+                    onClick={() => navigate('/add-project')}
+                >
+                    Add Project
+                </button>
+            </div>
+        );
+    }
+
     return (
         <main>
-            <div className="flex mx-4 flex-col items-center justify-center space-y-8 pb-10 lg:flex-row lg:items-start lg:gap-8 lg:px-4">
+            <div className="mx-4 mt-8 flex flex-col items-center justify-center space-y-8 pb-10 lg:flex-row lg:items-start lg:gap-8 lg:px-4">
                 <div className="w-[100%]">
                     <h2 className="mb-2 text-xl text-[#2f4f4f] underline">
                         Scanned Vulnorable Projects
@@ -103,6 +120,14 @@ const Dashboard = () => {
                             />
                         );
                     })}
+                    <div className="flex w-full items-center justify-center">
+                        <button
+                            className="mt-4 rounded-xl border-none bg-[#191970] px-6 py-3  text-white hover:outline-none focus:outline-none "
+                            onClick={() => navigate('/add-project')}
+                        >
+                            Add Project
+                        </button>
+                    </div>
                 </div>
                 <div className=" w-[90%] border border-gray-300 lg:w-auto">
                     <nav className="border-b border-b-gray-300 py-4 pl-2 text-xl font-bold text-[#2f4f4f] ">
@@ -143,17 +168,6 @@ const Dashboard = () => {
                         </li>
                     </ul>
                 </div>
-            </div>
-            <div className="btn mb-10 flex w-full justify-center border-none focus:outline-none ">
-                <button
-                    className="mt-5 flex items-center justify-center gap-5 rounded-xl bg-[#191970] px-10 py-4  font-bold text-white focus:outline-none "
-                    onClick={() => {
-                        setActive('projects');
-                        navigate('/dashboard/projects');
-                    }}
-                >
-                    Go to Projects
-                </button>
             </div>
         </main>
     );

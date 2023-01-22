@@ -12,19 +12,19 @@ const VulnorableProject = ({
     date,
 }) => {
     return (
-        <div className="mb-4 flex flex-col gap-2 rounded-lg border border-gray-300 p-4 shadow-md sm:flex-row sm:items-center">
-            <div className="flex-1 mb-2 sm:mb-0">
-                <p className="text-sm ">{username}</p>
-                <div className="w-[150px] lg:w-[200px] break-words">
-                    <Link
-                        to={`/dashboard/${repository}`}
-                        className="max-w-xs cursor-pointer break-words text-md text-[#2424be] hover:text-[#2424be]"
-                    >
+        <Link
+            to={`/dashboard/${repository}`}
+            className="mb-4 flex flex-col rounded-lg border border-gray-200 py-3 shadow px-4 transition-all duration-500 hover:bg-gray-100 hover:shadow-md sm:flex-row sm:items-center sm:gap-4"
+        >
+            <div className="mb-2 flex-1 sm:mb-0">
+                <p className="text-sm text-black ">{username}</p>
+                <div className="w-[150px] break-words lg:w-[200px]">
+                    <h3 className="text-md max-w-xs cursor-pointer break-words text-[#2424be] hover:text-[#2424be]">
                         {repository}
-                    </Link>
+                    </h3>
                 </div>
             </div>
-            <ul className="flex flex-1 space-x-2  text-sm">
+            <ul className="mb-1 flex flex-1 space-x-2 text-sm text-black sm:mb-0">
                 <li>
                     <span
                         className={
@@ -33,7 +33,7 @@ const VulnorableProject = ({
                                 : 'rounded-l-sm bg-slate-200 px-[6px] py-1 sm:px-2 lg:px-3  lg:py-2'
                         }
                     >
-                        {blocked}
+                        {blocked || 0}
                     </span>
                     <span
                         className={
@@ -53,7 +53,7 @@ const VulnorableProject = ({
                                 : 'rounded-l-sm bg-slate-200 px-[6px] py-1 sm:px-2 lg:px-3  lg:py-2'
                         }
                     >
-                        {critical}
+                        {critical || 0}
                     </span>
                     <span
                         className={
@@ -73,7 +73,7 @@ const VulnorableProject = ({
                                 : 'rounded-l-sm bg-slate-200 px-[6px] py-1 sm:px-2 lg:px-3  lg:py-2'
                         }
                     >
-                        {major}
+                        {major || 0}
                     </span>
                     <span
                         className={
@@ -93,7 +93,7 @@ const VulnorableProject = ({
                                 : 'rounded-l-sm bg-slate-200 px-[6px] py-1 sm:px-2 lg:px-3  lg:py-2'
                         }
                     >
-                        {minor}
+                        {minor || 0}
                     </span>
                     <span
                         className={
@@ -113,7 +113,7 @@ const VulnorableProject = ({
                                 : 'rounded-l-sm bg-slate-200 px-[6px] py-1 sm:px-2 lg:px-3  lg:py-2'
                         }
                     >
-                        {info}
+                        {info || 0}
                     </span>
                     <span
                         className={
@@ -126,11 +126,11 @@ const VulnorableProject = ({
                     </span>
                 </li>
             </ul>
-            <p className="hidden flex-1 flex-col items-end text-right text-sm italic text-slate-400 md:flex">
+            <p className="hidden flex-1 flex-col items-end text-right text-[0.7rem] italic leading-4 text-slate-400 md:flex">
                 <span>Last Scanned</span>
                 {date}
             </p>
-        </div>
+        </Link>
     );
 };
 
