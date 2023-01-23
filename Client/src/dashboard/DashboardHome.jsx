@@ -37,8 +37,8 @@ const Home = () => {
                     onMouseLeave={() => setIsHovered(false)}
                     className={
                         isHovered
-                            ? 'fixed h-full w-44 overflow-hidden bg-[#2f4f4f] text-white transition-all duration-300 md:w-44'
-                            : 'fixed h-full w-16 overflow-hidden bg-[#2f4f4f] text-white transition-all duration-300 md:w-44'
+                            ? 'fixed z-50 h-full w-44 overflow-hidden bg-[#2f4f4f] text-white transition-all duration-300 md:w-44'
+                            : 'fixed z-50 h-full w-16 overflow-hidden bg-[#2f4f4f] text-white transition-all duration-300 md:w-44'
                     }
                 >
                     <ul className="flex h-full flex-col items-center justify-center px-3 pb-3">
@@ -61,7 +61,6 @@ const Home = () => {
                             >
                                 <IoHome className="text-3xl" />
                                 <span
-                                    md:block
                                     className={
                                         isHovered ? 'block' : 'hidden md:block'
                                     }
@@ -87,7 +86,6 @@ const Home = () => {
                             >
                                 <IoSettings className="text-3xl" />
                                 <span
-                                    md:block
                                     className={
                                         isHovered ? 'block' : 'hidden md:block'
                                     }
@@ -96,7 +94,18 @@ const Home = () => {
                                 </span>
                             </div>
                         </li>
-                        <li className="mt-auto ml-1 flex w-full justify-between text-xl">
+                        <li
+                            onClick={() => {
+                                setTimeout(() => {
+                                    axios.defaults.withCredentials = true;
+                                    axios.get(`${url}api/auth/logout`, {
+                                        withCredentials: true,
+                                    });
+                                    navigate('/login');
+                                }, 1000);
+                            }}
+                            className="mt-auto ml-1 flex w-full justify-between text-xl"
+                        >
                             <Link
                                 className={
                                     active == 'logout'
@@ -106,7 +115,6 @@ const Home = () => {
                             >
                                 <IoLogOut className="text-3xl" />
                                 <span
-                                    md:block
                                     className={
                                         isHovered ? 'block' : 'hidden md:block'
                                     }
@@ -118,14 +126,14 @@ const Home = () => {
                     </ul>
                 </nav>
                 <div className="ml-16 w-full md:ml-44 lg:ml-[177px]">
-                    <nav className="flex w-full items-center space-x-3 border-b border-b-black bg-slate-200 py-4 px-3 text-sm font-bold text-[#2f4f4f]">
+                    <nav className="flex w-full items-center space-x-3 border-b border-b-black bg-[#2f4f4f43] py-4 px-3 text-sm font-bold text-[#2f4f4f]">
                         <span className=" capitalize">
                             {user.username || 'username'}
                         </span>
                         <span className="text-sm">&gt;</span>
                         <span className=" capitalize">{active || ''}</span>
                     </nav>
-                    <Outlet context={[active, setActive]} />
+                    <Outlet context={[active, setActive, user]} />
                 </div>
             </div>
         </main>

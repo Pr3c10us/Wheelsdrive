@@ -1,4 +1,5 @@
 const uuid = require('uuid');
+const axios = require('axios');
 const { dynamoClient, PROJECTS_TABLE_NAME } = require('../aws/dynamo');
 const { BadRequestError, NotFoundError } = require('../errors');
 
@@ -215,10 +216,83 @@ const deleteProject = async (req, res) => {
     });
 };
 
+const getSearchRepositories = async (req, res) => {
+    const { githubAuthToken } = req.params;
+    const { search_query } = req.query;
+
+    // check if githubAuthToken is provided
+    if (!githubAuthToken) {
+        throw new BadRequestError('Please provide githubAuthToken');
+    }
+
+    // get user username from access token
+    const user = await axios.get('https://api.github.com/user', {
+        headers: {
+            Authorization: `Token ${githubAuthToken}`,
+        },
+    });
+
+    const response = await axios({
+        method: 'get',
+        // url: `https://api.github.com/user/repos?q='P_PAY'`,
+        url: `https://api.github.com/search/repositories?q=${search_query}+user:${user.data.login}`,
+        headers: {
+            Accept: 'application/vnd.github+json',
+            Authorization: `Bearer ${githubAuthToken}`,
+        },
+        params: {
+            per_page: 1000,
+        },
+    });
+
+    // console.log(response.data.items);
+
+    const repositories = await response.data.items.map((item) => {
+        return { name: item.name, clone_url: item.clone_url };
+    });
+
+    res.json({
+        repositories,
+    });
+};
+
+const getRepositories = async (req, res) => {
+    const { githubAuthToken } = req.params;
+
+    // check if githubAuthToken1 is provided
+    if (!githubAuthToken) {
+        throw new BadRequestError('Please provide githubAuthToken');
+    }
+
+    const response = await axios({
+        method: 'get',
+        url: `https://api.github.com/user/repos`,
+        headers: {
+            Accept: 'application/vnd.github+json',
+            Authorization: `Bearer ${githubAuthToken}`,
+        },
+        params: {
+            per_page: 1000,
+        },
+    });
+
+    // console.log(response.data.items);
+
+    const repositories = await response.data.map((item) => {
+        return { name: item.name, clone_url: item.clone_url };
+    });
+
+    res.json({
+        repositories,
+    });
+};
+
 module.exports = {
     getAllProjects,
     getProject,
     createProject,
     updateProject,
     deleteProject,
+    getSearchRepositories,
+    getRepositories,
 };

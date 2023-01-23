@@ -8,7 +8,6 @@ const Dashboard = () => {
     const [data, setData] = useState([]);
     const [issues, setIssues] = useState({});
     const [loading, setLoading] = useState(true);
-    const [username, setUsername] = useState([]);
     const [active, setActive] = useOutletContext();
 
     const url = 'http://localhost:3000/';
@@ -20,16 +19,11 @@ const Dashboard = () => {
             const projectsResponse = await axios.get(`${url}api/projects/`, {
                 withCredentials: true,
             });
-            const userResponse = await axios.get(`${url}api/user`, {
-                withCredentials: true,
-            });
-
             const projects = await projectsResponse.data.projects;
             if (!projects.length) {
                 setLoading(false);
                 return;
             }
-            const username = await userResponse.data.username;
             let issues = projects.reduce(
                 (acc, project) => {
                     acc.blocked += project.blocked || 0;
@@ -43,7 +37,6 @@ const Dashboard = () => {
             );
 
             setData(projects);
-            setUsername(username);
             setIssues(issues);
 
             setLoading(false);
@@ -88,8 +81,8 @@ const Dashboard = () => {
                     You have no projects
                 </h1>
                 <button
-                    className="mt-4 rounded-md bg-[#191970] px-4 py-2 text-white hover:bg-gray-600"
-                    onClick={() => navigate('/add-project')}
+                    className="mt-4 rounded-md bg-[#2f4f4f] px-4 py-2 text-white hover:bg-gray-600"
+                    onClick={() => navigate('/dashboard/repos')}
                 >
                     Add Project
                 </button>
@@ -107,7 +100,7 @@ const Dashboard = () => {
                     {data.map((project) => {
                         return (
                             <VulnorableProject
-                                username={username}
+                                username={project.username}
                                 repository={project.repository}
                                 blocked={project.blocked}
                                 critical={project.critical}
@@ -122,8 +115,8 @@ const Dashboard = () => {
                     })}
                     <div className="flex w-full items-center justify-center">
                         <button
-                            className="mt-4 rounded-xl border-none bg-[#191970] px-6 py-3  text-white hover:outline-none focus:outline-none "
-                            onClick={() => navigate('/add-project')}
+                            className="mt-4 rounded-lg border-none bg-[#2f4f4f] px-4 py-2  text-white hover:outline-none focus:outline-none "
+                            onClick={() => navigate('/dashboard/repos')}
                         >
                             Add Project
                         </button>

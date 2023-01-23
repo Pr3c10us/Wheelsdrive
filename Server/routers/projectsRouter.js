@@ -5,6 +5,8 @@ const {
     createProject,
     updateProject,
     deleteProject,
+    getSearchRepositories,
+    getRepositories,
 } = require('../controllers/projectsController');
 const authorize = require('../middleware/Authorization');
 
@@ -14,5 +16,10 @@ router
     .get(authorize, getProject)
     .patch(authorize, updateProject)
     .delete(authorize, deleteProject);
+
+router.route('/repositories/:githubAuthToken').get(authorize, getSearchRepositories);
+router
+    .route('/getRepositories/:githubAuthToken')
+    .get(authorize, getRepositories);
 
 module.exports = router;

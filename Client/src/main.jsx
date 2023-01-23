@@ -11,6 +11,7 @@ import AuthGithub from './dashboard/AuthGithub';
 import Dashboard from './dashboard/Dashboard';
 import Project from './dashboard/project';
 import Settings from './dashboard/settings';
+import Repos from './dashboard/Repos';
 
 const router = createBrowserRouter([
     {
@@ -38,9 +39,13 @@ const router = createBrowserRouter([
                 element: <Project />,
             },
             {
+                path: 'repos',
+                element: <Repos />,
+            },
+            {
                 path: 'settings',
                 element: <Settings />,
-            }
+            },
         ],
     },
     {

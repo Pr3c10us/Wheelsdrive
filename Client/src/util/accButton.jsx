@@ -5,7 +5,7 @@ const AccountButton = ({ name, loading }) => {
         <>
             <button
                 type="submit"
-                className="mt-5 flex h-14 w-full items-center justify-center gap-5 rounded-2xl bg-[#191970] px-4  font-bold text-white focus:outline-none "
+                className="mt-5 flex p-3 w-full items-center justify-center gap-5 rounded-2xl bg-[#191970] px-4  font-bold text-white focus:outline-none "
             >
                 {loading ? (
                     <div role="status">

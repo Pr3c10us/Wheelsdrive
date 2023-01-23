@@ -14,12 +14,14 @@ const VulnorableProject = ({
     return (
         <Link
             to={`/dashboard/${repository}`}
-            className="mb-4 flex flex-col rounded-lg border border-gray-200 py-3 shadow px-4 transition-all duration-500 hover:bg-gray-100 hover:shadow-md sm:flex-row sm:items-center sm:gap-4"
+            className="mb-4 flex flex-col rounded-lg border border-gray-200 py-3 px-4 shadow transition-all duration-500 hover:bg-gray-100 hover:shadow-md sm:flex-row sm:items-center sm:gap-4"
         >
             <div className="mb-2 flex-1 sm:mb-0">
-                <p className="text-sm text-black ">{username}</p>
+                <p className="text-[0.7rem] font-bold text-gray-400 ">
+                    {username}
+                </p>
                 <div className="w-[150px] break-words lg:w-[200px]">
-                    <h3 className="text-md max-w-xs cursor-pointer break-words text-[#2424be] hover:text-[#2424be]">
+                    <h3 className="max-w-xs cursor-pointer break-words text-lg font-bold text-[#2f4f4f] hover:text-[#2f4f4f]">
                         {repository}
                     </h3>
                 </div>
