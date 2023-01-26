@@ -2,7 +2,6 @@ const router = require('express').Router();
 const {
     getAllProjects,
     getProject,
-    createProject,
     updateProject,
     deleteProject,
     getSearchRepositories,
@@ -10,14 +9,15 @@ const {
 } = require('../controllers/projectsController');
 const authorize = require('../middleware/Authorization');
 
-router.route('/').get(authorize, getAllProjects).post(authorize, createProject);
+router.route('/').get(authorize, getAllProjects).post(updateProject);
 router
     .route('/:repository')
     .get(authorize, getProject)
-    .patch(authorize, updateProject)
     .delete(authorize, deleteProject);
 
-router.route('/repositories/:githubAuthToken').get(authorize, getSearchRepositories);
+router
+    .route('/repositories/:githubAuthToken')
+    .get(authorize, getSearchRepositories);
 router
     .route('/getRepositories/:githubAuthToken')
     .get(authorize, getRepositories);

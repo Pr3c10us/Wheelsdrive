@@ -1,71 +1,12 @@
-const uuid = require('uuid');
 const axios = require('axios');
-const { dynamoClient, PROJECTS_TABLE_NAME } = require('../aws/dynamo');
+const {
+    dynamoClient,
+    PROJECTS_TABLE_NAME,
+    s3,
+    codebuild,
+} = require('../aws/dynamo');
 const { BadRequestError, NotFoundError } = require('../errors');
-
-const createProject = async (req, res) => {
-    const {
-        repository,
-        clone_url,
-        blocked,
-        critical,
-        major,
-        minor,
-        info,
-        s3_url,
-    } = req.body;
-    // check if repository name is provided
-    if (!repository) {
-        throw new BadRequestError('Please provide repository name');
-    }
-
-    // get username from req.user
-    const { username } = req.user;
-
-    // create date
-    const date = new Date().toLocaleString();
-
-    // check if project already exist
-    const existParams = {
-        TableName: PROJECTS_TABLE_NAME,
-        FilterExpression: 'username = :username and repository = :repository ',
-        ExpressionAttributeValues: {
-            ':username': username,
-            ':repository': repository,
-        },
-    };
-    const projectExist = await dynamoClient.scan(existParams).promise();
-    if (projectExist.Items && projectExist.Items.length > 0) {
-        throw new BadRequestError('Project already exist');
-    }
-
-    // generate a random string for the project id
-    const id = uuid.v4();
-
-    // create project with just username and repository name
-    const params = {
-        TableName: PROJECTS_TABLE_NAME,
-        Item: {
-            created: new Date().toLocaleDateString(),
-            id,
-            username,
-            repository,
-            clone_url,
-            blocked,
-            critical,
-            major,
-            minor,
-            info,
-            last_scanned: date,
-            s3_url,
-        },
-    };
-    await dynamoClient.put(params).promise();
-
-    res.json({
-        msg: 'Project Added',
-    });
-};
+const severityCountFunction = require('../utils/severityCount');
 
 const getAllProjects = async (req, res) => {
     // get username from req.user
@@ -119,26 +60,48 @@ const getProject = async (req, res) => {
 };
 
 const updateProject = async (req, res) => {
-    // get required data from request body
-    const { blocked, critical, major, minor, info, s3_url } = req.body;
+    // get s3_bucket_name, repo_name, username from req.query
+    const { s3_bucket_name, repo_name, username } = req.query;
 
-    // get username from req.user
-    const { username } = req.user;
-
-    // get repository name from params
-    const { repository } = req.params;
-    // check if repository name is provided
-    if (!repository) {
-        throw new BadRequestError('Please provide repository name');
+    // check if s3_bucket_name, repo_name, username is provided
+    if (!s3_bucket_name || !repo_name || !username) {
+        throw new BadRequestError(
+            'Please provide s3_bucket_name, repo_name, username'
+        );
     }
 
-    // Check if project exist
+    // get report from s3
+    let scanReport = await s3
+        .getObject({
+            Bucket: s3_bucket_name,
+            Key: `${repo_name}.json`,
+        })
+        .promise();
+    scanReport = JSON.parse(scanReport.Body).issues;
+
+    // filter issues by type
+    const bugIssues = scanReport.filter((issue) => issue.type === 'BUG');
+    const vulnerabilityIssues = scanReport.filter(
+        (issue) => issue.type === 'VULNERABILITY'
+    );
+    const codeSmellIssues = scanReport.filter(
+        (issue) => issue.type === 'CODE_SMELL'
+    );
+
+    // get each severity count
+    const severitiesCount = await severityCountFunction(
+        bugIssues,
+        vulnerabilityIssues,
+        codeSmellIssues
+    );
+
+    // check if project exist
     const params = {
         TableName: PROJECTS_TABLE_NAME,
         FilterExpression: 'username = :username and repository = :repository',
         ExpressionAttributeValues: {
             ':username': username,
-            ':repository': repository,
+            ':repository': repo_name,
         },
     };
     const project = await dynamoClient.scan(params).promise();
@@ -146,6 +109,7 @@ const updateProject = async (req, res) => {
         throw new NotFoundError('Project not found');
     }
 
+    // get date
     const date = new Date().toLocaleString();
 
     // update project
@@ -155,22 +119,44 @@ const updateProject = async (req, res) => {
             id: project.Items[0].id,
         },
         UpdateExpression:
-            'set blocked = :blocked, critical = :critical, major = :major, minor = :minor, info = :info, last_scanned = :last_scanned, s3_url = :s3_url',
+            'set bugBlocker = :bugBlocker, bugCritical = :bugCritical, bugMajor = :bugMajor, bugMinor = :bugMinor, bugInfo = :bugInfo, vulnerabilityBlocker = :vulnerabilityBlocker, vulnerabilityCritical = :vulnerabilityCritical, vulnerabilityMajor = :vulnerabilityMajor, vulnerabilityMinor = :vulnerabilityMinor, vulnerabilityInfo = :vulnerabilityInfo, codeSmellBlocker = :codeSmellBlocker, codeSmellCritical = :codeSmellCritical, codeSmellMajor = :codeSmellMajor, codeSmellMinor = :codeSmellMinor, codeSmellInfo = :codeSmellInfo, last_scanned = :last_scanned, s3_bucket_name = :s3_bucket_name, repository = :repository',
         ExpressionAttributeValues: {
-            ':blocked': blocked,
-            ':critical': critical,
-            ':major': major,
-            ':minor': minor,
-            ':info': info,
+            ':bugBlocker': severitiesCount.bugBlocker,
+            ':bugCritical': severitiesCount.bugCritical,
+            ':bugMajor': severitiesCount.bugMajor,
+            ':bugMinor': severitiesCount.bugMinor,
+            ':bugInfo': severitiesCount.bugInfo,
+            ':vulnerabilityBlocker': severitiesCount.vulnerabilityBlocker,
+            ':vulnerabilityCritical': severitiesCount.vulnerabilityCritical,
+            ':vulnerabilityMajor': severitiesCount.vulnerabilityMajor,
+            ':vulnerabilityMinor': severitiesCount.vulnerabilityMinor,
+            ':vulnerabilityInfo': severitiesCount.vulnerabilityInfo,
+            ':codeSmellBlocker': severitiesCount.codeSmellBlocker,
+            ':codeSmellCritical': severitiesCount.codeSmellCritical,
+            ':codeSmellMajor': severitiesCount.codeSmellMajor,
+            ':codeSmellMinor': severitiesCount.codeSmellMinor,
+            ':codeSmellInfo': severitiesCount.codeSmellInfo,
             ':last_scanned': date,
-            ':s3_url': s3_url,
+            ':s3_bucket_name': s3_bucket_name,
+            ':repository': repo_name,
         },
         ReturnValues: 'UPDATED_NEW',
     };
+
     await dynamoClient.update(updateParams).promise();
 
+    await codebuild.deleteProject({ name: repo_name }).promise();
+
+    // return updated project
     res.json({
-        msg: 'Project Updated',
+        message: 'Project updated successfully',
+        project: {
+            ...project.Items[0],
+            ...severitiesCount,
+            last_scanned: date,
+            s3_bucket_name,
+            repository: repo_name,
+        },
     });
 };
 
@@ -217,6 +203,7 @@ const deleteProject = async (req, res) => {
 };
 
 const getSearchRepositories = async (req, res) => {
+    // get githubAuthToken from params and search_query from query
     const { githubAuthToken } = req.params;
     const { search_query } = req.query;
 
@@ -225,13 +212,14 @@ const getSearchRepositories = async (req, res) => {
         throw new BadRequestError('Please provide githubAuthToken');
     }
 
-    // get user username from access token
+    // get user's username from access token
     const user = await axios.get('https://api.github.com/user', {
         headers: {
             Authorization: `Token ${githubAuthToken}`,
         },
     });
 
+    // get all repositories for the user based on search_query
     const response = await axios({
         method: 'get',
         // url: `https://api.github.com/user/repos?q='P_PAY'`,
@@ -245,9 +233,12 @@ const getSearchRepositories = async (req, res) => {
         },
     });
 
-    // console.log(response.data.items);
-
+    // select only name and clone_url from response
     const repositories = await response.data.items.map((item) => {
+        item.clone_url = item.clone_url.replace(
+            'https://',
+            'https://' + githubAuthToken + '@'
+        );
         return { name: item.name, clone_url: item.clone_url };
     });
 
@@ -264,6 +255,7 @@ const getRepositories = async (req, res) => {
         throw new BadRequestError('Please provide githubAuthToken');
     }
 
+    //  get all user repositories
     const response = await axios({
         method: 'get',
         url: `https://api.github.com/user/repos`,
@@ -276,12 +268,16 @@ const getRepositories = async (req, res) => {
         },
     });
 
-    // console.log(response.data.items);
-
+    // select only name and clone_url from response
     const repositories = await response.data.map((item) => {
+        item.clone_url = item.clone_url.replace(
+            'https://',
+            'https://' + githubAuthToken + '@'
+        );
         return { name: item.name, clone_url: item.clone_url };
     });
 
+    // return repositories
     res.json({
         repositories,
     });
@@ -290,7 +286,6 @@ const getRepositories = async (req, res) => {
 module.exports = {
     getAllProjects,
     getProject,
-    createProject,
     updateProject,
     deleteProject,
     getSearchRepositories,

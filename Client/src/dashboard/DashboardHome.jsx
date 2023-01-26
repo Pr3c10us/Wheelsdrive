@@ -54,7 +54,7 @@ const Home = () => {
                         >
                             <div
                                 className={
-                                    active == 'dashboard'
+                                    active.includes('dashboard')
                                         ? 'flex w-[152px] cursor-pointer items-center gap-3 border p-1  text-black no-underline transition-all duration-200 hover:text-black'
                                         : 'flex cursor-pointer items-center gap-3 p-1  text-white no-underline transition-colors duration-200 hover:text-gray-300'
                                 }
@@ -126,11 +126,11 @@ const Home = () => {
                     </ul>
                 </nav>
                 <div className="ml-16 w-full md:ml-44 lg:ml-[177px]">
-                    <nav className="flex w-full items-center space-x-3 border-b border-b-black bg-[#2f4f4f43] py-4 px-3 text-sm font-bold text-[#2f4f4f]">
+                    <nav className="flex w-full items-center space-x-2 border-b border-b-black bg-[#2f4f4f43] py-4 px-3 text-sm font-bold text-[#2f4f4f]">
                         <span className=" capitalize">
                             {user.username || 'username'}
                         </span>
-                        <span className="text-sm">&gt;</span>
+                        <span>&gt;</span>
                         <span className=" capitalize">{active || ''}</span>
                     </nav>
                     <Outlet context={[active, setActive, user]} />

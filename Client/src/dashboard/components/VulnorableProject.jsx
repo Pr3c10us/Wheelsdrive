@@ -1,138 +1,117 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { BsFillCaretDownFill } from 'react-icons/bs';
+import { IoMdBug } from 'react-icons/io';
+import { MdShield } from 'react-icons/md';
+import { GoAlert } from 'react-icons/go';
+import SeveritiesCount from './SeveritiesCount';
+import SeverityCount from './SeverityCount';
 
-const VulnorableProject = ({
-    username,
-    repository,
-    blocked,
-    critical,
-    major,
-    minor,
-    info,
-    date,
-}) => {
+const VulnorableProject = ({ project }) => {
+    const [drop, setDrop] = useState(false);
+
+    const totalBlocker =
+        project.bugBlocker +
+        project.vulnerabilityBlocker +
+        project.codeSmellBlocker;
+    const totalCritical =
+        project.bugCritical +
+        project.vulnerabilityCritical +
+        project.codeSmellCritical;
+    const totalMajor =
+        project.bugMajor + project.vulnerabilityMajor + project.codeSmellMajor;
+    const totalMinor =
+        project.bugMinor + project.vulnerabilityMinor + project.codeSmellMinor;
+    const totalInfo =
+        project.bugInfo + project.vulnerabilityInfo + project.codeSmellInfo;
     return (
-        <Link
-            to={`/dashboard/${repository}`}
-            className="mb-4 flex flex-col rounded-lg border border-gray-200 py-3 px-4 shadow transition-all duration-500 hover:bg-gray-100 hover:shadow-md sm:flex-row sm:items-center sm:gap-4"
-        >
-            <div className="mb-2 flex-1 sm:mb-0">
-                <p className="text-[0.7rem] font-bold text-gray-400 ">
-                    {username}
-                </p>
-                <div className="w-[150px] break-words lg:w-[200px]">
-                    <h3 className="max-w-xs cursor-pointer break-words text-lg font-bold text-[#2f4f4f] hover:text-[#2f4f4f]">
-                        {repository}
-                    </h3>
+        <section className="mb-4 flex flex-col ">
+            <div
+                onClick={() => setDrop(!drop)}
+                to={`/dashboard/${project.repository}`}
+                className="flex cursor-pointer items-center justify-between border border-gray-200 py-3 px-2 transition-all duration-500"
+            >
+                <div className="flex grow flex-col sm:flex-row sm:items-center sm:gap-4">
+                    <div className="mb-0 ">
+                        <p className="text-[0.7rem] font-bold leading-3 text-gray-400 ">
+                            {project.username}
+                        </p>
+                        <div className="w-[150px] break-words lg:w-[200px]">
+                            <h3 className="max-w-xs cursor-pointer break-words text-lg font-bold leading-5 text-[#2f4f4f] hover:text-[#2f4f4f]">
+                                {project.repository}
+                            </h3>
+                        </div>
+                    </div>
+                    <SeveritiesCount
+                        blocker={totalBlocker}
+                        critical={totalCritical}
+                        major={totalMajor}
+                        minor={totalMinor}
+                        info={totalInfo}
+                    />
+                    <p className="mx-1 hidden flex-col items-end text-right text-[0.7rem] italic leading-4 text-slate-400 lg:flex">
+                        <div>Last Scanned</div>
+                        {project.last_scanned}
+                    </p>
+                </div>
+                <div
+                    className={
+                        drop
+                            ? 'ml-4 flex h-8 w-8 -rotate-180 transform items-center justify-center rounded-full bg-gray-200 duration-500'
+                            : 'ml-4 flex h-8 w-8 items-center justify-center rounded-full bg-gray-200 duration-500'
+                    }
+                >
+                    <BsFillCaretDownFill />
                 </div>
             </div>
-            <ul className="mb-1 flex flex-1 space-x-2 text-sm text-black sm:mb-0">
-                <li>
-                    <span
-                        className={
-                            blocked > 0
-                                ? 'rounded-l-sm bg-red-200 px-[6px] py-1 sm:px-2 lg:px-3  lg:py-2'
-                                : 'rounded-l-sm bg-slate-200 px-[6px] py-1 sm:px-2 lg:px-3  lg:py-2'
-                        }
-                    >
-                        {blocked || 0}
-                    </span>
-                    <span
-                        className={
-                            blocked > 0
-                                ? 'rounded-r-sm bg-red-600 px-[6px] py-1 sm:px-2 lg:px-3  lg:py-2'
-                                : 'rounded-r-sm bg-slate-300 px-[6px] py-1 sm:px-2 lg:px-3  lg:py-2'
-                        }
-                    >
-                        D
-                    </span>
+            <ul
+                className={
+                    drop
+                        ? 'h-48 overflow-hidden bg-gray-100 text-[#2f4f4f] transition-all duration-500'
+                        : 'h-0 overflow-hidden bg-gray-100 text-[#2f4f4f] transition-all duration-500'
+                }
+            >
+                <li className="flex items-center justify-between border-b p-4 text-lg">
+                    <div className="flex items-center gap-2 ">
+                        <IoMdBug />
+                        <h3>BUG</h3>
+                    </div>
+                    <SeverityCount
+                        blocker={project.bugBlocker}
+                        critical={project.bugCritical}
+                        major={project.bugMajor}
+                        minor={project.bugMinor}
+                        info={project.bugInfo}
+                    />
                 </li>
-                <li>
-                    <span
-                        className={
-                            critical > 0
-                                ? 'rounded-l-sm bg-red-100 px-[6px] py-1 sm:px-2 lg:px-3  lg:py-2'
-                                : 'rounded-l-sm bg-slate-200 px-[6px] py-1 sm:px-2 lg:px-3  lg:py-2'
-                        }
-                    >
-                        {critical || 0}
-                    </span>
-                    <span
-                        className={
-                            critical > 0
-                                ? 'rounded-r-sm bg-red-500 px-[6px] py-1 sm:px-2 lg:px-3  lg:py-2'
-                                : 'rounded-r-sm bg-slate-300 px-[6px] py-1 sm:px-2 lg:px-3  lg:py-2'
-                        }
-                    >
-                        C
-                    </span>
+                <li className="flex items-center justify-between border-b p-4 text-lg">
+                    <div className="flex items-center gap-2 ">
+                        <MdShield />
+                        <h3>VULNORABILITY</h3>
+                    </div>
+                    <SeverityCount
+                        blocker={project.vulnerabilityBlocker}
+                        critical={project.vulnerabilityCritical}
+                        major={project.vulnerabilityMajor}
+                        minor={project.vulnerabilityMinor}
+                        info={project.vulnerabilityInfo}
+                    />
                 </li>
-                <li>
-                    <span
-                        className={
-                            major > 0
-                                ? 'rounded-l-sm bg-orange-200 px-[6px] py-1 sm:px-2 lg:px-3  lg:py-2'
-                                : 'rounded-l-sm bg-slate-200 px-[6px] py-1 sm:px-2 lg:px-3  lg:py-2'
-                        }
-                    >
-                        {major || 0}
-                    </span>
-                    <span
-                        className={
-                            major > 0
-                                ? 'rounded-r-sm bg-orange-600 px-[6px] py-1 sm:px-2 lg:px-3  lg:py-2'
-                                : 'rounded-r-sm bg-slate-300 px-[6px] py-1 sm:px-2 lg:px-3  lg:py-2'
-                        }
-                    >
-                        H
-                    </span>
-                </li>
-                <li>
-                    <span
-                        className={
-                            minor > 0
-                                ? 'rounded-l-sm bg-orange-100 px-[6px] py-1 sm:px-2 lg:px-3  lg:py-2'
-                                : 'rounded-l-sm bg-slate-200 px-[6px] py-1 sm:px-2 lg:px-3  lg:py-2'
-                        }
-                    >
-                        {minor || 0}
-                    </span>
-                    <span
-                        className={
-                            minor > 0
-                                ? 'rounded-r-sm bg-orange-500 px-[6px] py-1 sm:px-2 lg:px-3  lg:py-2'
-                                : 'rounded-r-sm bg-slate-300 px-[6px] py-1 sm:px-2 lg:px-3  lg:py-2'
-                        }
-                    >
-                        M
-                    </span>
-                </li>
-                <li>
-                    <span
-                        className={
-                            blocked > 0
-                                ? 'rounded-l-sm bg-yellow-100 px-[6px] py-1 sm:px-2 lg:px-3  lg:py-2'
-                                : 'rounded-l-sm bg-slate-200 px-[6px] py-1 sm:px-2 lg:px-3  lg:py-2'
-                        }
-                    >
-                        {info || 0}
-                    </span>
-                    <span
-                        className={
-                            info > 0
-                                ? 'rounded-r-sm bg-yellow-600 px-[6px] py-1 sm:px-2 lg:px-3  lg:py-2'
-                                : 'rounded-r-sm bg-slate-300 px-[6px] py-1 sm:px-2 lg:px-3  lg:py-2'
-                        }
-                    >
-                        L
-                    </span>
+                <li className="flex items-center justify-between p-4 text-lg">
+                    <div className="flex items-center gap-2">
+                        <GoAlert />
+                        <h3>CODE_SMELL</h3>
+                    </div>
+                    <SeverityCount
+                        blocker={project.codeSmellBlocker}
+                        critical={project.codeSmellCritical}
+                        major={project.codeSmellMajor}
+                        minor={project.codeSmellMinor}
+                        info={project.codeSmellInfo}
+                    />
                 </li>
             </ul>
-            <p className="hidden flex-1 flex-col items-end text-right text-[0.7rem] italic leading-4 text-slate-400 md:flex">
-                <span>Last Scanned</span>
-                {date}
-            </p>
-        </Link>
+        </section>
     );
 };
 

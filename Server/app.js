@@ -21,6 +21,7 @@ app.use(cookieParser(process.env.COOKIE_SECRET));
 const authRouter = require('./routers/authRouter');
 const userRouter = require('./routers/userRouter');
 const ProjectsRouter = require('./routers/projectsRouter');
+const scanRouter = require('./routers/scanRouter');
 
 // Routes
 app.get('/', (req, res) => {
@@ -29,6 +30,7 @@ app.get('/', (req, res) => {
 app.use('/api/auth', authRouter);
 app.use('/api/user', userRouter);
 app.use('/api/projects', ProjectsRouter);
+app.use('/api/', scanRouter);
 
 // Not found route
 app.use((req, res) => {

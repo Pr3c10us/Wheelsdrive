@@ -55,7 +55,7 @@ const Dashboard = () => {
             >
                 <svg
                     aria-hidden="true"
-                    className="mr-2 h-8 w-8 animate-spin fill-gray-500 text-gray-200 dark:text-gray-600"
+                    className="mr-2 h-8 w-8 animate-spin fill-[#2f4f4f] text-gray-200 dark:text-gray-600"
                     viewBox="0 0 100 101"
                     fill="none"
                     xmlns="http://www.w3.org/2000/svg"
@@ -93,69 +93,58 @@ const Dashboard = () => {
     return (
         <main>
             <div className="mx-4 mt-8 flex flex-col items-center justify-center space-y-8 pb-10 lg:flex-row lg:items-start lg:gap-8 lg:px-4">
-                <div className="w-[100%]">
+                <div className="w-full">
                     <h2 className="mb-2 text-xl text-[#2f4f4f] underline">
                         Scanned Vulnorable Projects
                     </h2>
                     {data.map((project) => {
-                        return (
-                            <VulnorableProject
-                                username={project.username}
-                                repository={project.repository}
-                                blocked={project.blocked}
-                                critical={project.critical}
-                                major={project.major}
-                                minor={project.minor}
-                                info={project.info}
-                                name={project.name}
-                                key={project.id}
-                                date={project.last_scanned}
-                            />
-                        );
+                        return <VulnorableProject project={project} key={project.id} />;
                     })}
-                    <div className="flex w-full items-center justify-center">
+                    <div className="sticky bottom-0 flex w-full items-center justify-center border-t-2 bg-white py-3 px-2">
+                        {/* <nav className="sticky bottom-0 flex w-full flex-col justify-center space-y-1 border-t bg-white  py-3 px-2 nsm:flex-row"> */}
+
                         <button
-                            className="mt-4 rounded-lg border-none bg-[#2f4f4f] px-4 py-2  text-white hover:outline-none focus:outline-none "
+                            className="my-2 rounded-lg border-none bg-[#2f4f4f] px-4 py-2  text-white hover:outline-none focus:outline-none "
                             onClick={() => navigate('/dashboard/repos')}
                         >
                             Add Project
                         </button>
                     </div>
                 </div>
-                <div className=" w-[90%] border border-gray-300 lg:w-auto">
+                <div className=" w-[90%] border border-gray-300 lg:sticky lg:top-12 lg:w-auto">
                     <nav className="border-b border-b-gray-300 py-4 pl-2 text-xl font-bold text-[#2f4f4f] ">
                         Current vulnerabilities
                     </nav>
-                    <ul className="flex flex-col justify-center gap-6 bg-[#1919700a] py-4 pl-8">
+                    <ul className="flex flex-col justify-center gap-6 bg-[#2f4f4f07] py-4 pl-8">
                         <li className="space-y-2">
                             <p className="font-thin text-[#191970]">
                                 Dangerous
                             </p>
-                            <h3 className="text-3xl text-red-700 ">
+                            <h3 className="text-3xl text-red-600 ">
                                 {issues.blocked}
                             </h3>
                         </li>
                         <li className="space-y-2">
                             <p className="font-thin text-[#191970]">Critical</p>
-                            <h3 className="text-3xl text-red-500">
+                            <h3 className="text-3xl text-orange-600">
                                 {issues.critical}
                             </h3>
                         </li>
                         <li className="space-y-2">
                             <p className="font-thin text-[#191970]">High</p>
-                            <h3 className="text-3xl text-orange-600">
+                            <h3 className="text-3xl text-orange-400">
                                 {issues.major}
                             </h3>
                         </li>
                         <li className="space-y-2">
                             <p className="font-thin text-[#191970]">Medium</p>
-                            <h3 className="text-3xl text-orange-400">
+                            <h3 className="text-3xl text-yellow-500">
                                 {issues.minor}
                             </h3>
                         </li>
                         <li className="space-y-2">
                             <p className="font-thin text-[#191970]">Low</p>
-                            <h3 className="text-3xl text-yellow-600">
+                            <h3 className="text-3xl text-gray-600">
                                 {issues.info}
                             </h3>
                         </li>

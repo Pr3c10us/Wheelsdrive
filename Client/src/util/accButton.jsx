@@ -5,13 +5,13 @@ const AccountButton = ({ name, loading }) => {
         <>
             <button
                 type="submit"
-                className="mt-5 flex p-3 w-full items-center justify-center gap-5 rounded-2xl bg-[#191970] px-4  font-bold text-white focus:outline-none "
+                className="mt-5 flex h-14 w-full items-center justify-center gap-5 rounded-2xl bg-[#191970] px-4 font-bold text-white focus:outline-none "
             >
                 {loading ? (
                     <div role="status">
                         <svg
                             aria-hidden="true"
-                            className="mr-2 h-8 w-8 animate-spin fill-gray-500 text-gray-200 dark:text-gray-600"
+                            className="mr-2 h-8 w-8 animate-spin fill-[#2f4f4f] text-gray-200 dark:text-gray-600"
                             viewBox="0 0 100 101"
                             fill="none"
                             xmlns="http://www.w3.org/2000/svg"
