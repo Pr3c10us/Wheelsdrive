@@ -50,7 +50,7 @@ const VulnorableProject = ({ project }) => {
                         info={totalInfo}
                     />
                     <p className="mx-1 hidden flex-col items-end text-right text-[0.7rem] italic leading-4 text-slate-400 lg:flex">
-                        <div>Last Scanned</div>
+                        <span>Last Scanned</span>
                         {project.last_scanned}
                     </p>
                 </div>
@@ -67,14 +67,18 @@ const VulnorableProject = ({ project }) => {
             <ul
                 className={
                     drop
-                        ? 'h-48 overflow-hidden bg-gray-100 text-[#2f4f4f] transition-all duration-500'
-                        : 'h-0 overflow-hidden bg-gray-100 text-[#2f4f4f] transition-all duration-500'
+                        ? 'h-48 overflow-hidden bg-gray-100 text-[#2f4f4f] transition-all duration-500 ease-in-out'
+                        : 'h-0 overflow-hidden bg-gray-100 text-[#2f4f4f] transition-all duration-500 ease-in-out'
                 }
             >
                 <li className="flex items-center justify-between border-b p-4 text-lg">
                     <div className="flex items-center gap-2 ">
                         <IoMdBug />
-                        <h3>BUG</h3>
+                        <Link
+                            to={`/dashboard/${project.repository}?type=BUG&repo_name=${project.repository}`}
+                        >
+                            BUG
+                        </Link>
                     </div>
                     <SeverityCount
                         blocker={project.bugBlocker}
@@ -87,7 +91,11 @@ const VulnorableProject = ({ project }) => {
                 <li className="flex items-center justify-between border-b p-4 text-lg">
                     <div className="flex items-center gap-2 ">
                         <MdShield />
-                        <h3>VULNORABILITY</h3>
+                        <Link
+                            to={`/dashboard/${project.repository}?type=VULNERABILITY&repo_name=${project.repository}`}
+                        >
+                            VULNORABILITY
+                        </Link>
                     </div>
                     <SeverityCount
                         blocker={project.vulnerabilityBlocker}
@@ -100,7 +108,11 @@ const VulnorableProject = ({ project }) => {
                 <li className="flex items-center justify-between p-4 text-lg">
                     <div className="flex items-center gap-2">
                         <GoAlert />
-                        <h3>CODE_SMELL</h3>
+                        <Link
+                            to={`/dashboard/${project.repository}?type=CODE_SMELL&repo_name=${project.repository}`}
+                        >
+                            CODE SMELL
+                        </Link>
                     </div>
                     <SeverityCount
                         blocker={project.codeSmellBlocker}

@@ -6,7 +6,7 @@ const {
 const authorize = require('../middleware/Authorization');
 
 router
-    .route('/scan')
+    .route('/')
     .post(authorize, scanProject)
     .get(authorize, getProjectReport);
 

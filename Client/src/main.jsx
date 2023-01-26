@@ -9,7 +9,7 @@ import Home from './dashboard/DashboardHome';
 import OTP from './login/OTP';
 import AuthGithub from './dashboard/AuthGithub';
 import Dashboard from './dashboard/Dashboard';
-import Project from './dashboard/project';
+import Project from './dashboard/Project';
 import Settings from './dashboard/settings';
 import Repos from './dashboard/Repos';
 

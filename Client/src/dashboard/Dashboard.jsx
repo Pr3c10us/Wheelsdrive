@@ -26,11 +26,21 @@ const Dashboard = () => {
             }
             let issues = projects.reduce(
                 (acc, project) => {
-                    acc.blocked += project.blocked || 0;
-                    acc.critical += project.critical || 0;
-                    acc.major += project.major || 0;
-                    acc.minor += project.minor || 0;
-                    acc.info += project.info || 0;
+                    acc.blocked += project.bugBlocker || 0;
+                    acc.blocked += project.vulnerabilityBlocker || 0;
+                    acc.blocked += project.codeSmellBlocker || 0;
+                    acc.critical += project.bugCritical || 0;
+                    acc.critical += project.vulnerabilityCritical || 0;
+                    acc.critical += project.codeSmellCritical || 0;
+                    acc.major += project.bugMajor || 0;
+                    acc.major += project.vulnerabilityMajor || 0;
+                    acc.major += project.codeSmellMajor || 0;
+                    acc.minor += project.bugMinor || 0;
+                    acc.minor += project.vulnerabilityMinor || 0;
+                    acc.minor += project.codeSmellMinor || 0;
+                    acc.info += project.bugInfo || 0;
+                    acc.info += project.vulnerabilityInfo || 0;
+                    acc.info += project.codeSmellInfo || 0;
                     return acc;
                 },
                 { blocked: 0, critical: 0, major: 0, minor: 0, info: 0 }
@@ -98,7 +108,12 @@ const Dashboard = () => {
                         Scanned Vulnorable Projects
                     </h2>
                     {data.map((project) => {
-                        return <VulnorableProject project={project} key={project.id} />;
+                        return (
+                            <VulnorableProject
+                                project={project}
+                                key={project.id}
+                            />
+                        );
                     })}
                     <div className="sticky bottom-0 flex w-full items-center justify-center border-t-2 bg-white py-3 px-2">
                         {/* <nav className="sticky bottom-0 flex w-full flex-col justify-center space-y-1 border-t bg-white  py-3 px-2 nsm:flex-row"> */}

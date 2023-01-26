@@ -2,7 +2,12 @@ require('dotenv').config();
 const fs = require('fs');
 const path = require('path');
 const uuid = require('uuid');
-const { dynamoClient, PROJECTS_TABLE_NAME,codebuild } = require('../aws/dynamo');
+const {
+    dynamoClient,
+    PROJECTS_TABLE_NAME,
+    codebuild,
+    s3,
+} = require('../aws/dynamo');
 
 const scanProject = async (req, res) => {
     // get the username from the request
@@ -53,7 +58,7 @@ const scanProject = async (req, res) => {
         },
         environment: {
             /* required */
-            computeType: 'BUILD_GENERAL1_MEDIUM' /* required */,
+            computeType: 'BUILD_GENERAL1_SMALL' /* required */,
             image: 'aws/codebuild/amazonlinux2-x86_64-standard:4.0' /* required */,
             type: 'LINUX_CONTAINER' /* required */,
             privilegedMode: true,
@@ -110,16 +115,33 @@ const scanProject = async (req, res) => {
     // start the build
     await codebuild.startBuild({ projectName: repo_name }).promise();
 
-    console.log('done');
-
     res.json({
         msg: 'Project Scanned',
     });
 };
 
 const getProjectReport = async (req, res) => {
+    // get type of report from the request query
+    const { type, repo_name } = req.query;
+
+    // get username from the request
+    const { username } = req.user;
+
+    // get report from s3
+    let scanReport = await s3
+        .getObject({
+            Bucket: process.env.S3_BUCKET_NAME,
+            Key: `${repo_name}.json`,
+        })
+        .promise();
+    scanReport = JSON.parse(scanReport.Body).issues;
+
+    // filter the report based on the type of report
+    const report = scanReport.filter((issue) => issue.type === type);
+
     res.json({
-        msg: 'Project Report',
+        nbHits: report.length,
+        report,
     });
 };
 

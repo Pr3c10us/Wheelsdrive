@@ -30,7 +30,7 @@ app.get('/', (req, res) => {
 app.use('/api/auth', authRouter);
 app.use('/api/user', userRouter);
 app.use('/api/projects', ProjectsRouter);
-app.use('/api/', scanRouter);
+app.use('/api/scan', scanRouter);
 
 // Not found route
 app.use((req, res) => {
