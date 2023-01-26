@@ -102,27 +102,29 @@ const Repos = () => {
     return (
         <main>
             <div className="flex flex-col items-center px-2">
-                <div className="mt-4 flex w-[70%] justify-between rounded-3xl border border-gray-500">
-                    <input
-                        placeholder={searchQuery}
-                        onChange={(e) => {
-                            e.preventDefault();
-                            setSearchQuery(e.target.value);
-                        }}
-                        type="text"
-                        className="m-0 w-full rounded-l-3xl p-0 pl-5 text-xl focus:outline-none"
-                    />
-                    <button
-                        onClick={handleSearch}
-                        className=" rounded-r-none rounded-l-none border-x border-y-0 border-x-black  bg-inherit px-4 py-1 hover:border-y-0 hover:border-x-black hover:bg-gray-200  focus:outline-none "
-                    >
-                        <CiSearch className="text-3xl text-gray-500 " />
-                    </button>
+                <div className="mt-6 flex w-full items-center justify-center gap-2">
+                    <div className="flex max-w-[80%] lg:max-w-[50%] flex-1 justify-between rounded border border-gray-500">
+                        <input
+                            placeholder={searchQuery}
+                            onChange={(e) => {
+                                e.preventDefault();
+                                setSearchQuery(e.target.value);
+                            }}
+                            type="text"
+                            className="m-0 w-full rounded-l border-r border-r-black p-0 pl-2 text-lg focus:outline-none md:text-xl"
+                        />
+                        <button
+                            onClick={handleSearch}
+                            className=" rounded-r rounded-l-none border-none   bg-inherit px-3 py-1 hover:border-none focus:outline-none  md:px-4 "
+                        >
+                            <CiSearch className="text-lg text-gray-500 md:text-3xl " />
+                        </button>
+                    </div>
                     <button
                         onClick={handleCancel}
-                        className=" rounded-r-3xl rounded-l-none border-none bg-inherit  px-5 py-1 hover:border-none hover:bg-gray-300 focus:outline-none "
+                        className="rounded-md bg-inherit px-3 py-1 hover:border-none hover:text-red-500 focus:outline-none border-none md:px-4"
                     >
-                        <RxCross1 />
+                        <RxCross1 className="text-lg text-gray-500 md:text-2xl " />
                     </button>
                 </div>
                 <div className="my-4 flex w-full items-center justify-center gap-3 p-2 text-center nsm:text-left">
@@ -222,9 +224,9 @@ const Repos = () => {
                                     onClick={() => {
                                         navigate('/dashboard');
                                     }}
-                                    className="border-2 border-black bg-slate-200  text-black duration-100 hover:border-red-500 hover:text-red-500 hover:outline-none focus:outline-none "
+                                    className="border-2 border-black bg-slate-200  text-black duration-100 hover:border-black hover:text-black hover:outline-none focus:outline-none "
                                 >
-                                    Cancel
+                                    Back
                                 </button>
                                 <button
                                     onClick={handleScan}

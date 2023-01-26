@@ -119,7 +119,7 @@ const updateProject = async (req, res) => {
             id: project.Items[0].id,
         },
         UpdateExpression:
-            'set bugBlocker = :bugBlocker, bugCritical = :bugCritical, bugMajor = :bugMajor, bugMinor = :bugMinor, bugInfo = :bugInfo, vulnerabilityBlocker = :vulnerabilityBlocker, vulnerabilityCritical = :vulnerabilityCritical, vulnerabilityMajor = :vulnerabilityMajor, vulnerabilityMinor = :vulnerabilityMinor, vulnerabilityInfo = :vulnerabilityInfo, codeSmellBlocker = :codeSmellBlocker, codeSmellCritical = :codeSmellCritical, codeSmellMajor = :codeSmellMajor, codeSmellMinor = :codeSmellMinor, codeSmellInfo = :codeSmellInfo, last_scanned = :last_scanned, s3_bucket_name = :s3_bucket_name, repository = :repository',
+            'set bugBlocker = :bugBlocker, bugCritical = :bugCritical, bugMajor = :bugMajor, bugMinor = :bugMinor, bugInfo = :bugInfo, vulnerabilityBlocker = :vulnerabilityBlocker, vulnerabilityCritical = :vulnerabilityCritical, vulnerabilityMajor = :vulnerabilityMajor, vulnerabilityMinor = :vulnerabilityMinor, vulnerabilityInfo = :vulnerabilityInfo, codeSmellBlocker = :codeSmellBlocker, codeSmellCritical = :codeSmellCritical, codeSmellMajor = :codeSmellMajor, codeSmellMinor = :codeSmellMinor, codeSmellInfo = :codeSmellInfo, last_scanned = :last_scanned, s3_bucket_name = :s3_bucket_name, repository = :repository,scan_status = :scan_status',
         ExpressionAttributeValues: {
             ':bugBlocker': severitiesCount.bugBlocker,
             ':bugCritical': severitiesCount.bugCritical,
@@ -139,6 +139,7 @@ const updateProject = async (req, res) => {
             ':last_scanned': date,
             ':s3_bucket_name': s3_bucket_name,
             ':repository': repo_name,
+            ':scan_status': 'done',
         },
         ReturnValues: 'UPDATED_NEW',
     };

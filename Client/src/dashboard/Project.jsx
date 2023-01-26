@@ -30,8 +30,19 @@ const Project = () => {
                 withCredentials: true,
             }
         );
+        let report = reportResponse.data.report;
+        const sortOrder = {
+            BLOCKER: 1,
+            CRITICAL: 2,
+            MAJOR: 3,
+            MINOR: 4,
+            INFO: 5,
+        };
+        report.sort((a, b) => {
+            return sortOrder[a.severity] - sortOrder[b.severity];
+        });
         setProject(projectResponse.data);
-        setReport(reportResponse.data.report);
+        setReport(report);
         setNumberOfErrors(reportResponse.data.report.length);
         setLoading(false);
     };
@@ -67,13 +78,27 @@ const Project = () => {
         );
     }
 
-    return (
-        <main className='h-full'>
-            <div className="flex h-full flex-col items-center">
-                <nav
-                    id="top"
-                    className="w-full border-b border-b-black p-4 text-[#2f4f4f]"
+    if (numberOfErrors === 0) {
+        return (
+            <div className="flex h-full flex-col items-center justify-center">
+                <p> You have no {type} issues in this project</p>
+                <button
+                    onClick={() => {
+                        navigate('/dashboard');
+                    }}
+                    className="   border-none bg-inherit text-black underline duration-100 hover:border-none hover:text-black hover:outline-none focus:outline-none "
                 >
+                    Go Back
+                </button>
+            </div>
+        );
+    }
+
+    return (
+        <main className="h-full">
+            <div className="flex h-full flex-col items-center">
+                <div id="top"></div>
+                <nav className="sticky top-0 z-40 w-full border-b border-b-black bg-white p-4 text-[#2f4f4f]">
                     <h3 className="text-lg">{type} ISSUES</h3>
                     <h2 className=" text-3xl font-bold">{repo_name}</h2>
                 </nav>
@@ -84,33 +109,27 @@ const Project = () => {
                         </p>
                         {project.last_scanned}
                     </div>
+                    <button
+                        onClick={() => {
+                            navigate('/dashboard');
+                        }}
+                        className="border-2 border-[#2f4f4f] text-[#2f4f4f] duration-100 hover:border-[#2f4f4f] hover:text-[#2f4f4f] hover:outline-none focus:outline-none "
+                    >
+                        Back
+                    </button>
                 </div>
-                <ul className="mb-14 w-full px-4 ">
+                <ul className="mb-14 mt-4 w-full px-4 ">
+                    <p className="mb-2 -translate-x-2 text-sm">
+                        {numberOfErrors}
+                        <span> Issues</span>{' '}
+                    </p>
                     {report.map((item) => {
                         return <ErrorCard error={item} key={item.key} />;
                     })}
                 </ul>
-                <nav className="fixed bottom-0 flex w-full justify-center space-y-1 border-t bg-white  py-3 px-2 nsm:flex-row">
-                    <div className="flex w-full items-center justify-center gap-3 ">
-                        <button
-                            onClick={() => {
-                                navigate('/dashboard');
-                            }}
-                            className="border-2 border-black bg-slate-200  text-black duration-100 hover:border-red-500 hover:text-red-500 hover:outline-none focus:outline-none "
-                        >
-                            Cancel
-                        </button>
-                        <button
-                            // onClick={handleScan}
-                            className="border-none bg-[#2f4f4f] text-white hover:outline-none focus:outline-none "
-                        >
-                            ReScan
-                        </button>
-                    </div>
-                </nav>
                 <a
                     href="#top"
-                    className="fixed text-black hover:text-black bottom-20 right-0 rounded-full bg-gray-300 p-1 text-3xl"
+                    className="fixed bottom-20 right-0 rounded-full bg-gray-300 p-1 text-3xl text-black hover:text-black"
                 >
                     <IoChevronUp />
                 </a>

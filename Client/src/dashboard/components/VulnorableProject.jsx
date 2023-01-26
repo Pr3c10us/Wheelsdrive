@@ -6,9 +6,25 @@ import { MdShield } from 'react-icons/md';
 import { GoAlert } from 'react-icons/go';
 import SeveritiesCount from './SeveritiesCount';
 import SeverityCount from './SeverityCount';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
-const VulnorableProject = ({ project }) => {
+const VulnorableProject = ({ project, setRefresh }) => {
+    const url = 'http://localhost:3000/';
+    const navigate = useNavigate();
     const [drop, setDrop] = useState(false);
+
+    const handleScan = async () => {
+        axios.defaults.withCredentials = true;
+        await axios.post(
+            `${url}api/scan?repo_name=${project.repository}&clone_url=${project.clone_url}`,
+            {
+                withCredentials: true,
+            }
+        );
+        setRefresh(true);
+        navigate('/dashboard');
+    };
 
     const totalBlocker =
         project.bugBlocker +
@@ -28,11 +44,10 @@ const VulnorableProject = ({ project }) => {
         <section className="mb-4 flex flex-col ">
             <div
                 onClick={() => setDrop(!drop)}
-                to={`/dashboard/${project.repository}`}
                 className="flex cursor-pointer items-center justify-between border border-gray-200 py-3 px-2 transition-all duration-500"
             >
-                <div className="flex grow flex-col sm:flex-row sm:items-center sm:gap-4">
-                    <div className="mb-0 ">
+                <div className="flex grow flex-col md:flex-row md:items-center md:gap-4">
+                    <div className="mb-2 md:mb-0 ">
                         <p className="text-[0.7rem] font-bold leading-3 text-gray-400 ">
                             {project.username}
                         </p>
@@ -67,14 +82,15 @@ const VulnorableProject = ({ project }) => {
             <ul
                 className={
                     drop
-                        ? 'h-48 overflow-hidden bg-gray-100 text-[#2f4f4f] transition-all duration-500 ease-in-out'
+                        ? 'h-[340px] overflow-hidden border-b bg-gray-100 text-[#2f4f4f] transition-all duration-500 ease-in-out md:h-48'
                         : 'h-0 overflow-hidden bg-gray-100 text-[#2f4f4f] transition-all duration-500 ease-in-out'
                 }
             >
-                <li className="flex items-center justify-between border-b p-4 text-lg">
-                    <div className="flex items-center gap-2 ">
+                <li className="flex flex-col justify-between border-b p-4 text-lg md:flex-row md:items-center">
+                    <div className="mb-1 flex items-center gap-2 md:mb-0 ">
                         <IoMdBug />
                         <Link
+                            className="font-bold text-[#191970] hover:text-[#191970]"
                             to={`/dashboard/${project.repository}?type=BUG&repo_name=${project.repository}`}
                         >
                             BUG
@@ -88,10 +104,11 @@ const VulnorableProject = ({ project }) => {
                         info={project.bugInfo}
                     />
                 </li>
-                <li className="flex items-center justify-between border-b p-4 text-lg">
-                    <div className="flex items-center gap-2 ">
+                <li className="flex flex-col justify-between border-b p-4 text-lg md:flex-row md:items-center">
+                    <div className="mb-1 flex items-center gap-2 md:mb-0 ">
                         <MdShield />
                         <Link
+                            className="font-bold text-[#191970] hover:text-[#191970]"
                             to={`/dashboard/${project.repository}?type=VULNERABILITY&repo_name=${project.repository}`}
                         >
                             VULNORABILITY
@@ -105,10 +122,11 @@ const VulnorableProject = ({ project }) => {
                         info={project.vulnerabilityInfo}
                     />
                 </li>
-                <li className="flex items-center justify-between p-4 text-lg">
-                    <div className="flex items-center gap-2">
+                <li className="flex flex-col justify-between p-4 text-lg md:flex-row md:items-center">
+                    <div className="mb-1 flex items-center gap-2 md:mb-0">
                         <GoAlert />
                         <Link
+                            className="font-bold text-[#191970] hover:text-[#191970]"
                             to={`/dashboard/${project.repository}?type=CODE_SMELL&repo_name=${project.repository}`}
                         >
                             CODE SMELL
@@ -122,6 +140,24 @@ const VulnorableProject = ({ project }) => {
                         info={project.codeSmellInfo}
                     />
                 </li>
+                <nav className="flex w-full flex-col justify-center space-y-1 border border-b-0 bg-white  py-4 px-2 nsm:flex-row">
+                    <div className="flex w-full items-center justify-center gap-8">
+                        <button
+                            onClick={() => {
+                                navigate('/dashboard');
+                            }}
+                            className="  border-none bg-inherit p-0 text-xl text-red-500 underline hover:border-none focus:outline-none "
+                        >
+                            Delete
+                        </button>
+                        <button
+                            onClick={handleScan}
+                            className=" border-none bg-inherit p-0 text-xl text-[#191970] underline hover:border-none focus:outline-none active:text-[#2f4f4f] "
+                        >
+                            ReScan
+                        </button>
+                    </div>
+                </nav>
             </ul>
         </section>
     );

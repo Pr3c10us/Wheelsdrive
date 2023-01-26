@@ -2,13 +2,16 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import VulnorableProject from './components/VulnorableProject';
 import { useNavigate, useOutletContext } from 'react-router-dom';
+import ProjectInProgress from './components/ProjectInProgress';
 
 const Dashboard = () => {
     const navigate = useNavigate();
-    const [data, setData] = useState([]);
+    const [scannedProject, setScannedProject] = useState([]);
+    const [projectsInProgress, setProjectsInProgress] = useState([]);
     const [issues, setIssues] = useState({});
     const [loading, setLoading] = useState(true);
     const [active, setActive] = useOutletContext();
+    const [refresh, setRefresh] = useState(false);
 
     const url = 'http://localhost:3000/';
 
@@ -24,7 +27,15 @@ const Dashboard = () => {
                 setLoading(false);
                 return;
             }
-            let issues = projects.reduce(
+
+            const scannedProject = projects.filter(
+                (project) => project.scan_status === 'done'
+            );
+            const projectsInProgress = projects.filter(
+                (project) => project.scan_status === 'in-progress'
+            );
+
+            let issues = scannedProject.reduce(
                 (acc, project) => {
                     acc.blocked += project.bugBlocker || 0;
                     acc.blocked += project.vulnerabilityBlocker || 0;
@@ -45,17 +56,19 @@ const Dashboard = () => {
                 },
                 { blocked: 0, critical: 0, major: 0, minor: 0, info: 0 }
             );
+            setScannedProject(scannedProject);
+            setProjectsInProgress(projectsInProgress);
 
-            setData(projects);
             setIssues(issues);
 
             setLoading(false);
         } catch (error) {}
     };
 
+    // use useEffect to fetch data when page loads and when the user clicks on the rescan button
     useEffect(() => {
         handleFetchData();
-    }, []);
+    }, [refresh]);
 
     if (loading) {
         return (
@@ -84,7 +97,7 @@ const Dashboard = () => {
         );
     }
 
-    if (data.length === 0) {
+    if (scannedProject.length === 0 && projectsInProgress.length === 0) {
         return (
             <div className="flex h-full flex-col items-center justify-center">
                 <h1 className="text-2xl text-gray-500 dark:text-gray-400">
@@ -104,26 +117,75 @@ const Dashboard = () => {
         <main>
             <div className="mx-4 mt-8 flex flex-col items-center justify-center space-y-8 pb-10 lg:flex-row lg:items-start lg:gap-8 lg:px-4">
                 <div className="w-full">
-                    <h2 className="mb-2 text-xl text-[#2f4f4f] underline">
-                        Scanned Vulnorable Projects
-                    </h2>
-                    {data.map((project) => {
-                        return (
-                            <VulnorableProject
-                                project={project}
-                                key={project.id}
-                            />
-                        );
-                    })}
-                    <div className="sticky bottom-0 flex w-full items-center justify-center border-t-2 bg-white py-3 px-2">
-                        {/* <nav className="sticky bottom-0 flex w-full flex-col justify-center space-y-1 border-t bg-white  py-3 px-2 nsm:flex-row"> */}
+                    <div className="w-full">
+                        {scannedProject.length > 0 ? (
+                            <>
+                                <h2 className="mb-2 text-xl text-[#2f4f4f] underline">
+                                    Scanned Projects
+                                </h2>
+                                {scannedProject.map((project) => {
+                                    return (
+                                        <VulnorableProject
+                                            project={project}
+                                            key={project.id}
+                                            setRefresh={setRefresh}
+                                        />
+                                    );
+                                })}
+                                <div className="sticky bottom-0 flex w-full items-center justify-center border-t-2 bg-white py-3 px-2">
+                                    {/* <nav className="sticky bottom-0 flex w-full flex-col justify-center space-y-1 border-t bg-white  py-3 px-2 nsm:flex-row"> */}
 
-                        <button
-                            className="my-2 rounded-lg border-none bg-[#2f4f4f] px-4 py-2  text-white hover:outline-none focus:outline-none "
-                            onClick={() => navigate('/dashboard/repos')}
-                        >
-                            Add Project
-                        </button>
+                                    <button
+                                        className="my-2 rounded-lg border-none bg-[#2f4f4f] px-4 py-2  text-white hover:outline-none focus:outline-none "
+                                        onClick={() =>
+                                            navigate('/dashboard/repos')
+                                        }
+                                    >
+                                        Add Project
+                                    </button>
+                                </div>
+                            </>
+                        ) : (
+                            <>
+                                <h2 className="mb-2 text-xl text-[#2f4f4f] underline">
+                                    Scanned Projects
+                                </h2>
+                                <h2 className="m-4 text-xl">
+                                    No Scanned Project
+                                </h2>
+                                <div className="sticky bottom-0 flex w-full items-center justify-center border-t-2 bg-white py-3 px-2">
+                                    <button
+                                        className="my-2 rounded-lg border-none bg-[#2f4f4f] px-4 py-2  text-white hover:outline-none focus:outline-none "
+                                        onClick={() =>
+                                            navigate('/dashboard/repos')
+                                        }
+                                    >
+                                        Add Project
+                                    </button>
+                                </div>
+                            </>
+                        )}
+                    </div>
+                    <div className="w-full">
+                        <h2 className="mb-2 text-xl text-[#2f4f4f] underline">
+                            Projects in Progress
+                        </h2>
+                        {projectsInProgress.length > 0 ? (
+                            <>
+                                {projectsInProgress.map((project) => {
+                                    return (
+                                        <ProjectInProgress
+                                            project={project}
+                                            key={project.id}
+                                        />
+                                    );
+                                })}
+                            </>
+                        ) : (
+                            <h2 className="m-4 text-xl">
+                                No Projects in Progress
+                            </h2>
+                        )}
                     </div>
                 </div>
                 <div className=" w-[90%] border border-gray-300 lg:sticky lg:top-12 lg:w-auto">

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Formik, Form } from 'formik';
-import { loginTextField as TextField } from './loginTextField';
+import { LoginTextField as TextField } from './loginTextField';
 import Header from '../util/header';
 import AccountButton from '../util/accButton';
 import { Link, useNavigate } from 'react-router-dom';

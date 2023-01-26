@@ -25,6 +25,22 @@ const scanProject = async (req, res) => {
         },
     };
     const projectExist = await dynamoClient.scan(existParams).promise();
+    // if project exist, change the scan status to in-progress
+    if (projectExist.Items && projectExist.Items.length > 0) {
+        const params = {
+            TableName: PROJECTS_TABLE_NAME,
+            Key: {
+                id: projectExist.Items[0].id,
+            },
+            UpdateExpression: 'set scan_status = :scan_status',
+            ExpressionAttributeValues: {
+                ':scan_status': 'in-progress',
+            },
+            ReturnValues: 'UPDATED_NEW',
+        };
+        await dynamoClient.update(params).promise();
+    }
+
     // if project does not exist, create a new project
     if (projectExist.Items && projectExist.Items.length <= 0) {
         // generate a random string for the project id
@@ -36,7 +52,8 @@ const scanProject = async (req, res) => {
                 id,
                 username,
                 repository: repo_name,
-                scan: 'in-progress',
+                scan_status: 'in-progress',
+                clone_url,
             },
         };
         await dynamoClient.put(params).promise();
