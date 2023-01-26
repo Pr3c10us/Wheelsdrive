@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Formik, Form } from 'formik';
-import { LoginTextField as TextField } from './loginTextField';
 import Header from '../util/header';
 import AccountButton from '../util/accButton';
-import { Link, useNavigate } from 'react-router-dom';
+import {  useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Alert from '../util/alert';
-import OtpInput, { ResendOTP } from 'otp-input-react';
+import OtpInput from 'otp-input-react';
 
 const Login = () => {
     const [timeLeft, setTimeLeft] = useState(59);

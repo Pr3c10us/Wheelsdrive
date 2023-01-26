@@ -8,9 +8,7 @@ const AuthGithub = () => {
     const [alert, setAlert] = useState('');
     const [danger, setDanger] = useState(false);
     const [showAlert, setShowAlert] = useState(false);
-    const [githubToken, setGithubToken] = useState('');
     const navigate = useNavigate();
-
     const location = useLocation();
     const searchParams = new URLSearchParams(location.search);
     const code = searchParams.get('code');
@@ -22,7 +20,6 @@ const AuthGithub = () => {
             const response = await axios.get(`${url}api/user`, {
                 withCredentials: true,
             });
-            setGithubToken(await response.data.githubAuthToken);
             if (response.data.githubAuthToken) {
                 navigate('/dashboard');
             }
@@ -50,7 +47,6 @@ const AuthGithub = () => {
             setAlert(errorMsg);
             setShowAlert(true);
             setTimeout(() => setShowAlert(false), 3000);
-            // navigate('/authGithub');
         }
     };
 

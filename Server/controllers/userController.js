@@ -16,7 +16,7 @@ const getUserInfo = async (req, res) => {
     res.status(200).json(user.Item);
 };
 
-const updateUserInfo = async (req, res) => {};
+// const updateUserInfo = async (req, res) => {};
 
 const deleteUser = async (req, res) => {
     res.send('delete user');
@@ -67,7 +67,7 @@ const addGithubToken = async (req, res) => {
 
 module.exports = {
     getUserInfo,
-    updateUserInfo,
+    // updateUserInfo,
     deleteUser,
     deleteGithubAuthToken,
     addGithubToken,

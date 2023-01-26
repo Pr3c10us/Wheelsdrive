@@ -2,7 +2,7 @@ const {
     getUserInfo,
     deleteGithubAuthToken,
     deleteUser,
-    updateUserInfo,
+    // updateUserInfo,
     addGithubToken,
 } = require('../controllers/userController');
 const authorize = require('../middleware/Authorization');
@@ -13,7 +13,7 @@ router
     .route('/')
     .get(authorize, getUserInfo)
     .delete(authorize, deleteUser)
-    .patch(authorize, updateUserInfo);
+    // .patch(authorize, updateUserInfo);
 router
     .route('/github')
     .put(authorize, addGithubToken)

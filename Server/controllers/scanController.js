@@ -141,9 +141,6 @@ const getProjectReport = async (req, res) => {
     // get type of report from the request query
     const { type, repo_name } = req.query;
 
-    // get username from the request
-    const { username } = req.user;
-
     // get report from s3
     let scanReport = await s3
         .getObject({

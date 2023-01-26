@@ -1,8 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Formik, Form } from 'formik';
 import { TextField } from '../signup/signupTextField';
 import * as Yup from 'yup';
-import { useState } from 'react';
 import axios from 'axios';
 import { useNavigate, Link } from 'react-router-dom';
 import Header from '../util/header';
@@ -17,9 +16,6 @@ const Signup = () => {
     const [dangerUsernameInput, setDangerUsernamInput] = useState(false);
     const [showAlert, setShowAlert] = useState(false);
     const [danger, setDanger] = useState(false);
-    const alertStyle =
-        'fixed top-10 right-0 border-l-4 justify-center items-center flex transition-all duration-300 min-h-[50px] min-w-[300px]';
-
     const signupApi = 'http://localhost:3000/api/auth/verifyEmail';
 
     const handleSubmit = async (values) => {
@@ -108,7 +104,7 @@ const Signup = () => {
                 <main>
                     <Alert name={alert} showAlert={showAlert} danger={danger} />
                     <Header />
-                    <div className="flex flex-col items-center h-full ">
+                    <div className="flex h-full flex-col items-center ">
                         <Form className="mb-10 w-[80vw] rounded-lg bg-white p-10 shadow-lg sm:min-w-[400px] sm:max-w-[400px]">
                             <div className="mb-5 flex flex-col items-center justify-center text-center">
                                 <p className="text-3xl font-bold text-[#2F4F4F]">

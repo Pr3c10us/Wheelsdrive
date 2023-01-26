@@ -11,7 +11,7 @@ const Repos = () => {
     const [selected, setSelected] = useState(false);
     const [isSelected, setIsSelected] = useState('');
     const [searchQuery, setSearchQuery] = useState('');
-    const [active, setActive, user] = useOutletContext();
+    const [active,setActive] = useOutletContext();
     const navigate = useNavigate();
     const url = 'http://localhost:3000/';
 
@@ -97,7 +97,6 @@ const Repos = () => {
     useEffect(() => {
         handleEffect();
     }, []);
-    // console.log(repos);
 
     return (
         <main>

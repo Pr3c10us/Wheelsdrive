@@ -16,53 +16,51 @@ const Dashboard = () => {
     const url = 'http://localhost:3000/';
 
     const handleFetchData = async () => {
-        try {
-            setActive('dashboard');
-            axios.defaults.withCredentials = true;
-            const projectsResponse = await axios.get(`${url}api/projects/`, {
-                withCredentials: true,
-            });
-            const projects = await projectsResponse.data.projects;
-            if (!projects.length) {
-                setLoading(false);
-                return;
-            }
-
-            const scannedProject = projects.filter(
-                (project) => project.scan_status === 'done'
-            );
-            const projectsInProgress = projects.filter(
-                (project) => project.scan_status === 'in-progress'
-            );
-
-            let issues = scannedProject.reduce(
-                (acc, project) => {
-                    acc.blocked += project.bugBlocker || 0;
-                    acc.blocked += project.vulnerabilityBlocker || 0;
-                    acc.blocked += project.codeSmellBlocker || 0;
-                    acc.critical += project.bugCritical || 0;
-                    acc.critical += project.vulnerabilityCritical || 0;
-                    acc.critical += project.codeSmellCritical || 0;
-                    acc.major += project.bugMajor || 0;
-                    acc.major += project.vulnerabilityMajor || 0;
-                    acc.major += project.codeSmellMajor || 0;
-                    acc.minor += project.bugMinor || 0;
-                    acc.minor += project.vulnerabilityMinor || 0;
-                    acc.minor += project.codeSmellMinor || 0;
-                    acc.info += project.bugInfo || 0;
-                    acc.info += project.vulnerabilityInfo || 0;
-                    acc.info += project.codeSmellInfo || 0;
-                    return acc;
-                },
-                { blocked: 0, critical: 0, major: 0, minor: 0, info: 0 }
-            );
-            setScannedProject(scannedProject);
-            setProjectsInProgress(projectsInProgress);
-
-            setIssues(issues);
-
+        setActive('dashboard');
+        axios.defaults.withCredentials = true;
+        const projectsResponse = await axios.get(`${url}api/projects/`, {
+            withCredentials: true,
+        });
+        const projects = await projectsResponse.data.projects;
+        if (!projects.length) {
             setLoading(false);
-        } catch (error) {}
+            return;
+        }
+
+        const scannedProject = projects.filter(
+            (project) => project.scan_status === 'done'
+        );
+        const projectsInProgress = projects.filter(
+            (project) => project.scan_status === 'in-progress'
+        );
+
+        let issues = scannedProject.reduce(
+            (acc, project) => {
+                acc.blocked += project.bugBlocker || 0;
+                acc.blocked += project.vulnerabilityBlocker || 0;
+                acc.blocked += project.codeSmellBlocker || 0;
+                acc.critical += project.bugCritical || 0;
+                acc.critical += project.vulnerabilityCritical || 0;
+                acc.critical += project.codeSmellCritical || 0;
+                acc.major += project.bugMajor || 0;
+                acc.major += project.vulnerabilityMajor || 0;
+                acc.major += project.codeSmellMajor || 0;
+                acc.minor += project.bugMinor || 0;
+                acc.minor += project.vulnerabilityMinor || 0;
+                acc.minor += project.codeSmellMinor || 0;
+                acc.info += project.bugInfo || 0;
+                acc.info += project.vulnerabilityInfo || 0;
+                acc.info += project.codeSmellInfo || 0;
+                return acc;
+            },
+            { blocked: 0, critical: 0, major: 0, minor: 0, info: 0 }
+        );
+        setScannedProject(scannedProject);
+        setProjectsInProgress(projectsInProgress);
+
+        setIssues(issues);
+
+        setLoading(false);
     };
 
     // use useEffect to fetch data when page loads and when the user clicks on the rescan button

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate, Outlet, Link } from 'react-router-dom';
 import logo from '../assets/Title.svg';
-import { IoHome, IoFolder, IoLogOut, IoSettings } from 'react-icons/io5';
+import { IoHome, IoLogOut, IoSettings } from 'react-icons/io5';
 
 const Home = () => {
     const navigate = useNavigate();
@@ -18,6 +18,10 @@ const Home = () => {
                 withCredentials: true,
             });
             setUser(await response.data);
+            // send error if no user
+            if (!response.data) {
+                throw new Error('No user');
+            }
             if (!response.data.githubAuthToken) {
                 navigate('/authGithub');
             }
@@ -133,7 +137,7 @@ const Home = () => {
                         <span>&gt;</span>
                         <span className=" capitalize">{active || ''}</span>
                     </nav>
-                    <Outlet context={[active, setActive, user]} />
+                    <Outlet context={[active, setActive]} />
                 </div>
             </div>
         </main>

@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { BsFillCaretDownFill } from 'react-icons/bs';
 import { IoMdBug } from 'react-icons/io';
 import { MdShield } from 'react-icons/md';
 import { GoAlert } from 'react-icons/go';
 import SeveritiesCount from './SeveritiesCount';
 import SeverityCount from './SeverityCount';
-import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 const VulnorableProject = ({ project, setRefresh }) => {
