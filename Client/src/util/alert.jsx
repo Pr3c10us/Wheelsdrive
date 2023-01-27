@@ -2,7 +2,7 @@ import React from 'react';
 
 const Alert = ({ name, showAlert, danger }) => {
     const alertStyle =
-        'fixed top-1 left-10 right-10 mb-4 flex justify-center items-center rounded-lg p-4 dark:bg-red-200 transition-all duration-300 ease-in-out text-sm sm:text-base text-center ';
+        'fixed top-1 z-50 left-10 right-10 mb-4 flex justify-center items-center rounded-lg p-4 dark:bg-red-200 transition-all duration-300 ease-in-out text-sm sm:text-base text-center ';
     return (
         <div
             id={name}

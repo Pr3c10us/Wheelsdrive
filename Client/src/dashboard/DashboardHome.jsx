@@ -26,12 +26,16 @@ const Home = () => {
                 navigate('/authGithub');
             }
         } catch (error) {
+            axios.defaults.withCredentials = true;
+            axios.get(`${url}api/auth/logout`, {
+                withCredentials: true,
+            });
             navigate('/login');
         }
     };
     useEffect(() => {
         handleEffect();
-    }, []);
+    }, [active]);
 
     return (
         <main className="h-full">
@@ -74,7 +78,7 @@ const Home = () => {
                             </div>
                         </li>
 
-                        <li
+                        {/* <li
                             onClick={() => {
                                 navigate('/dashboard/settings');
                                 setActive('settings');
@@ -97,7 +101,7 @@ const Home = () => {
                                     Settings
                                 </span>
                             </div>
-                        </li>
+                        </li> */}
                         <li
                             onClick={() => {
                                 setTimeout(() => {

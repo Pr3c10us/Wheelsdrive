@@ -102,7 +102,7 @@ const Project = () => {
                     <h3 className="text-lg">{type} ISSUES</h3>
                     <h2 className=" text-3xl font-bold">{repo_name}</h2>
                 </nav>
-                <div className="flex w-full items-center justify-between gap-2 border-b-2 p-4 font-bold">
+                <div className="flex w-full items-center justify-between gap-2 border-b-2 py-4 pr-8 pl-4 font-bold">
                     <div className="text-sm">
                         <p className="font-thin italic text-black">
                             Last Scanned
@@ -119,7 +119,7 @@ const Project = () => {
                     </button>
                 </div>
                 <ul className="mb-14 mt-4 w-full px-4 ">
-                    <p className="mb-2 -translate-x-2 text-sm">
+                    <p className="mb-2 -translate-x-2 text-sm font-bold text-red-600">
                         {numberOfErrors}
                         <span> Issues</span>{' '}
                     </p>

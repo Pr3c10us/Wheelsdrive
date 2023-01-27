@@ -198,6 +198,14 @@ const deleteProject = async (req, res) => {
     };
     await dynamoClient.delete(deleteParams).promise();
 
+    // delete project json file in s3
+    await s3
+        .deleteObject({
+            Bucket: project.Items[0].s3_bucket_name,
+            Key: `${project.Items[0].repository}.json`,
+        })
+        .promise();
+
     res.json({
         msg: 'Project Deleted',
     });

@@ -20,6 +20,9 @@ const AuthGithub = () => {
             const response = await axios.get(`${url}api/user`, {
                 withCredentials: true,
             });
+            if (!response.data) {
+                navigate('/login');
+            }
             if (response.data.githubAuthToken) {
                 navigate('/dashboard');
             }
@@ -59,7 +62,7 @@ const AuthGithub = () => {
     if (!code) {
         const handleClick = async () => {
             // redirect to github auth
-            window.location.href = `https://github.com/login/oauth/authorize?client_id=e1f3fbf14b5050f6c88d`;
+            window.location.href = `https://github.com/login/oauth/authorize?client_id=e1f3fbf14b5050f6c88d&scope=repo`;
         };
         return (
             <>

@@ -11,24 +11,28 @@ const Repos = () => {
     const [selected, setSelected] = useState(false);
     const [isSelected, setIsSelected] = useState('');
     const [searchQuery, setSearchQuery] = useState('');
-    const [active,setActive] = useOutletContext();
+    const [active, setActive] = useOutletContext();
     const navigate = useNavigate();
     const url = 'http://localhost:3000/';
 
     const handleEffect = async () => {
-        setActive('dashboard > Add Project');
-        axios.defaults.withCredentials = true;
-        const response = await axios.get(`${url}api/user`, {
-            withCredentials: true,
-        });
-        const repositories = await axios.get(
-            `${url}api/projects/getRepositories/${response.data.githubAuthToken}`,
-            {
+        try {
+            setActive('dashboard > Add Project');
+            axios.defaults.withCredentials = true;
+            const response = await axios.get(`${url}api/user`, {
                 withCredentials: true,
-            }
-        );
-        setRepos(await repositories.data.repositories);
-        setLoading(false);
+            });
+            const repositories = await axios.get(
+                `${url}api/projects/getRepositories/${response.data.githubAuthToken}`,
+                {
+                    withCredentials: true,
+                }
+            );
+            setRepos(await repositories.data.repositories);
+            setLoading(false);
+        } catch (error) {
+            navigate('/authGithub');
+        }
     };
 
     const handleSearch = async () => {
@@ -102,7 +106,7 @@ const Repos = () => {
         <main>
             <div className="flex flex-col items-center px-2">
                 <div className="mt-6 flex w-full items-center justify-center gap-2">
-                    <div className="flex max-w-[80%] lg:max-w-[50%] flex-1 justify-between rounded border border-gray-500">
+                    <div className="flex max-w-[80%] flex-1 justify-between rounded border border-gray-500 lg:max-w-[50%]">
                         <input
                             placeholder={searchQuery}
                             onChange={(e) => {
@@ -121,7 +125,7 @@ const Repos = () => {
                     </div>
                     <button
                         onClick={handleCancel}
-                        className="rounded-md bg-inherit px-3 py-1 hover:border-none hover:text-red-500 focus:outline-none border-none md:px-4"
+                        className="rounded-md border-none bg-inherit px-3 py-1 hover:border-none hover:text-red-500 focus:outline-none md:px-4"
                     >
                         <RxCross1 className="text-lg text-gray-500 md:text-2xl " />
                     </button>
@@ -161,9 +165,9 @@ const Repos = () => {
                                     onClick={() => {
                                         navigate('/dashboard');
                                     }}
-                                    className="border-2 border-black bg-slate-200  text-black duration-100 hover:border-red-500 hover:text-red-500 hover:outline-none focus:outline-none "
+                                    className="border-2 border-black bg-slate-200  text-black duration-100 hover:border-black hover:text-black hover:outline-none focus:outline-none "
                                 >
-                                    Cancel
+                                    Back
                                 </button>
                                 <button
                                     onClick={handleScan}

@@ -36,6 +36,18 @@ const addGithubToken = async (req, res) => {
         throw new BadRequestError('code is required');
     }
 
+    // check if user exist in the database
+    const existParams = {
+        TableName: TABLE_NAME,
+        Key: {
+            username: username,
+        },
+    };
+    const userExist = await dynamoClient.get(existParams).promise();
+    if (!userExist.Item) {
+        throw new BadRequestError('User does not exist');
+    }
+
     const getAuthTokenUrl = `https://github.com/login/oauth/access_token?client_id=${client_id}&client_secret=${client_secret}&code=${code}`;
     const response = await axios(getAuthTokenUrl, {
         method: 'POST',
@@ -45,6 +57,7 @@ const addGithubToken = async (req, res) => {
     });
     const githubToken = await response.data.access_token;
     if (!githubToken) {
+        console.log(response.data);
         throw new BadRequestError('Github token not found');
     }
 
