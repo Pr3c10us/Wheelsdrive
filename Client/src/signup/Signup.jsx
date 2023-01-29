@@ -16,7 +16,7 @@ const Signup = () => {
     const [dangerUsernameInput, setDangerUsernamInput] = useState(false);
     const [showAlert, setShowAlert] = useState(false);
     const [danger, setDanger] = useState(false);
-    const signupApi = 'http://localhost:3000/api/auth/verifyEmail';
+    const signupApi = 'http://54.226.21.246:3000/api/auth/verifyEmail';
 
     const handleSubmit = async (values) => {
         try {

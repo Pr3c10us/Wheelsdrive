@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Formik, Form } from 'formik';
 import Header from '../util/header';
 import AccountButton from '../util/accButton';
-import {  useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Alert from '../util/alert';
 import OtpInput from 'otp-input-react';
@@ -28,7 +28,7 @@ const Login = () => {
     const handleClick = async () => {
         try {
             setTimeLeft(59);
-            const url = `http://localhost:3000/api/auth/sendCode/${
+            const url = `http://54.226.21.246:3000/api/auth/sendCode/${
                 window.location.pathname.split('/')[2]
             }`;
             axios.defaults.withCredentials = true;
@@ -65,7 +65,7 @@ const Login = () => {
             // get username from url params
             const username = window.location.pathname.split('/')[2];
             const body = { code, username };
-            const url = 'http://localhost:3000/api/auth/signup';
+            const url = 'http://54.226.21.246:3000/api/auth/signup';
             axios.defaults.withCredentials = true;
             const response = await axios(url, {
                 method: 'POST',
