@@ -9,7 +9,7 @@ const express = require('express');
 const app = express();
 
 const corsOptions = {
-    origin: 'http://localhost:5173',
+    origin: 'http://54.226.21.246:5173',
     credentials: true, //access-control-allow-credentials:true
 };
 // middleware

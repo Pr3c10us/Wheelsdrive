@@ -12,7 +12,7 @@ const AuthGithub = () => {
     const location = useLocation();
     const searchParams = new URLSearchParams(location.search);
     const code = searchParams.get('code');
-    const url = 'http://localhost:3000/';
+    const url = 'http://54.226.21.246:3000/';
 
     const handleEffect = async () => {
         try {
@@ -36,7 +36,7 @@ const AuthGithub = () => {
 
     const handleCode = async () => {
         try {
-            const addAuthTokenUrl = `http://localhost:3000/api/user/github`;
+            const addAuthTokenUrl = `http://54.226.21.246:3000/api/user/github`;
             axios.defaults.withCredentials = true;
             await axios(addAuthTokenUrl, {
                 method: 'PUT',

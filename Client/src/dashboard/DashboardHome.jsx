@@ -9,7 +9,7 @@ const Home = () => {
     const [isHovered, setIsHovered] = useState(false);
     const [active, setActive] = useState('dashboard');
     const [user, setUser] = useState({});
-    const url = 'http://localhost:3000/';
+    const url = 'http://54.226.21.246:3000/';
 
     const handleEffect = async () => {
         try {
