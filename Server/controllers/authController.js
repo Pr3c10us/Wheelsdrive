@@ -14,7 +14,7 @@ const verifyEmail = async (req, res) => {
     // Init storage
     await storage.init();
     // get user info
-    let { email, password, username, firstname, lastname } = req.body;
+    let { email, password, username} = req.body;
 
     // Capitalize usernae
     username = username.toUpperCase();
@@ -47,8 +47,6 @@ const verifyEmail = async (req, res) => {
     }
 
     const user = {
-        firstname,
-        lastname,
         username,
         email,
         password,
@@ -131,7 +129,7 @@ const sendCode = async (req, res) => {
 const signup = async (req, res) => {
     await storage.init();
 
-    let { email, password, username, firstname, lastname } =
+    let { email, password, username } =
         await storage.getItem(req.body.username.toUpperCase());
 
     if (!req.body.code) {
@@ -192,8 +190,6 @@ const signup = async (req, res) => {
 
     // create user
     const user = {
-        firstname,
-        lastname,
         username,
         email,
         password,
