@@ -1,3 +1,4 @@
+import 'dotenv/config';
 import React, { useState } from 'react';
 import { Formik, Form } from 'formik';
 import { LoginTextField as TextField } from '../login/loginTextField';
@@ -18,7 +19,7 @@ const Login = () => {
         try {
             setLoading(true);
             const body = values;
-            const url = 'http://localhost:3000/api/auth/login';
+            const url = `http://${process.env.REACT_APP_HOST_IP}:3000/api/auth/login`;
             axios.defaults.withCredentials = true;
             await axios(url, {
                 method: 'POST',

@@ -1,3 +1,4 @@
+import 'dotenv/config'
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { BsFillCaretDownFill } from 'react-icons/bs';
@@ -10,7 +11,7 @@ import axios from 'axios';
 
 const VulnorableProject = ({ project, setRefresh }) => {
     const refresh = () => window.location.reload(true);
-    const url = 'http://localhost:3000/';
+    const url = `http://${REACT_APP_HOST_IP}:3000/`;
     const navigate = useNavigate();
     const [drop, setDrop] = useState(false);
     const [active, setActive] = useState(false);

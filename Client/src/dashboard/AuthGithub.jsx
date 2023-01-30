@@ -1,3 +1,4 @@
+import 'dotenv/config';
 import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import axios from 'axios';
@@ -12,7 +13,7 @@ const AuthGithub = () => {
     const location = useLocation();
     const searchParams = new URLSearchParams(location.search);
     const code = searchParams.get('code');
-    const url = 'http://localhost:3000/';
+    const url = `http://${process.env.REACT_APP_HOST_IP}:3000/`;
 
     const handleEffect = async () => {
         try {
@@ -36,7 +37,7 @@ const AuthGithub = () => {
 
     const handleCode = async () => {
         try {
-            const addAuthTokenUrl = `http://localhost:3000/api/user/github`;
+            const addAuthTokenUrl = `http://${process.env.REACT_APP_HOST_IP}:3000/api/user/github`;
             axios.defaults.withCredentials = true;
             await axios(addAuthTokenUrl, {
                 method: 'PUT',

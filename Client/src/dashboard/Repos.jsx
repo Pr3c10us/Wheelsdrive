@@ -1,3 +1,4 @@
+import 'dotenv/config';
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { IoLogoGithub } from 'react-icons/io5';
@@ -13,7 +14,7 @@ const Repos = () => {
     const [searchQuery, setSearchQuery] = useState('');
     const [active, setActive] = useOutletContext();
     const navigate = useNavigate();
-    const url = 'http://localhost:3000/';
+    const url = `http://${process.env.REACT_APP_HOST_IP}:3000/`;
 
     const handleEffect = async () => {
         try {

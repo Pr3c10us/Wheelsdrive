@@ -1,3 +1,4 @@
+import 'dotenv/config';
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import VulnorableProject from './components/VulnorableProject';
@@ -13,7 +14,7 @@ const Dashboard = () => {
     const [active, setActive] = useOutletContext();
     const [refresh, setRefresh] = useState(false);
 
-    const url = 'http://localhost:3000/';
+    const url = `http://${process.env.REACT_APP_HOST_IP}:3000/`;
 
     const handleFetchData = async () => {
         setActive('dashboard');

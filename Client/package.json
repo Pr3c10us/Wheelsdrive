@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "axios": "^1.2.1",
+    "dotenv": "^16.0.3",
     "formik": "^2.2.9",
     "framer-motion": "^8.0.2",
     "joi": "^17.7.0",
