@@ -12,9 +12,8 @@ const dynamoClient = new AWS.DynamoDB.DocumentClient();
 const TABLE_NAME = process.env.TABLE_NAME;
 const PROJECTS_TABLE_NAME = process.env.PROJECTS_TABLE_NAME;
 
-const s3 = new AWS.S3()
+const s3 = new AWS.S3();
 const codebuild = new AWS.CodeBuild();
-
 
 module.exports = {
     dynamoClient,

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { BsFillCaretDownFill } from 'react-icons/bs';
 import { IoMdBug } from 'react-icons/io';
 import { MdShield } from 'react-icons/md';
@@ -8,9 +8,10 @@ import SeveritiesCount from './SeveritiesCount';
 import SeverityCount from './SeverityCount';
 import axios from 'axios';
 
-const VulnorableProject = ({ project }) => {
+const VulnorableProject = ({ project, setRefresh }) => {
     const refresh = () => window.location.reload(true);
     const url = 'http://localhost:3000/';
+    const navigate = useNavigate();
     const [drop, setDrop] = useState(false);
     const [active, setActive] = useState(false);
 
@@ -23,6 +24,7 @@ const VulnorableProject = ({ project }) => {
                 withCredentials: true,
             }
         );
+        setRefresh(true);
         refresh();
     };
     const handleDelete = async () => {
@@ -35,6 +37,7 @@ const VulnorableProject = ({ project }) => {
             await axios.delete(`${url}api/projects/${project.repository}`, {
                 withCredentials: true,
             });
+            setRefresh(true);
             refresh();
         }
 

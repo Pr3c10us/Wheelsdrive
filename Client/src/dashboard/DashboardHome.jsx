@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate, Outlet, Link } from 'react-router-dom';
 import logo from '../assets/Title.svg';
-import { IoHome, IoLogOut } from 'react-icons/io5';
+import { IoHome, IoLogOut, IoSettings } from 'react-icons/io5';
 
 const Home = () => {
     const navigate = useNavigate();
@@ -35,7 +35,7 @@ const Home = () => {
     };
     useEffect(() => {
         handleEffect();
-    },);
+    }, [active]);
 
     return (
         <main className="h-full">
@@ -116,7 +116,7 @@ const Home = () => {
                         >
                             <Link
                                 className={
-                                    active === 'logout'
+                                    active == 'logout'
                                         ? 'flex cursor-pointer items-center gap-3 border p-1 text-black  no-underline transition-all duration-200 hover:text-black'
                                         : 'flex cursor-pointer items-center gap-3 p-1  text-white no-underline transition-colors duration-200 hover:text-gray-300'
                                 }

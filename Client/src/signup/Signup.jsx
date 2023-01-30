@@ -60,6 +60,12 @@ const Signup = () => {
         username: Yup.string()
             .min(6, 'Username must be more than 8 characters')
             .required('Please provide a username'),
+        firstname: Yup.string()
+            .min(4, 'Firstname must be more than 8 characters')
+            .required('Please provide a Firstname'),
+        lastname: Yup.string()
+            .min(4, 'Lastname must be more than 8 characters')
+            .required('Please provide a Lastname'),
         password: Yup.string()
             .required('please provide a password')
             .matches(
@@ -84,6 +90,8 @@ const Signup = () => {
     return (
         <Formik
             initialValues={{
+                firstname: '',
+                lastname: '',
                 email: '',
                 username: '',
                 password: '',
@@ -103,6 +111,17 @@ const Signup = () => {
                                     Create your free account{' '}
                                 </p>
                             </div>
+                            <TextField
+                                label="Firstname"
+                                name="firstname"
+                                type="text"
+                            />
+                            <TextField
+                                label="Lastname"
+                                name="lastname"
+                                type="text"
+                            />
+
                             <TextField
                                 dangerInput={dangerEmailInput}
                                 label="Email"

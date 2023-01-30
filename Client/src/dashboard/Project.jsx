@@ -49,7 +49,7 @@ const Project = () => {
 
     useEffect(() => {
         handleFetch();
-    });
+    }, []);
 
     if (loading) {
         return (

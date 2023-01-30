@@ -32,7 +32,7 @@ const AuthGithub = () => {
     };
     useEffect(() => {
         handleEffect();
-    },);
+    }, []);
 
     const handleCode = async () => {
         try {

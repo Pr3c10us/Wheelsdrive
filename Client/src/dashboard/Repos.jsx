@@ -100,7 +100,7 @@ const Repos = () => {
     };
     useEffect(() => {
         handleEffect();
-    }, );
+    }, []);
 
     return (
         <main>

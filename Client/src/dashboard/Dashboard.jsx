@@ -11,6 +11,7 @@ const Dashboard = () => {
     const [issues, setIssues] = useState({});
     const [loading, setLoading] = useState(true);
     const [active, setActive] = useOutletContext();
+    const [refresh, setRefresh] = useState(false);
 
     const url = 'http://localhost:3000/';
 
@@ -65,7 +66,7 @@ const Dashboard = () => {
     // use useEffect to fetch data when page loads and when the user clicks on the rescan button
     useEffect(() => {
         handleFetchData();
-    }, );
+    }, [refresh]);
 
     if (loading) {
         return (
@@ -125,6 +126,7 @@ const Dashboard = () => {
                                         <VulnorableProject
                                             project={project}
                                             key={project.id}
+                                            setRefresh={setRefresh}
                                         />
                                     );
                                 })}
