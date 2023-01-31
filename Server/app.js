@@ -13,16 +13,17 @@ const app = express();
 //     credentials: true, //access-control-allow-credentials:true
 // };
 // middleware
-app.use(express.json());
 // app.use(cors());
 app.use((req, res, next) => {
     res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Credentials', 'true');
     res.header(
         'Access-Control-Allow-Headers',
         'Origin, X-Requested-With, Content-Type, Accept'
     );
     next();
 });
+app.use(express.json());
 app.use(cookieParser(process.env.COOKIE_SECRET));
 
 // Importing the routes
