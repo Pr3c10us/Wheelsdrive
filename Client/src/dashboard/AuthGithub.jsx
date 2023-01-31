@@ -12,7 +12,7 @@ const AuthGithub = () => {
     const location = useLocation();
     const searchParams = new URLSearchParams(location.search);
     const code = searchParams.get('code');
-    const url = `http://52.207.191.211:3000/`;
+    const url = `http://localhost:3000/`;
 
     const handleEffect = async () => {
         try {
@@ -36,7 +36,7 @@ const AuthGithub = () => {
 
     const handleCode = async () => {
         try {
-            const addAuthTokenUrl = `http://52.207.191.211:3000/api/user/github`;
+            const addAuthTokenUrl = `http://localhost:3000/api/user/github`;
             axios.defaults.withCredentials = true;
             await axios(addAuthTokenUrl, {
                 method: 'PUT',
@@ -46,10 +46,10 @@ const AuthGithub = () => {
             navigate('/dashboard');
         } catch (error) {
             const errorMsg = error.response.data.msg;
-            setDanger(true);
-            setAlert(errorMsg);
-            setShowAlert(true);
-            setTimeout(() => setShowAlert(false), 3000);
+            if (errorMsg === 'Github token not found') {
+                const refresh = () => window.location.reload(true);
+                refresh();
+            }
         }
     };
 
