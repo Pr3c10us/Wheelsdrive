@@ -1,4 +1,3 @@
-import 'dotenv/config';
 import React, { useState, useEffect } from 'react';
 import { Formik, Form } from 'formik';
 import Header from '../util/header';
@@ -66,7 +65,7 @@ const Login = () => {
             // get username from url params
             const username = window.location.pathname.split('/')[2];
             const body = { code, username };
-            const url = `http://${process.env.REACT_APP_HOST_IP}:3000/api/auth/signup`;
+            const url = `http://52.207.191.211:3000/api/auth/signup`;
             axios.defaults.withCredentials = true;
             const response = await axios(url, {
                 method: 'POST',

@@ -1,7 +1,7 @@
 // import required modules
 require('express-async-errors');
 require('dotenv').config();
-const cors = require('cors');
+// const cors = require('cors');
 const cookieParser = require('cookie-parser');
 
 // Importing the express module
@@ -14,7 +14,7 @@ const app = express();
 // };
 // middleware
 app.use(express.json());
-app.use(cors());
+// app.use(cors());
 app.use(cookieParser(process.env.COOKIE_SECRET));
 
 // Importing the routes

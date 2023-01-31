@@ -1,4 +1,3 @@
-import 'dotenv/config'
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate, Outlet, Link } from 'react-router-dom';
@@ -10,7 +9,7 @@ const Home = () => {
     const [isHovered, setIsHovered] = useState(false);
     const [active, setActive] = useState('dashboard');
     const [user, setUser] = useState({});
-    const url = `http://${process.env.REACT_APP_HOST_IP}:3000/`;
+    const url = `http://52.207.191.211:3000/`;
 
     const handleEffect = async () => {
         try {

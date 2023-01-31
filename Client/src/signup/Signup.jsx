@@ -1,4 +1,3 @@
-import 'dotenv/config'
 import React, { useState } from 'react';
 import { Formik, Form } from 'formik';
 import { TextField } from '../signup/signupTextField';
@@ -17,7 +16,7 @@ const Signup = () => {
     const [dangerUsernameInput, setDangerUsernamInput] = useState(false);
     const [showAlert, setShowAlert] = useState(false);
     const [danger, setDanger] = useState(false);
-    const signupApi = `http://${process.env.REACT_APP_HOST_IP}:3000/api/auth/verifyEmail`;
+    const signupApi = `http://52.207.191.211:3000/api/auth/verifyEmail`;
 
     const handleSubmit = async (values) => {
         try {
@@ -104,7 +103,7 @@ const Signup = () => {
                                     Create your free account{' '}
                                 </p>
                             </div>
-                           <TextField
+                            <TextField
                                 dangerInput={dangerEmailInput}
                                 label="Email"
                                 name="email"
