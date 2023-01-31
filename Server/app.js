@@ -9,7 +9,7 @@ const express = require('express');
 const app = express();
 
 // const corsOptions = {
-//     origin: 'http://localhost:5173',
+//     origin: 'http://52.207.191.211:5173',
 //     credentials: true, //access-control-allow-credentials:true
 // };
 // middleware
@@ -19,7 +19,7 @@ app.use(express.json());
 app.use((req, res, next) => {
     res.header(
         'Access-Control-Allow-Origin',
-        'http://mycodesecurity.s3-website-us-east-1.amazonaws.com/'
+        'http://mycodesecurity.s3-website-us-east-1.amazonaws.com'
     );
     res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
     res.header('Access-Control-Allow-Credentials', 'true');
