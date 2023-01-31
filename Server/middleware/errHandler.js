@@ -11,6 +11,8 @@ const errHandler = async (error, req, res, next) => {
     await storage.init();
 
     if (error instanceof CustomError) {
+        console.log(error.code);
+        console.log(error);
         return res.status(error.status).json({ msg: error.message });
     }
     if (error.code === 'ERR_BAD_REQUEST') {

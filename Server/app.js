@@ -14,8 +14,13 @@ const app = express();
 // };
 // middleware
 // app.use(cors());
+app.use(cookieParser(process.env.COOKIE_SECRET));
+app.use(express.json());
 app.use((req, res, next) => {
-    res.header('Access-Control-Allow-Origin', '*');
+    res.header(
+        'Access-Control-Allow-Origin',
+        'http://mycodesecurity.s3-website-us-east-1.amazonaws.com/'
+    );
     res.header('Access-Control-Allow-Credentials', 'true');
     res.header(
         'Access-Control-Allow-Headers',
@@ -23,8 +28,6 @@ app.use((req, res, next) => {
     );
     next();
 });
-app.use(express.json());
-app.use(cookieParser(process.env.COOKIE_SECRET));
 
 // Importing the routes
 const authRouter = require('./routers/authRouter');

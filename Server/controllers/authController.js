@@ -14,7 +14,7 @@ const verifyEmail = async (req, res) => {
     // Init storage
     await storage.init();
     // get user info
-    let { email, password, username} = req.body;
+    let { email, password, username } = req.body;
 
     // Capitalize usernae
     username = username.toUpperCase();
@@ -129,8 +129,9 @@ const sendCode = async (req, res) => {
 const signup = async (req, res) => {
     await storage.init();
 
-    let { email, password, username } =
-        await storage.getItem(req.body.username.toUpperCase());
+    let { email, password, username } = await storage.getItem(
+        req.body.username.toUpperCase()
+    );
 
     if (!req.body.code) {
         throw new BadRequestError('code not provided');
