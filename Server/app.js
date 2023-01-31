@@ -1,34 +1,21 @@
 // import required modules
 require('express-async-errors');
 require('dotenv').config();
-// const cors = require('cors');
+const cors = require('cors');
 const cookieParser = require('cookie-parser');
 
 // Importing the express module
 const express = require('express');
 const app = express();
 
-// const corsOptions = {
-//     origin: 'http://52.207.191.211:5173',
-//     credentials: true, //access-control-allow-credentials:true
-// };
+const corsOptions = {
+    origin: 'http://localhost:5173',
+    credentials: true, //access-control-allow-credentials:true
+};
 // middleware
-// app.use(cors());
+app.use(cors(corsOptions));
 app.use(cookieParser(process.env.COOKIE_SECRET));
 app.use(express.json());
-app.use((req, res, next) => {
-    res.header(
-        'Access-Control-Allow-Origin',
-        'http://mycodesecurity.s3-website-us-east-1.amazonaws.com'
-    );
-    res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
-    res.header('Access-Control-Allow-Credentials', 'true');
-    res.header(
-        'Access-Control-Allow-Headers',
-        'Origin, X-Requested-With, Content-Type, Accept'
-    );
-    next();
-});
 
 // Importing the routes
 const authRouter = require('./routers/authRouter');
