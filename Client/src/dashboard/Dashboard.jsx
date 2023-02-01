@@ -13,7 +13,7 @@ const Dashboard = () => {
     const [active, setActive] = useOutletContext();
     const [refresh, setRefresh] = useState(false);
 
-    const url = `http://localhost:3000/`;
+    const url = `http://54.158.190.109:3000/`;
 
     const handleFetchData = async () => {
         setActive('dashboard');
@@ -97,7 +97,7 @@ const Dashboard = () => {
 
     if (scannedProject.length === 0 && projectsInProgress.length === 0) {
         return (
-            <div className="flex mt-32 flex-col items-center justify-center">
+            <div className="mt-32 flex flex-col items-center justify-center">
                 <h1 className="text-2xl text-gray-500 dark:text-gray-400">
                     You have no projects
                 </h1>

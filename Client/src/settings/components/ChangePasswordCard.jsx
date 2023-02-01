@@ -28,7 +28,7 @@ const ChangePasswordCard = ({ ...props }) => {
                 oldPassword: values.oldPassword,
                 newPassword: values.newPassword,
             };
-            const url = `http://localhost:3000/api/user/password`;
+            const url = `http://54.158.190.109:3000/api/user/password`;
             axios.defaults.withCredentials = true;
             await axios(url, {
                 method: 'PUT',
