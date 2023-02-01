@@ -17,7 +17,7 @@ const Repos = () => {
 
     const handleEffect = async () => {
         try {
-            setActive('dashboard > Add Project');
+            setActive('Scan');
             axios.defaults.withCredentials = true;
             const response = await axios.get(`${url}api/user`, {
                 withCredentials: true,

@@ -16,7 +16,7 @@ const verifyEmail = async (req, res) => {
     // get user info
     let { email, password, username } = req.body;
 
-    // Capitalize usernae
+    // Capitalize username
     username = username.toUpperCase();
 
     // check if username exist
@@ -206,7 +206,7 @@ const signup = async (req, res) => {
     await storage.removeItem(`${req.body.username.toUpperCase()}-code`);
 
     res.json({
-        msg: 'Account Sucessfully Created',
+        msg: 'Account Successfully Created',
     });
 };
 
@@ -239,6 +239,7 @@ const login = async (req, res) => {
 
     // create jwt
     const payload = {
+        email: user.Items[0].email,
         username: user.Items[0].username,
     };
     const token = jwt.sign(payload, process.env.JWT_SECRET, {
@@ -250,13 +251,13 @@ const login = async (req, res) => {
         maxAge: 1000 * 60 * 60 * 24,
         httpOnly: false,
     }).json({
-        msg: 'Login Sucessful',
+        msg: 'Login Successful',
     });
 };
 
 const logout = (req, res) => {
     res.clearCookie('token').json({
-        msg: 'Logout Sucessful',
+        msg: 'Logout Successful',
     });
 };
 

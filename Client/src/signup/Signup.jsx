@@ -13,7 +13,7 @@ const Signup = () => {
     const [alert, setAlert] = useState('');
     const [loading, setLoading] = useState(false);
     const [dangerEmailInput, setDangerEmailInput] = useState(false);
-    const [dangerUsernameInput, setDangerUsernamInput] = useState(false);
+    const [dangerUsernameInput, setDangerUsernameInput] = useState(false);
     const [showAlert, setShowAlert] = useState(false);
     const [danger, setDanger] = useState(false);
     const signupApi = `http://localhost:3000/api/auth/verifyEmail`;
@@ -21,7 +21,7 @@ const Signup = () => {
     const handleSubmit = async (values) => {
         try {
             setLoading(true);
-            setDangerUsernamInput(false);
+            setDangerUsernameInput(false);
             setDangerEmailInput(false);
             const body = values;
             const response = await axios.post(signupApi, body);
@@ -44,7 +44,7 @@ const Signup = () => {
             setShowAlert(true);
             setTimeout(() => setShowAlert(false), 4000);
             if (errorMsg.includes('Username')) {
-                setDangerUsernamInput(true);
+                setDangerUsernameInput(true);
             }
             if (errorMsg.includes('Email')) {
                 setDangerEmailInput(true);
@@ -121,7 +121,7 @@ const Signup = () => {
                                 type="password"
                             />
                             <TextField
-                                label="Confirm Passord"
+                                label="Confirm Password"
                                 name="confirmPassword"
                                 type="password"
                             />

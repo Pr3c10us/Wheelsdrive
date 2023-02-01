@@ -3,12 +3,13 @@ import axios from 'axios';
 import { useNavigate, Outlet, Link } from 'react-router-dom';
 import logo from '../assets/Title.svg';
 import { IoHome, IoLogOut, IoSettings } from 'react-icons/io5';
-
+import { IoMdAddCircle } from 'react-icons/io';
 const Home = () => {
     const navigate = useNavigate();
     const [isHovered, setIsHovered] = useState(false);
     const [active, setActive] = useState('dashboard');
     const [user, setUser] = useState({});
+    const [firstLetter, setFirstLetter] = useState('');
     const url = `http://localhost:3000/`;
 
     const handleEffect = async () => {
@@ -18,6 +19,9 @@ const Home = () => {
                 withCredentials: true,
             });
             setUser(await response.data);
+            setFirstLetter(
+                await response.data.username.charAt(0).toUpperCase()
+            );
             // send error if no user
             if (!response.data) {
                 throw new Error('No user');
@@ -45,8 +49,8 @@ const Home = () => {
                     onMouseLeave={() => setIsHovered(false)}
                     className={
                         isHovered
-                            ? 'fixed z-50 h-full w-44 overflow-hidden bg-[#2f4f4f] text-white transition-all duration-300 md:w-44'
-                            : 'fixed z-50 h-full w-16 overflow-hidden bg-[#2f4f4f] text-white transition-all duration-300 md:w-44'
+                            ? 'fixed z-50 h-full w-52 overflow-hidden bg-[#2f4f4f] text-white transition-all duration-300 md:w-52'
+                            : 'fixed z-50 h-full w-16 overflow-hidden bg-[#2f4f4f] text-white transition-all duration-300 md:w-52'
                     }
                 >
                     <ul className="flex h-full flex-col items-center justify-center px-3 pb-3">
@@ -63,22 +67,49 @@ const Home = () => {
                             <div
                                 className={
                                     active.includes('dashboard')
-                                        ? 'flex w-[152px] cursor-pointer items-center gap-3 border p-1  text-black no-underline transition-all duration-200 hover:text-black'
+                                        ? 'flex cursor-pointer items-center gap-3 border p-1  text-black no-underline transition-all duration-200 hover:text-black'
                                         : 'flex cursor-pointer items-center gap-3 p-1  text-white no-underline transition-colors duration-200 hover:text-gray-300'
                                 }
                             >
                                 <IoHome className="text-3xl" />
                                 <span
                                     className={
-                                        isHovered ? 'block' : 'hidden md:block'
+                                        isHovered
+                                            ? 'mr-7 block'
+                                            : 'hidden md:mr-7 md:block'
                                     }
                                 >
                                     Dashboard
                                 </span>
                             </div>
                         </li>
-
-                        {/* <li
+                        <li
+                            onClick={() => {
+                                navigate('/dashboard/repos');
+                                setActive('Scan');
+                            }}
+                            className="mb-3 ml-1 flex w-full justify-between text-xl"
+                        >
+                            <div
+                                className={
+                                    active.includes('Scan')
+                                        ? 'flex cursor-pointer items-center gap-3 border p-1  text-black no-underline transition-all duration-200 hover:text-black'
+                                        : 'flex cursor-pointer items-center gap-3 p-1  text-white no-underline transition-colors duration-200 hover:text-gray-300'
+                                }
+                            >
+                                <IoMdAddCircle className="text-3xl" />
+                                <span
+                                    className={
+                                        isHovered
+                                            ? 'mr-20 block'
+                                            : 'hidden md:mr-20 md:block'
+                                    }
+                                >
+                                    Scan
+                                </span>
+                            </div>
+                        </li>
+                        <li
                             onClick={() => {
                                 navigate('/dashboard/settings');
                                 setActive('settings');
@@ -88,20 +119,22 @@ const Home = () => {
                             <div
                                 className={
                                     active == 'settings'
-                                        ? 'flex w-[152px] cursor-pointer items-center gap-3 border p-1  text-black no-underline transition-all duration-200 hover:text-black'
+                                        ? 'flex cursor-pointer items-center gap-3 border p-1  text-black no-underline transition-all duration-200 hover:text-black'
                                         : 'flex cursor-pointer items-center gap-3 p-1  text-white no-underline transition-colors duration-200  hover:text-gray-300'
                                 }
                             >
                                 <IoSettings className="text-3xl" />
                                 <span
                                     className={
-                                        isHovered ? 'block' : 'hidden md:block'
+                                        isHovered
+                                            ? 'mr-9 block'
+                                            : 'hidden md:mr-9 md:block'
                                     }
                                 >
                                     Settings
                                 </span>
                             </div>
-                        </li> */}
+                        </li>
                         <li
                             onClick={() => {
                                 setTimeout(() => {
@@ -133,13 +166,23 @@ const Home = () => {
                         </li>
                     </ul>
                 </nav>
-                <div className="ml-16 w-full md:ml-44 lg:ml-[177px]">
-                    <nav className="flex w-full items-center space-x-2 border-b border-b-black bg-[#2f4f4f43] py-4 px-3 text-sm font-bold text-[#2f4f4f]">
-                        <span className=" capitalize">
-                            {user.username || 'username'}
-                        </span>
-                        <span>&gt;</span>
-                        <span className=" capitalize">{active || ''}</span>
+                <div className="ml-16 w-full md:ml-52 lg:ml-52">
+                    <nav className="flex w-full items-center justify-between space-x-2 border-b border-b-black bg-[#2f4f4f43] py-4 px-3 text-sm font-bold text-[#2f4f4f] md:py-2">
+                        <div>
+                            <span className=" capitalize">
+                                {user.username || 'username'}
+                            </span>
+                            <span>&gt;</span>
+                            <span className=" capitalize">{active || ''}</span>
+                        </div>
+                        <div
+                            onClick={() => {
+                                navigate('/dashboard/settings/AccountSettings');
+                            }}
+                            className="flex h-8 w-8 cursor-pointer items-center justify-center rounded-full border bg-[#191970] text-white md:h-12 md:w-12"
+                        >
+                            {firstLetter}
+                        </div>
                     </nav>
                     <Outlet context={[active, setActive]} />
                 </div>

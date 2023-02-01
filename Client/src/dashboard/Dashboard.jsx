@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import VulnorableProject from './components/VulnorableProject';
+import VulnerableProject from './components/VulnerableProject';
 import { useNavigate, useOutletContext } from 'react-router-dom';
 import ProjectInProgress from './components/ProjectInProgress';
 
@@ -123,7 +123,7 @@ const Dashboard = () => {
                                 </h2>
                                 {scannedProject.map((project) => {
                                     return (
-                                        <VulnorableProject
+                                        <VulnerableProject
                                             project={project}
                                             key={project.id}
                                             setRefresh={setRefresh}

@@ -28,7 +28,7 @@ export const TextField = ({ label, dangerInput, ...props }) => {
             </label>
             <ErrorMessage
                 component="div"
-                name={field.name}
+                name={field.name }
                 className="text-[10px] text-red-500"
             />
         </div>

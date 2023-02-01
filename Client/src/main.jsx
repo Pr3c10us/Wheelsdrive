@@ -10,7 +10,9 @@ import OTP from './login/OTP';
 import AuthGithub from './dashboard/AuthGithub';
 import Dashboard from './dashboard/Dashboard';
 import Project from './dashboard/Project';
-// import Settings from './dashboard/settings';
+import Settings from './settings/Settings';
+import Pricing from './settings/Pricing';
+import AccountSettings from './settings/AccountSettings';
 import Repos from './dashboard/Repos';
 
 const router = createBrowserRouter([
@@ -42,10 +44,20 @@ const router = createBrowserRouter([
                 path: 'repos',
                 element: <Repos />,
             },
-            // {
-            //     path: 'settings',
-            //     element: <Settings />,
-            // },
+            {
+                path: 'settings',
+                element: <Settings />,
+                children: [
+                    {
+                        path: 'Pricing',
+                        element: <Pricing />,
+                    },
+                    {
+                        path: 'AccountSettings',
+                        element: <AccountSettings />,
+                    },
+                ],
+            },
         ],
     },
     {

@@ -80,7 +80,7 @@ const Project = () => {
 
     if (numberOfErrors === 0) {
         return (
-            <div className="flex h-full flex-col items-center justify-center">
+            <div className="flex mt-64 flex-col items-center justify-center">
                 <p> You have no {type} issues in this project</p>
                 <button
                     onClick={() => {

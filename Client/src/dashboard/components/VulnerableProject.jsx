@@ -8,7 +8,7 @@ import SeveritiesCount from './SeveritiesCount';
 import SeverityCount from './SeverityCount';
 import axios from 'axios';
 
-const VulnorableProject = ({ project, setRefresh }) => {
+const VulnerableProject = ({ project, setRefresh }) => {
     const refresh = () => window.location.reload(true);
     const url = `http://localhost:3000/`;
     const navigate = useNavigate();
@@ -129,7 +129,7 @@ const VulnorableProject = ({ project, setRefresh }) => {
                             className="font-bold text-[#191970] hover:text-[#191970]"
                             to={`/dashboard/${project.repository}?type=VULNERABILITY&repo_name=${project.repository}`}
                         >
-                            VULNORABILITY
+                            VULNERABILITY
                         </Link>
                     </div>
                     <SeverityCount
@@ -204,4 +204,4 @@ const VulnorableProject = ({ project, setRefresh }) => {
     );
 };
 
-export default VulnorableProject;
+export default VulnerableProject;

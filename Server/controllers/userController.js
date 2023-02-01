@@ -2,6 +2,58 @@ require('dotenv').config();
 const { dynamoClient, TABLE_NAME } = require('../aws/dynamo');
 const { BadRequestError } = require('../errors');
 const axios = require('axios');
+const bcrypt = require('bcryptjs');
+
+const changePassword = async (req, res) => {
+    const { username } = req.user;
+
+    const { oldPassword, newPassword } = req.body;
+    if (!oldPassword || !newPassword) {
+        throw new BadRequestError('oldPassword and newPassword are required');
+    }
+
+    // check if user exist in the database
+    const existParams = {
+        TableName: TABLE_NAME,
+        Key: {
+            username: username,
+        },
+    };
+    const userExist = await dynamoClient.get(existParams).promise();
+
+    if (!userExist.Item) {
+        throw new BadRequestError('User does not exist');
+    }
+
+    // decrypt with bcrypt and check if old password is correct
+    const isMatch = await bcrypt.compare(oldPassword, userExist.Item.password);
+    if (!isMatch) {
+        throw new BadRequestError('Incorrect password');
+    }
+
+    // hash new password
+    const salt = await bcrypt.genSalt(10);
+    const password = await bcrypt.hash(newPassword, salt);
+
+    // update password in the database
+    const params = {
+        TableName: TABLE_NAME,
+        Key: {
+            username: username,
+        },
+        UpdateExpression: 'set password = :password',
+        ExpressionAttributeValues: {
+            ':password': password,
+        },
+        ReturnValues: 'UPDATED_NEW',
+    };
+
+    await dynamoClient.update(params).promise();
+
+    res.status(200).json({
+        msg: 'Password successfully changed',
+    });
+};
 
 const getUserInfo = async (req, res) => {
     const { username } = req.user;
@@ -16,14 +68,45 @@ const getUserInfo = async (req, res) => {
     res.status(200).json(user.Item);
 };
 
-// const updateUserInfo = async (req, res) => {};
-
 const deleteUser = async (req, res) => {
-    res.send('delete user');
-};
+    const { username } = req.user;
 
-const deleteGithubAuthToken = async (req, res) => {
-    res.send('delete github auth token');
+    // get user from the database
+    const userParams = {
+        TableName: TABLE_NAME,
+        Key: {
+            username: username,
+        },
+    };
+
+    await dynamoClient.delete(userParams).promise();
+
+    // get all projects associated with username
+    const projectsParams = {
+        TableName: process.env.PROJECTS_TABLE_NAME,
+        FilterExpression: 'username = :username',
+        ExpressionAttributeValues: {
+            ':username': username,
+        },
+    };
+
+    const result = await dynamoClient.scan(projectsParams).promise();
+    const projects = result.Items;
+    // 2. Update each item's username
+    const updatePromises = await projects.map((project) => {
+        const projectParams = {
+            TableName: process.env.PROJECTS_TABLE_NAME,
+            Key: {
+                id: project.id,
+            },
+        };
+        return dynamoClient.delete(projectParams).promise();
+    });
+
+    // 3. Wait for all updates to complete
+    await Promise.all(updatePromises);
+
+    res.status(200).json({ msg: 'Account Deleted' });
 };
 
 const addGithubToken = async (req, res) => {
@@ -80,8 +163,7 @@ const addGithubToken = async (req, res) => {
 
 module.exports = {
     getUserInfo,
-    // updateUserInfo,
     deleteUser,
-    deleteGithubAuthToken,
     addGithubToken,
+    changePassword,
 };
