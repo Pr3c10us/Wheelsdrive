@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Formik, Form } from 'formik';
 import Alert from '../../util/alert';
 import axios from 'axios';
-import { changePasswordTextField as TextField } from './changePasswordTextField';
+import { ChangePasswordTextField as TextField } from './ChangePasswordTextField';
 
 const ChangePasswordCard = ({ ...props }) => {
     const [alert, setAlert] = useState('');

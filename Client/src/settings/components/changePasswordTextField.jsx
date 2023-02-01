@@ -1,7 +1,7 @@
 import React from 'react';
 import { useField } from 'formik';
 
-export const changePasswordTextField = ({ label, ...props }) => {
+export const ChangePasswordTextField = ({ label, ...props }) => {
     const [field, meta] = useField(props);
     return (
         <div className="group relative z-0 mb-6 w-full">
