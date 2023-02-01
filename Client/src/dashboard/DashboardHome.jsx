@@ -168,7 +168,7 @@ const Home = () => {
                 </nav>
                 <div className="ml-16 w-full md:ml-52 lg:ml-52">
                     <nav className="flex w-full items-center justify-between space-x-2 border-b border-b-black bg-[#2f4f4f43] py-4 px-3 text-sm font-bold text-[#2f4f4f] md:py-2">
-                        <div>
+                        <div className="space-x-2">
                             <span className=" capitalize">
                                 {user.username || 'username'}
                             </span>
