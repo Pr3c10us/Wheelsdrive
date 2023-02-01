@@ -10,7 +10,7 @@ import axios from 'axios';
 
 const VulnerableProject = ({ project, setRefresh }) => {
     const refresh = () => window.location.reload(true);
-    const url = `http://54.158.190.109:3000/`;
+    const url = `http://52.207.191.211:3000/`;
     const navigate = useNavigate();
     const [drop, setDrop] = useState(false);
     const [active, setActive] = useState(false);
