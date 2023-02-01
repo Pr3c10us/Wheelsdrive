@@ -127,4 +127,6 @@ out
 .yarn/install-state.gz
 .pnp.*
 
+*.pem
+
 myCodeSecurity.pem
