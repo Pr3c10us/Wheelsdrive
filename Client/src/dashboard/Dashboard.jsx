@@ -97,7 +97,7 @@ const Dashboard = () => {
 
     if (scannedProject.length === 0 && projectsInProgress.length === 0) {
         return (
-            <div className="flex h-full flex-col items-center justify-center">
+            <div className="flex mt-32 flex-col items-center justify-center">
                 <h1 className="text-2xl text-gray-500 dark:text-gray-400">
                     You have no projects
                 </h1>
