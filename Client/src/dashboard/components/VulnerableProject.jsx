@@ -92,15 +92,15 @@ const VulnerableProject = ({ project, setRefresh }) => {
                     <RiArrowDropUpLine
                         className={
                             drop
-                                ? 'transition-all duration-300'
-                                : 'absolute -translate-y-10 transition-all duration-300'
+                                ? 'transition-all duration-500'
+                                : 'absolute -translate-y-10 transition-all duration-500'
                         }
                     />
                     <RiArrowDropDownLine
                         className={
                             drop
-                                ? 'absolute translate-y-10 transition-all duration-300'
-                                : 'transition-all duration-300'
+                                ? 'absolute translate-y-10 transition-all duration-500'
+                                : 'transition-all duration-500'
                         }
                     />
                 </div>

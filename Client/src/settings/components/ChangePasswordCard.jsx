@@ -89,15 +89,15 @@ const ChangePasswordCard = ({ ...props }) => {
                         <RiArrowDropUpLine
                             className={
                                 active
-                                    ? ' transition-all duration-300'
-                                    : 'absolute -translate-y-10 transition-all duration-300'
+                                    ? ' transition-all duration-500'
+                                    : 'absolute -translate-y-10 transition-all duration-500'
                             }
                         />
                         <RiArrowDropDownLine
                             className={
                                 active
-                                    ? ' absolute translate-y-10 transition-all duration-300'
-                                    : ' transition-all duration-300'
+                                    ? ' absolute translate-y-10 transition-all duration-500'
+                                    : ' transition-all duration-500'
                             }
                         />
                     </div>
@@ -105,8 +105,8 @@ const ChangePasswordCard = ({ ...props }) => {
                 <div
                     className={
                         active
-                            ? 'flex h-80 w-full flex-col items-center overflow-hidden border-b-4 border-b-black transition-all duration-300'
-                            : 'flex h-0 w-full flex-col items-center overflow-hidden border-b-4 border-b-black transition-all duration-300'
+                            ? 'flex h-80 w-full flex-col items-center overflow-hidden border-b-4 border-b-black transition-all duration-500'
+                            : 'flex h-0 w-full flex-col items-center overflow-hidden border-b-4 border-b-black transition-all duration-500'
                     }
                 >
                     <Form className="flex w-full flex-col px-4 py-6">
