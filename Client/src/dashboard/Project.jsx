@@ -9,7 +9,7 @@ const Project = () => {
     const navigate = useNavigate();
     const query = new URLSearchParams(location.search);
     const type = query.get('type');
-    const url = `http://52.207.191.211:3000/`;
+    const url = `http://localhost:3000/`;
     const repo_name = query.get('repo_name');
     const [project, setProject] = useState({});
     const [report, setReport] = useState([]);
@@ -95,7 +95,7 @@ const Project = () => {
     }
 
     return (
-        <main className="h-full">
+        <main className="h-full ">
             <div className="flex h-full flex-col items-center">
                 <div id="top"></div>
                 <nav className="sticky top-0 z-40 w-full border-b border-b-black bg-white p-4 text-[#2f4f4f]">

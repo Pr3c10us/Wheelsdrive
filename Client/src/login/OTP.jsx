@@ -28,7 +28,7 @@ const Login = () => {
     const handleClick = async () => {
         try {
             setTimeLeft(59);
-            const url = `http://52.207.191.211/:3000/api/auth/sendCode/${
+            const url = `http://localhost/:3000/api/auth/sendCode/${
                 window.location.pathname.split('/')[2]
             }`;
             axios.defaults.withCredentials = true;
@@ -65,7 +65,7 @@ const Login = () => {
             // get username from url params
             const username = window.location.pathname.split('/')[2];
             const body = { code, username };
-            const url = `http://52.207.191.211:3000/api/auth/signup`;
+            const url = `http://localhost:3000/api/auth/signup`;
             axios.defaults.withCredentials = true;
             const response = await axios(url, {
                 method: 'POST',

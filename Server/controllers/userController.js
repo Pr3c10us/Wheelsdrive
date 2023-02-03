@@ -28,7 +28,7 @@ const changePassword = async (req, res) => {
     // decrypt with bcrypt and check if old password is correct
     const isMatch = await bcrypt.compare(oldPassword, userExist.Item.password);
     if (!isMatch) {
-        throw new BadRequestError('Incorrect password');
+        throw new BadRequestError('Old password is incorrect');
     }
 
     // hash new password
@@ -161,9 +161,30 @@ const addGithubToken = async (req, res) => {
     res.status(200).json({ msg: 'Github token added' });
 };
 
+const deleteGithubToken = async (req, res) => {
+    // get user from the database
+    const { username } = req.user;
+
+    // create delete githubAuthToken params
+    const params = {
+        TableName: TABLE_NAME,
+        Key: {
+            username: username,
+        },
+        UpdateExpression: 'remove githubAuthToken',
+        ReturnValues: 'UPDATED_NEW',
+    };
+
+    // delete githubAuthToken
+    await dynamoClient.update(params).promise();
+
+    res.status(200).json({ msg: 'Github token deleted' });
+};
+
 module.exports = {
     getUserInfo,
     deleteUser,
     addGithubToken,
     changePassword,
+    deleteGithubToken,
 };

@@ -2,9 +2,11 @@ import React, { useState } from 'react';
 import { Formik, Form } from 'formik';
 import Alert from '../../util/alert';
 import axios from 'axios';
+import { RiArrowDropDownLine, RiArrowDropUpLine } from 'react-icons/ri';
 import { ChangePasswordTextField as TextField } from './ChangePasswordTextField';
 
 const ChangePasswordCard = ({ ...props }) => {
+    const [active, setActive] = useState(false);
     const [alert, setAlert] = useState('');
     const [danger, setDanger] = useState(false);
     const [showAlert, setShowAlert] = useState(false);
@@ -12,37 +14,42 @@ const ChangePasswordCard = ({ ...props }) => {
 
     const HandleChangePassword = async (values) => {
         try {
-            setLoading(true);
-            if (values.newPassword !== values.confirmPassword) {
-                setDanger(true);
-                setAlert('Passwords do not match');
+            const decision = window.confirm(
+                'Are you sure you want to change your password?'
+            );
+            if (decision) {
+                setLoading(true);
+                if (values.newPassword !== values.confirmPassword) {
+                    setDanger(true);
+                    setAlert('Passwords do not match');
+                    setShowAlert(true);
+                    setTimeout(() => {
+                        setAlert('');
+                        setShowAlert(false);
+                        setLoading(false);
+                    }, 3000);
+                    return;
+                }
+                const body = {
+                    oldPassword: values.oldPassword,
+                    newPassword: values.newPassword,
+                };
+                const url = `http://localhost:3000/api/user/password`;
+                axios.defaults.withCredentials = true;
+                await axios(url, {
+                    method: 'PUT',
+                    data: body,
+                    withCredentials: true,
+                });
+                setDanger(false);
+                setAlert('Password changed successfully');
                 setShowAlert(true);
                 setTimeout(() => {
                     setAlert('');
                     setShowAlert(false);
                     setLoading(false);
                 }, 3000);
-                return;
             }
-            const body = {
-                oldPassword: values.oldPassword,
-                newPassword: values.newPassword,
-            };
-            const url = `http://52.207.191.211:3000/api/user/password`;
-            axios.defaults.withCredentials = true;
-            await axios(url, {
-                method: 'PUT',
-                data: body,
-                withCredentials: true,
-            });
-            setDanger(false);
-            setAlert('Password changed successfully');
-            setShowAlert(true);
-            setTimeout(() => {
-                setAlert('');
-                setShowAlert(false);
-                setLoading(false);
-            }, 3000);
         } catch (error) {
             console.log(error);
             const errorMsg = error.response.data.msg;
@@ -65,16 +72,43 @@ const ChangePasswordCard = ({ ...props }) => {
             }}
             onSubmit={HandleChangePassword}
         >
-            <main className="nsm: my-8 w-full max-w-xl border bg-white">
+            <main className="nsm: my-8 w-full max-w-xl border border-black bg-white">
                 <Alert name={alert} showAlert={showAlert} danger={danger} />
-                <nav className="border-b p-4">
+                <nav
+                    onClick={() => {
+                        setActive(!active);
+                    }}
+                    className="flex cursor-pointer items-center justify-between border-b border-b-black p-4"
+                >
                     <h2>
-                        <span className="text-2xl font-bold text-[#2F4F4F]">
+                        <span className="text-2xl font-bold text-black">
                             Change Password
                         </span>
                     </h2>
+                    <div className="relative flex items-center justify-center overflow-hidden text-4xl">
+                        <RiArrowDropUpLine
+                            className={
+                                active
+                                    ? ' transition-all duration-300'
+                                    : 'absolute -translate-y-10 transition-all duration-300'
+                            }
+                        />
+                        <RiArrowDropDownLine
+                            className={
+                                active
+                                    ? ' absolute translate-y-10 transition-all duration-300'
+                                    : ' transition-all duration-300'
+                            }
+                        />
+                    </div>
                 </nav>
-                <div className="flex h-full w-full flex-col items-center">
+                <div
+                    className={
+                        active
+                            ? 'flex h-80 w-full flex-col items-center overflow-hidden border-b-4 border-b-black transition-all duration-300'
+                            : 'flex h-0 w-full flex-col items-center overflow-hidden border-b-4 border-b-black transition-all duration-300'
+                    }
+                >
                     <Form className="flex w-full flex-col px-4 py-6">
                         <TextField
                             id="1"
@@ -128,7 +162,7 @@ const ChangePasswordCard = ({ ...props }) => {
                             ) : (
                                 <button
                                     type="submit"
-                                    className="h-12 w-full border-none bg-[#2f4f4f] text-white hover:border-none hover:outline-none focus:outline-none "
+                                    className="w-full border-none bg-black py-3 text-sm text-white hover:border-none hover:outline-none focus:outline-none xs:text-base sm:text-lg "
                                 >
                                     <span>Change Password</span>
                                 </button>

@@ -3,61 +3,57 @@ import Alert from '../../util/alert';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
-const DeleteAccount = () => {
-    const navigate = useNavigate();
-    const [alert, setAlert] = useState('');
-    const [danger, setDanger] = useState(false);
-    const [showAlert, setShowAlert] = useState(false);
+const ChangeGithubToken = () => {
     const [loading, setLoading] = useState(false);
+    const navigate = useNavigate();
 
-    const handleDelete = async () => {
+    const handleChange = async () => {
         const decision = window.confirm(
-            'Are you sure you want to delete this project?'
+            'Are you sure you want to change your github account?'
         );
         if (decision) {
             setLoading(true);
             axios.defaults.withCredentials = true;
-            await axios.delete(`http://localhost:3000/api/user/`, {
+            await axios.delete(`http://localhost:3000/api/user/github`, {
                 withCredentials: true,
             });
-            setDanger(true);
-            setAlert('Account deleted successfully');
-            setShowAlert(true);
             setTimeout(() => {
-                setAlert('');
-                setShowAlert(false);
                 setLoading(false);
-                navigate('/signup');
+                navigate('/authGithub');
             }, 3000);
         }
         return;
     };
 
     return (
-        <main className="my-8 flex flex-col border border-red-500">
-            <Alert name={alert} showAlert={showAlert} danger={danger} />
-            <nav className="border-b border-b-red-500 px-4 py-5  text-black">
+        <main className="my-8 flex flex-col border border-[#2f4f4f]">
+            <nav className="border-b border-b-[#2f4f4f] px-4 py-5  text-black">
                 <h2>
-                    <span className="text-2xl font-bold">Delete Account</span>
+                    <span className="text-2xl font-bold">
+                        Change Associated Github Account
+                    </span>
                 </h2>
             </nav>
-            <ul className="list-disc text-sm xs:text-base space-y-2 p-8">
+            <ul className="list-disc space-y-2 p-8 text-sm xs:text-base">
                 <li>
-                    Deleting your account will remove you entirely from
-                    Wheelsdrive database, including your default organization,
-                    and any projects and historical data you've added. If your
-                    default organization is on a paid plan, this plan will be
-                    cancelled.
+                    If you change your github account, you will lose all access
+                    to repositories from your previous github account.
                 </li>
                 <li>
-                    If you're an administrator on a shared organization, you'll
-                    need to appoint another administrator prior to leaving
-                    Wheelsdrive.
+                    All Scanned and In Progress repositories would still be
+                    available and you can still access them, re-scan them or
+                    delete them.
+                </li>
+                <li>
+                    If you delete a project, you will no longer be able to scan
+                    them from scan page, unless you change your github account
+                    back to the previous one with the deleted project
+                    repository.
                 </li>
             </ul>
-            <div className="flex justify-center border-t border-t-red-500 py-4 px-6">
+            <div className="flex justify-center border-t border-t-[#2f4f4f] py-4 px-6">
                 {loading ? (
-                    <div className="flex w-full max-w-md items-center justify-center rounded-lg border-none bg-red-500 py-3 text-sm text-white hover:border-none  hover:outline-none focus:outline-none xs:text-base sm:text-lg">
+                    <div className="flex w-full max-w-md items-center justify-center rounded-lg border-none bg-[#2f4f4f] py-3 text-sm text-white hover:border-none  hover:outline-none focus:outline-none xs:text-base sm:text-lg">
                         <div
                             role="status"
                             className="flex h-full items-center justify-center"
@@ -83,11 +79,11 @@ const DeleteAccount = () => {
                     </div>
                 ) : (
                     <button
-                        onClick={handleDelete}
-                        className="w-full max-w-md border-none bg-red-500 py-3 text-sm text-white hover:border-none hover:outline-none focus:outline-none xs:text-base sm:text-lg "
+                        onClick={handleChange}
+                        className="w-full max-w-md border-none bg-[#2f4f4f] py-3 text-sm text-white hover:border-none hover:outline-none focus:outline-none xs:text-base sm:text-lg "
                     >
                         {' '}
-                        Delete Account
+                        Change Github Account
                     </button>
                 )}
             </div>
@@ -95,4 +91,4 @@ const DeleteAccount = () => {
     );
 };
 
-export default DeleteAccount;
+export default ChangeGithubToken;

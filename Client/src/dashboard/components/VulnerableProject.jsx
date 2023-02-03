@@ -7,10 +7,12 @@ import { GoAlert } from 'react-icons/go';
 import SeveritiesCount from './SeveritiesCount';
 import SeverityCount from './SeverityCount';
 import axios from 'axios';
+import { RiArrowDropDownLine, RiArrowDropUpLine } from 'react-icons/ri';
+
 
 const VulnerableProject = ({ project, setRefresh }) => {
     const refresh = () => window.location.reload(true);
-    const url = `http://52.207.191.211:3000/`;
+    const url = `http://localhost:3000/`;
     const navigate = useNavigate();
     const [drop, setDrop] = useState(false);
     const [active, setActive] = useState(false);
@@ -87,14 +89,21 @@ const VulnerableProject = ({ project, setRefresh }) => {
                         {project.last_scanned}
                     </p>
                 </div>
-                <div
-                    className={
-                        drop
-                            ? 'ml-4 flex h-8 w-8 -rotate-180 transform items-center justify-center rounded-full bg-gray-200 duration-500'
-                            : 'ml-4 flex h-8 w-8 items-center justify-center rounded-full bg-gray-200 duration-500'
-                    }
-                >
-                    <BsFillCaretDownFill />
+                <div className="relative hidden ml-2 xs:flex overflow-hidden text-4xl items-center justify-center">
+                    <RiArrowDropUpLine
+                        className={
+                            drop
+                                ? 'transition-all duration-300'
+                                : 'absolute -translate-y-10 transition-all duration-300'
+                        }
+                    />
+                    <RiArrowDropDownLine
+                        className={
+                            drop
+                                ? 'absolute translate-y-10 transition-all duration-300'
+                                : 'transition-all duration-300'
+                        }
+                    />
                 </div>
             </div>
             <ul

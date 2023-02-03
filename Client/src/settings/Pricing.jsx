@@ -42,12 +42,12 @@ const priceTier = [
 const Pricing = () => {
     return (
         <div className="mt-8 flex flex-col items-center ">
-            <div className='mb-8'>
+            <div className="mb-8">
                 <h2 className="text-3xl font-bold text-[#2f4f4f] underline">
                     Plans & Pricing
                 </h2>
             </div>
-            <div className="grid grid-cols-1 lg:gap-8 lg:grid-cols-3">
+            <div className="grid grid-cols-1 lg:grid-cols-3 lg:gap-8">
                 {priceTier.map((tier) => (
                     <PriceCard key={tier.id} tier={tier} />
                 ))}

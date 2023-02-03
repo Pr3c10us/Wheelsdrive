@@ -13,7 +13,7 @@ const Repos = () => {
     const [searchQuery, setSearchQuery] = useState('');
     const [active, setActive] = useOutletContext();
     const navigate = useNavigate();
-    const url = `http://52.207.191.211:3000/`;
+    const url = `http://localhost:3000/`;
 
     const handleEffect = async () => {
         try {
@@ -105,29 +105,47 @@ const Repos = () => {
     return (
         <main>
             <div className="flex flex-col items-center px-2">
-                <div className="mt-6 flex w-full items-center justify-center gap-2">
-                    <div className="flex max-w-[80%] flex-1 justify-between rounded border border-gray-500 lg:max-w-[50%]">
+                <div className="mt-6 flex w-full items-center justify-center">
+                    <div className="relative w-full max-w-[85%] flex">
+                        <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+                            <svg
+                                aria-hidden="true"
+                                className="h-5 w-5 text-gray-500 dark:text-gray-400"
+                                fill="none"
+                                stroke="currentColor"
+                                viewBox="0 0 24 24"
+                                xmlns="http://www.w3.org/2000/svg"
+                            >
+                                <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    stroke-width="2"
+                                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                                ></path>
+                            </svg>
+                        </div>
                         <input
-                            placeholder={searchQuery}
+                            placeholder="Search for repo"
                             onChange={(e) => {
                                 e.preventDefault();
                                 setSearchQuery(e.target.value);
                             }}
                             type="text"
-                            className="m-0 w-full rounded-l border-r border-r-black p-0 pl-2 text-lg focus:outline-none md:text-xl"
+                            id="default-search"
+                            className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2 pl-10 text-sm text-gray-900 focus:outline-0"
                         />
                         <button
                             onClick={handleSearch}
-                            className=" rounded-r rounded-l-none border-none   bg-inherit px-3 py-1 hover:border-none focus:outline-none  md:px-4 "
+                            className="right-2.5 ml-2 bottom-2.5 rounded-lg border-none bg-[#2f4f4f] px-4 py-2 text-sm font-medium text-white hover:border-none focus:outline-none focus:ring-0"
                         >
-                            <CiSearch className="text-lg text-gray-500 md:text-3xl " />
+                            Search
                         </button>
                     </div>
                     <button
                         onClick={handleCancel}
                         className="rounded-md border-none bg-inherit px-3 py-1 hover:border-none hover:text-red-500 focus:outline-none md:px-4"
                     >
-                        <RxCross1 className="text-lg text-gray-500 md:text-2xl " />
+                        <RxCross1 className="text-lg text-red-500 md:text-2xl " />
                     </button>
                 </div>
                 <div className="my-4 flex w-full items-center justify-center gap-3 p-2 text-center nsm:text-left">
@@ -167,7 +185,7 @@ const Repos = () => {
                                     }}
                                     className="border-2 border-black bg-slate-200  text-black duration-100 hover:border-black hover:text-black hover:outline-none focus:outline-none "
                                 >
-                                    Back
+                                    Back to Dashboard
                                 </button>
                                 <button
                                     onClick={handleScan}
@@ -229,7 +247,7 @@ const Repos = () => {
                                     }}
                                     className="border-2 border-black bg-slate-200  text-black duration-100 hover:border-black hover:text-black hover:outline-none focus:outline-none "
                                 >
-                                    Back
+                                    Back to Dashboard
                                 </button>
                                 <button
                                     onClick={handleScan}

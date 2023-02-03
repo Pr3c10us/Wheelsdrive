@@ -20,8 +20,8 @@ const PriceCard = ({ tier }) => {
 
                     <div className="mt-4 flex h-full flex-1 flex-col items-center justify-between">
                         <ul className="mb-4">
-                            {tier.features.map((feature) => (
-                                <li className="flex items-center text-gray-500">
+                            {tier.features.map((feature,index) => (
+                                <li key={index} className="flex items-center text-gray-500">
                                     <svg
                                         className="mr-2 h-4 w-4"
                                         fill="none"
