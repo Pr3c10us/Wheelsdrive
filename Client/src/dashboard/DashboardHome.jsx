@@ -10,7 +10,7 @@ const Home = () => {
     const [active, setActive] = useState('dashboard');
     const [user, setUser] = useState({});
     const [firstLetter, setFirstLetter] = useState('');
-    const url = `http://localhost:3000/`;
+    const url = `http://52.207.191.211:3000/`;
 
     const handleEffect = async () => {
         try {

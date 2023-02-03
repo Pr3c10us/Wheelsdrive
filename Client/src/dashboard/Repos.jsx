@@ -13,7 +13,7 @@ const Repos = () => {
     const [searchQuery, setSearchQuery] = useState('');
     const [active, setActive] = useOutletContext();
     const navigate = useNavigate();
-    const url = `http://localhost:3000/`;
+    const url = `http://52.207.191.211:3000/`;
 
     const handleEffect = async () => {
         try {
@@ -106,7 +106,7 @@ const Repos = () => {
         <main>
             <div className="flex flex-col items-center px-2">
                 <div className="mt-6 flex w-full items-center justify-center">
-                    <div className="relative w-full max-w-[85%] flex">
+                    <div className="relative flex w-full max-w-[85%]">
                         <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
                             <svg
                                 aria-hidden="true"
@@ -136,7 +136,7 @@ const Repos = () => {
                         />
                         <button
                             onClick={handleSearch}
-                            className="right-2.5 ml-2 bottom-2.5 rounded-lg border-none bg-[#2f4f4f] px-4 py-2 text-sm font-medium text-white hover:border-none focus:outline-none focus:ring-0"
+                            className="right-2.5 bottom-2.5 ml-2 rounded-lg border-none bg-[#2f4f4f] px-4 py-2 text-sm font-medium text-white hover:border-none focus:outline-none focus:ring-0"
                         >
                             Search
                         </button>

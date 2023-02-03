@@ -17,7 +17,7 @@ const DeleteAccount = () => {
         if (decision) {
             setLoading(true);
             axios.defaults.withCredentials = true;
-            await axios.delete(`http://localhost:3000/api/user/`, {
+            await axios.delete(`http://52.207.191.211:3000/api/user/`, {
                 withCredentials: true,
             });
             setDanger(true);
@@ -41,7 +41,7 @@ const DeleteAccount = () => {
                     <span className="text-2xl font-bold">Delete Account</span>
                 </h2>
             </nav>
-            <ul className="list-disc text-sm xs:text-base space-y-2 p-8">
+            <ul className="list-disc space-y-2 p-8 text-sm xs:text-base">
                 <li>
                     Deleting your account will remove you entirely from
                     Wheelsdrive database, including your default organization,

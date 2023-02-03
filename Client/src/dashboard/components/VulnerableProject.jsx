@@ -9,10 +9,9 @@ import SeverityCount from './SeverityCount';
 import axios from 'axios';
 import { RiArrowDropDownLine, RiArrowDropUpLine } from 'react-icons/ri';
 
-
 const VulnerableProject = ({ project, setRefresh }) => {
     const refresh = () => window.location.reload(true);
-    const url = `http://localhost:3000/`;
+    const url = `http://52.207.191.211:3000/`;
     const navigate = useNavigate();
     const [drop, setDrop] = useState(false);
     const [active, setActive] = useState(false);
@@ -89,7 +88,7 @@ const VulnerableProject = ({ project, setRefresh }) => {
                         {project.last_scanned}
                     </p>
                 </div>
-                <div className="relative hidden ml-2 xs:flex overflow-hidden text-4xl items-center justify-center">
+                <div className="relative ml-2 hidden items-center justify-center overflow-hidden text-4xl xs:flex">
                     <RiArrowDropUpLine
                         className={
                             drop

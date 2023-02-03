@@ -9,7 +9,7 @@ const Project = () => {
     const navigate = useNavigate();
     const query = new URLSearchParams(location.search);
     const type = query.get('type');
-    const url = `http://localhost:3000/`;
+    const url = `http://52.207.191.211:3000/`;
     const repo_name = query.get('repo_name');
     const [project, setProject] = useState({});
     const [report, setReport] = useState([]);
