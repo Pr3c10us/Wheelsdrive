@@ -13,7 +13,8 @@ const scanProject = async (req, res) => {
     // get the username from the request
     const { username } = req.user;
     // get repo name and clone url from the request body
-    const { repo_name, clone_url } = req.query;
+    const { repo_name, clone_url,name } = req.query;
+
 
     // check if project already exist in the database
     const existParams = {
@@ -82,6 +83,10 @@ const scanProject = async (req, res) => {
             environmentVariables: [
                 {
                     name: 'REPO_NAME',
+                    value: name,
+                },
+                {
+                     name: 'NAME',
                     value: repo_name,
                 },
                 {

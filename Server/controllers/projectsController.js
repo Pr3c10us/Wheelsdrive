@@ -283,7 +283,7 @@ const getRepositories = async (req, res) => {
             'https://',
             'https://' + githubAuthToken + '@'
         );
-        return { name: item.name, clone_url: item.clone_url };
+        return { repo_name: `${item.owner.login}-${item.name}`, clone_url: item.clone_url, name: item.name };
     });
 
     // return repositories

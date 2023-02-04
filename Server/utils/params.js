@@ -2,7 +2,7 @@ const { ses } = require('../aws/ses');
 
 const params = async (email, code) => {
     const params = {
-        Source: 'ptowolabi@student.oauife.edu.ng',
+        Source: 'sales@wheelsdrive.com',
         Destination: {
             ToAddresses: [email],
         },

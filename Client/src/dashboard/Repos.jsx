@@ -91,7 +91,7 @@ const Repos = () => {
         const repo = repos.filter((repo) => repo.name === isSelected);
         axios.defaults.withCredentials = true;
         await axios.post(
-            `${url}api/scan?repo_name=${repo[0].name}&clone_url=${repo[0].clone_url}`,
+            `${url}api/scan?repo_name=${repo[0].repo_name}&clone_url=${repo[0].clone_url}&name=${repo[0].name}`,
             {
                 withCredentials: true,
             }
