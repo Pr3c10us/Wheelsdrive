@@ -26,7 +26,7 @@ phases:
       - git clone $CLONE_URL
       - cd $REPO_NAME
       - sonar-scanner -Dsonar.projectKey=Test_Project -Dsonar.sources=. -Dsonar.host.url=http://127.0.0.1:9000  -Dsonar.login="admin" -Dsonar.password="admin"
-      - curl -u admin:admin -o $NAME.json http://localhost:9000/api/issues/search
+      - curl -u admin:admin -o $NAME.json http://3.85.17.146:9000/api/issues/search
   post_build:
     commands:
       - echo "Uploading JSON file as artifact"

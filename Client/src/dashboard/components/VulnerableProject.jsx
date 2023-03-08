@@ -11,7 +11,7 @@ import { RiArrowDropDownLine, RiArrowDropUpLine } from 'react-icons/ri';
 
 const VulnerableProject = ({ project, setRefresh }) => {
     const refresh = () => window.location.reload(true);
-    const url = `http://localhost:3000/`;
+    const url = `http://3.85.17.146:3000/`;
     const navigate = useNavigate();
     const [drop, setDrop] = useState(false);
     const [active, setActive] = useState(false);

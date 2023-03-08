@@ -16,7 +16,7 @@ const Signup = () => {
     const [dangerUsernameInput, setDangerUsernameInput] = useState(false);
     const [showAlert, setShowAlert] = useState(false);
     const [danger, setDanger] = useState(false);
-    const signupApi = `http://localhost:3000/api/auth/verifyEmail`;
+    const signupApi = `http://3.85.17.146:3000/api/auth/verifyEmail`;
 
     const handleSubmit = async (values) => {
         try {
@@ -97,7 +97,7 @@ const Signup = () => {
                     <Alert name={alert} showAlert={showAlert} danger={danger} />
                     <Header />
                     <div className="flex h-full flex-col items-center ">
-                        <Form className="mb-10 border w-[95vw] rounded-lg bg-white p-10 shadow-lg 2xs:w-[80vw] sm:min-w-[400px] sm:max-w-[400px]">
+                        <Form className="mb-10 w-[95vw] rounded-lg border bg-white p-10 shadow-lg 2xs:w-[80vw] sm:min-w-[400px] sm:max-w-[400px]">
                             <div className="mb-5 flex flex-col items-center justify-center text-center">
                                 <p className="text-3xl font-bold text-[#2F4F4F]">
                                     Create your free account{' '}

@@ -13,7 +13,7 @@ const Dashboard = () => {
     const [active, setActive] = useOutletContext();
     const [refresh, setRefresh] = useState(false);
 
-    const url = `http://localhost:3000/`;
+    const url = `http://3.85.17.146:3000/`;
 
     const handleFetchData = async () => {
         setActive('dashboard');
