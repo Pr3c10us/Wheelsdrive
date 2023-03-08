@@ -66,7 +66,7 @@ const verifyEmail = async (req, res) => {
     code = code.toString();
 
     // Set the expiration time to 10 minutes from now
-    const expiration = Date.now() + 1000 * 60 * 1;
+    const expiration = Date.now() + 1000 * 60 * 10;
 
     await storage.setItem(`${username}-code`, { code, expiration });
 
@@ -105,7 +105,7 @@ const sendCode = async (req, res) => {
     code = code.toString();
 
     // Set the expiration time to 10 minutes from now
-    const expiration = Date.now() + 1000 * 60 * 1;
+    const expiration = Date.now() + 1000 * 60 * 10;
 
     await storage.setItem(`${username.toUpperCase()}-code`, {
         code,

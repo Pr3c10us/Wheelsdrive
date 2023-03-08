@@ -1,0 +1,244 @@
+{
+    "total": 6,
+    "p": 1,
+    "ps": 100,
+    "paging": {
+        "pageIndex": 1,
+        "pageSize": 100,
+        "total": 6
+    },
+    "effortTotal": 40,
+    "issues": [
+        {
+            "key": "AYa8WlyX5_wcvABeQAdK",
+            "rule": "javascript:S125",
+            "severity": "MAJOR",
+            "component": "Test_Project:routes/topUpRoute.js",
+            "project": "Test_Project",
+            "line": 11,
+            "hash": "97639ab4bf185924d9ada2c6b68896c7",
+            "textRange": {
+                "startLine": 11,
+                "endLine": 11,
+                "startOffset": 0,
+                "endOffset": 42
+            },
+            "flows": [],
+            "status": "OPEN",
+            "message": "Remove this commented out code.",
+            "effort": "5min",
+            "debt": "5min",
+            "author": "owo.pre.eno@gmail.com",
+            "tags": [
+                "unused"
+            ],
+            "creationDate": "2022-10-08T21:18:24+0000",
+            "updateDate": "2023-03-07T13:54:14+0000",
+            "type": "CODE_SMELL",
+            "scope": "MAIN",
+            "quickFixAvailable": true,
+            "messageFormattings": []
+        },
+        {
+            "key": "AYa8Wlyp5_wcvABeQAdN",
+            "rule": "javascript:S1481",
+            "severity": "MINOR",
+            "component": "Test_Project:controllers/userController.js",
+            "project": "Test_Project",
+            "line": 99,
+            "hash": "7c4eea70cc047020a77c5d3cc53f055e",
+            "textRange": {
+                "startLine": 99,
+                "endLine": 99,
+                "startOffset": 10,
+                "endOffset": 23
+            },
+            "flows": [],
+            "status": "OPEN",
+            "message": "Remove the declaration of the unused \u0027deletedWallet\u0027 variable.",
+            "effort": "5min",
+            "debt": "5min",
+            "author": "owo.pre.eno@gmail.com",
+            "tags": [
+                "unused"
+            ],
+            "creationDate": "2022-10-04T00:28:27+0000",
+            "updateDate": "2023-03-07T13:54:14+0000",
+            "type": "CODE_SMELL",
+            "scope": "MAIN",
+            "quickFixAvailable": false,
+            "messageFormattings": []
+        },
+        {
+            "key": "AYa8Wlyp5_wcvABeQAdO",
+            "rule": "javascript:S1854",
+            "severity": "MAJOR",
+            "component": "Test_Project:controllers/userController.js",
+            "project": "Test_Project",
+            "line": 99,
+            "hash": "7c4eea70cc047020a77c5d3cc53f055e",
+            "textRange": {
+                "startLine": 99,
+                "endLine": 99,
+                "startOffset": 10,
+                "endOffset": 23
+            },
+            "flows": [],
+            "status": "OPEN",
+            "message": "Remove this useless assignment to variable \"deletedWallet\".",
+            "effort": "15min",
+            "debt": "15min",
+            "author": "owo.pre.eno@gmail.com",
+            "tags": [
+                "cwe",
+                "unused"
+            ],
+            "creationDate": "2022-10-04T00:28:27+0000",
+            "updateDate": "2023-03-07T13:54:14+0000",
+            "type": "CODE_SMELL",
+            "scope": "MAIN",
+            "quickFixAvailable": false,
+            "messageFormattings": []
+        },
+        {
+            "key": "AYa8Wlxy5_wcvABeQAdI",
+            "rule": "javascript:S101",
+            "severity": "MINOR",
+            "component": "Test_Project:errors/badRequestError.js",
+            "project": "Test_Project",
+            "line": 3,
+            "hash": "26b7f2dee2f2fedaed43de5de777bffd",
+            "textRange": {
+                "startLine": 3,
+                "endLine": 3,
+                "startOffset": 6,
+                "endOffset": 21
+            },
+            "flows": [],
+            "status": "OPEN",
+            "message": "Rename class \"badRequestError\" to match the regular expression ^[A-Z][a-zA-Z0-9]*$.",
+            "effort": "5min",
+            "debt": "5min",
+            "author": "owo.pre.eno@gmail.com",
+            "tags": [
+                "convention"
+            ],
+            "creationDate": "2022-10-01T20:56:17+0000",
+            "updateDate": "2023-03-07T13:54:14+0000",
+            "type": "CODE_SMELL",
+            "scope": "MAIN",
+            "quickFixAvailable": false,
+            "messageFormattings": []
+        },
+        {
+            "key": "AYa8Wlr75_wcvABeQAdH",
+            "rule": "javascript:S101",
+            "severity": "MINOR",
+            "component": "Test_Project:errors/customError.js",
+            "project": "Test_Project",
+            "line": 1,
+            "hash": "9d599b276d4befa244b02a2013dbca03",
+            "textRange": {
+                "startLine": 1,
+                "endLine": 1,
+                "startOffset": 6,
+                "endOffset": 17
+            },
+            "flows": [],
+            "status": "OPEN",
+            "message": "Rename class \"customError\" to match the regular expression ^[A-Z][a-zA-Z0-9]*$.",
+            "effort": "5min",
+            "debt": "5min",
+            "author": "owo.pre.eno@gmail.com",
+            "tags": [
+                "convention"
+            ],
+            "creationDate": "2022-10-01T20:56:17+0000",
+            "updateDate": "2023-03-07T13:54:14+0000",
+            "type": "CODE_SMELL",
+            "scope": "MAIN",
+            "quickFixAvailable": false,
+            "messageFormattings": []
+        },
+        {
+            "key": "AYa8WlyC5_wcvABeQAdJ",
+            "rule": "javascript:S101",
+            "severity": "MINOR",
+            "component": "Test_Project:errors/unAuthorizedError.js",
+            "project": "Test_Project",
+            "line": 3,
+            "hash": "e4228f3996a7ffe92922b45a1e6dc1b4",
+            "textRange": {
+                "startLine": 3,
+                "endLine": 3,
+                "startOffset": 6,
+                "endOffset": 23
+            },
+            "flows": [],
+            "status": "OPEN",
+            "message": "Rename class \"unAuthorizedError\" to match the regular expression ^[A-Z][a-zA-Z0-9]*$.",
+            "effort": "5min",
+            "debt": "5min",
+            "author": "owo.pre.eno@gmail.com",
+            "tags": [
+                "convention"
+            ],
+            "creationDate": "2022-10-01T20:56:17+0000",
+            "updateDate": "2023-03-07T13:54:14+0000",
+            "type": "CODE_SMELL",
+            "scope": "MAIN",
+            "quickFixAvailable": false,
+            "messageFormattings": []
+        }
+    ],
+    "components": [
+        {
+            "key": "Test_Project:errors/unAuthorizedError.js",
+            "enabled": true,
+            "qualifier": "FIL",
+            "name": "unAuthorizedError.js",
+            "longName": "errors/unAuthorizedError.js",
+            "path": "errors/unAuthorizedError.js"
+        },
+        {
+            "key": "Test_Project:routes/topUpRoute.js",
+            "enabled": true,
+            "qualifier": "FIL",
+            "name": "topUpRoute.js",
+            "longName": "routes/topUpRoute.js",
+            "path": "routes/topUpRoute.js"
+        },
+        {
+            "key": "Test_Project:errors/badRequestError.js",
+            "enabled": true,
+            "qualifier": "FIL",
+            "name": "badRequestError.js",
+            "longName": "errors/badRequestError.js",
+            "path": "errors/badRequestError.js"
+        },
+        {
+            "key": "Test_Project:errors/customError.js",
+            "enabled": true,
+            "qualifier": "FIL",
+            "name": "customError.js",
+            "longName": "errors/customError.js",
+            "path": "errors/customError.js"
+        },
+        {
+            "key": "Test_Project:controllers/userController.js",
+            "enabled": true,
+            "qualifier": "FIL",
+            "name": "userController.js",
+            "longName": "controllers/userController.js",
+            "path": "controllers/userController.js"
+        },
+        {
+            "key": "Test_Project",
+            "enabled": true,
+            "qualifier": "TRK",
+            "name": "Test_Project",
+            "longName": "Test_Project"
+        }
+    ],
+    "facets": []
+}

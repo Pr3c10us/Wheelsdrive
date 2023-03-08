@@ -4,11 +4,12 @@ import { Outlet, Link, useOutletContext, useNavigate } from 'react-router-dom';
 
 const Settings = () => {
     const navigate = useNavigate();
-    const [activePage, setActivePage] = useState('AccountSettings');
+    const [activePage, setActivePage] = useState('');
     const [active, setActive] = useOutletContext();
     const [user, setUser] = useState({});
 
     const handleEffect = async () => {
+        setActivePage('');
         setActive('settings');
         navigate(activePage);
     };
@@ -38,13 +39,13 @@ const Settings = () => {
                         <hr className="h-4 w-0 border border-gray-400" />
                         <li>
                             <Link
-                                onClick={() => setActivePage('AccountSettings')}
+                                onClick={() => setActivePage('')}
                                 className={
-                                    activePage === 'AccountSettings'
+                                    activePage === ''
                                         ? 'border-b-2 border-b-black pb-1 font-bold text-[#2f4f4f] hover:text-black'
                                         : 'font-bold text-[#191970] hover:text-black'
                                 }
-                                to="AccountSettings"
+                                to=""
                             >
                                 Account Settings
                             </Link>

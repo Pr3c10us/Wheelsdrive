@@ -18,7 +18,7 @@ const Login = () => {
         try {
             setLoading(true);
             const body = values;
-            const url = `http://52.207.191.211:3000/api/auth/login`;
+            const url = `http://localhost:3000/api/auth/login`;
             axios.defaults.withCredentials = true;
             await axios(url, {
                 method: 'POST',
@@ -44,7 +44,7 @@ const Login = () => {
                 <Alert name={alert} showAlert={showAlert} danger={danger} />
                 <Header />
                 <div className="flex h-full flex-col items-center">
-                    <Form className="mb-10 w-[80vw] rounded-lg bg-white p-10 shadow-lg sm:min-w-[400px] sm:max-w-[400px]">
+                    <Form className="mb-10 w-[95vw] rounded-lg border bg-white p-10 shadow-lg 2xs:w-[80vw] sm:min-w-[400px] sm:max-w-[400px]">
                         <div className="mb-5 flex flex-col items-center justify-center text-center">
                             <p className="text-3xl font-bold text-[#2F4F4F]">
                                 Sign in to your account{' '}
