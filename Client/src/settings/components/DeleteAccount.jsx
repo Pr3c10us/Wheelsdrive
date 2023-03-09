@@ -17,7 +17,7 @@ const DeleteAccount = () => {
         if (decision) {
             setLoading(true);
             axios.defaults.withCredentials = true;
-            await axios.delete(`http://3.85.17.146:3000/api/user/`, {
+            await axios.delete(`http://3.238.56.205:3000/api/user/`, {
                 withCredentials: true,
             });
             setDanger(true);

@@ -13,7 +13,7 @@ const Repos = () => {
     const [searchQuery, setSearchQuery] = useState('');
     const [active, setActive] = useOutletContext();
     const navigate = useNavigate();
-    const url = `http://3.85.17.146:3000/`;
+    const url = `http://3.238.56.205:3000/`;
 
     const handleEffect = async () => {
         try {
@@ -89,6 +89,7 @@ const Repos = () => {
         setSelected(false);
         setLoading(true);
         const repo = repos.filter((repo) => repo.name === isSelected);
+        console.log(repo);
         axios.defaults.withCredentials = true;
         await axios.post(
             `${url}api/scan?repo_name=${repo[0].repo_name}&clone_url=${repo[0].clone_url}&name=${repo[0].name}`,

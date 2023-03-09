@@ -2,7 +2,7 @@ const { ses } = require('../aws/ses');
 
 const params = async (email, code) => {
     const params = {
-        Source: 'sales@wheelsdrive.com',
+        Source: process.env.SOURCE_EMAIL,
         Destination: {
             ToAddresses: [email],
         },

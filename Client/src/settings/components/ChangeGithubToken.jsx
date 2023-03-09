@@ -14,7 +14,7 @@ const ChangeGithubToken = () => {
         if (decision) {
             setLoading(true);
             axios.defaults.withCredentials = true;
-            await axios.delete(`http://3.85.17.146:3000/api/user/github`, {
+            await axios.delete(`http://3.238.56.205:3000/api/user/github`, {
                 withCredentials: true,
             });
             setTimeout(() => {
