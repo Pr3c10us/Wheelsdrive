@@ -94,7 +94,7 @@ const updateProject = async (req, res) => {
         vulnerabilityIssues,
         codeSmellIssues
     );
-
+    console.log('hi');
     // check if project exist
     const params = {
         TableName: PROJECTS_TABLE_NAME,
@@ -108,6 +108,7 @@ const updateProject = async (req, res) => {
     if (project.Items.length === 0) {
         throw new NotFoundError('Project not found');
     }
+    console.log('hi1');
 
     // get date
     const date = new Date().toLocaleString();
@@ -143,10 +144,12 @@ const updateProject = async (req, res) => {
         },
         ReturnValues: 'UPDATED_NEW',
     };
+    console.log('hi2');
 
     await dynamoClient.update(updateParams).promise();
 
     await codebuild.deleteProject({ name: repo_name }).promise();
+    console.log('hi3');
 
     // return updated project
     res.json({
@@ -248,7 +251,11 @@ const getSearchRepositories = async (req, res) => {
             'https://',
             'https://' + githubAuthToken + '@'
         );
-        return { repo_name: `${item.owner.login}-${item.name}`, clone_url: item.clone_url, name: item.name };
+        return {
+            repo_name: `${item.owner.login}-${item.name}`,
+            clone_url: item.clone_url,
+            name: item.name,
+        };
     });
 
     res.json({
@@ -283,7 +290,11 @@ const getRepositories = async (req, res) => {
             'https://',
             'https://' + githubAuthToken + '@'
         );
-        return { repo_name: `${item.owner.login}-${item.name}`, clone_url: item.clone_url, name: item.name };
+        return {
+            repo_name: `${item.owner.login}-${item.name}`,
+            clone_url: item.clone_url,
+            name: item.name,
+        };
     });
 
     // return repositories
