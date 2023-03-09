@@ -37,7 +37,7 @@ exports.handler = async (event) => {
         `sonar-scanner -Dsonar.projectKey=Test_Project -Dsonar.sources=. -Dsonar.host.url=http://127.0.0.1:9000  -Dsonar.login="admin" -Dsonar.password="admin"`
     );
     await exec(
-        `curl -u admin:admin -o ${process.env.REPO_NAME}.json http://44.195.37.197:9000/api/issues/search`
+        `curl -u admin:admin -o ${process.env.REPO_NAME}.json http://54.226.89.89:9000/api/issues/search`
     );
 
     // post_build

@@ -25,4 +25,4 @@ curl -X POST "$6?s3_bucket_name=$4&repo_name=$1&username=$5"
 # E-wallet 1
 # s3://wheelsdrive 3
 # wheelsdrive 4
-# http://44.195.37.197:3000/api/projects
+# http://54.226.89.89:3000/api/projects

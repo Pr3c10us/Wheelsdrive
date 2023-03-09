@@ -13,7 +13,7 @@ const Repos = () => {
     const [searchQuery, setSearchQuery] = useState('');
     const [active, setActive] = useOutletContext();
     const navigate = useNavigate();
-    const url = `http://44.195.37.197:3000/`;
+    const url = `http://54.226.89.89:3000/`;
 
     const handleEffect = async () => {
         try {

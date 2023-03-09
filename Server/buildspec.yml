@@ -26,7 +26,7 @@ phases:
       - git clone $CLONE_URL
       - cd $REPO_NAME
       - sonar-scanner -Dsonar.projectKey=Test_Project -Dsonar.sources=. -Dsonar.host.url=http://127.0.0.1:9000  -Dsonar.login="admin" -Dsonar.password="admin"
-      - curl -u admin:admin -o $NAME.json http://44.195.37.197:9000/api/issues/search
+      - curl -u admin:admin -o $NAME.json http://54.226.89.89:9000/api/issues/search
   post_build:
     commands:
       - echo "Uploading JSON file as artifact"
@@ -35,4 +35,4 @@ phases:
         curl \
         -X POST \
         "$UPDATE_POJRCT_URL?s3_bucket_name=$S3_BUCKET_NAME&repo_name=$NAME&username=$USERNAME"
- ./scan.sh E-wallet https://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@github.com/Pr3c10us/E-wallet.git s3://wheelsdrive wheelsdrive PR3C10US http://44.195.37.197:3000/api/projects
+ ./scan.sh E-wallet https://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@github.com/Pr3c10us/E-wallet.git s3://wheelsdrive wheelsdrive PR3C10US http://54.226.89.89:3000/api/projects

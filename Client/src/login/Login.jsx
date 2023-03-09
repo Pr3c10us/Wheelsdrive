@@ -18,7 +18,7 @@ const Login = () => {
         try {
             setLoading(true);
             const body = values;
-            const url = `http://44.195.37.197:3000/api/auth/login`;
+            const url = `http://54.226.89.89:3000/api/auth/login`;
             axios.defaults.withCredentials = true;
             await axios(url, {
                 method: 'POST',
