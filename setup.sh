@@ -51,6 +51,6 @@ newgrp docker
 # sudo chgrp ubuntu /opt/sonar-scanner/conf/sonar-scanner.properties
 # sudo chown ubuntu /etc/profile.d/
 # sudo chgrp ubuntu /etc/profile.d/
-# sudo -i echo -e "sonar.host.url=http://127.0.0.1:9000/ \n  sonar.sourceEncoding=UTF-8 \n sonar.qualitygate.wait=true " >> /opt/sonar-scanner/conf/sonar-scanner.properties
-# sudo -i echo -e "#/bin/bash \n export PATH='$PATH:/opt/sonar-scanner/bin'" >> /etc/profile.d/sonar-scanner.sh
-# sudo -i source /etc/profile.d/sonar-scanner.sh
+sudo -i echo -e "sonar.host.url=http://127.0.0.1:9000/ \n  sonar.sourceEncoding=UTF-8 \n sonar.qualitygate.wait=true " >> /opt/sonar-scanner/conf/sonar-scanner.properties
+sudo -i echo -e "#/bin/bash \n export PATH='$PATH:/opt/sonar-scanner/bin'" >> /etc/profile.d/sonar-scanner.sh
+sudo -i source /etc/profile.d/sonar-scanner.sh
